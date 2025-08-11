@@ -43,7 +43,7 @@ The MiSTeryNano's current features are:
     * Images stored in .HD format
   * MIDI
     * Physical MIDI-IN and OUT
-  * Optional custom carrier board like the [MiSTeryShield20k](board/misteryshield20k/) or [MiSTeryShield20k RPiPico](https://github.com/vossstef/tang_nano_20k_c64/tree/main/board/misteryshield20k_rpipico)
+  * Optional custom carrier board like the [MiSTeryShield20k](https://github.com/MiSTle-Dev/Boards/misteryshield20k/) or [MiSTeryShield20k RPiPico](https://github.com/vossstef/tang_nano_20k_c64/tree/main/board/misteryshield20k_rpipico)
   * [Optional case](https://github.com/prcoder-1/MiSTeryNano-Case)
   * Runs on various Tang variants
     * [Tang Nano 20k](https://wiki.sipeed.com/nano20k)
@@ -96,7 +96,7 @@ In order to use the MiSTeryNano the following things are needed:
   * Tang FPGA board like e.g. the [Tang Nano 20k](https://wiki.sipeed.com/nano20k) to run the MiSTeryNano core itself
   * MCU board like the [M0S Dock](https://wiki.sipeed.com/hardware/en/maixzero/m0s/m0s.html) to run the [FPGA Companion](https://github.com/harbaum/FPGA-Companion/) to connect USB keyboard and mouse
   * Breadboard to wire everything up and some jumper wires, or
-  * [a MiSTeryShield](board/misteryshield20k/)
+  * [a MiSTeryShield](https://github.com/MiSTle-Dev/Boards/misteryshield20k/)
   * a USB-C to USB-A adapter to connect regular USB devices to the M0S Dock
 
 Many other variants can be built using various Tang FPGA boards and different MCUs. 
