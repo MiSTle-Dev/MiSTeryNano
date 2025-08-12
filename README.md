@@ -43,7 +43,7 @@ The MiSTeryNano's current features are:
     * Images stored in .HD format
   * MIDI
     * Physical MIDI-IN and OUT
-  * Optional custom carrier board like the [MiSTeryShield20k](https://github.com/MiSTle-Dev/Boards/misteryshield20k/) or [MiSTeryShield20k RPiPico](https://github.com/vossstef/tang_nano_20k_c64/tree/main/board/misteryshield20k_rpipico)
+  * Optional custom carrier board like the [MiSTeryShield20k](https://github.com/MiSTle-Dev/Boards/tree/main/misteryshield20k/) or [MiSTeryShield20k RPiPico](https://github.com/vossstef/tang_nano_20k_c64/tree/main/board/misteryshield20k_rpipico)
   * [Optional case](https://github.com/prcoder-1/MiSTeryNano-Case)
   * Runs on various Tang variants
     * [Tang Nano 20k](https://wiki.sipeed.com/nano20k)
