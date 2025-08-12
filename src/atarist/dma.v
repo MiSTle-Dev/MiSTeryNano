@@ -62,7 +62,7 @@ module dma (
 
 	// SD card interface for ACSI
 	input [1:0]       img_mounted,       // signaling that new ACSI image has been mounted
-	input [31:0]      img_size,          // size of image mounted
+	input [63:0]      img_size,          // size of image mounted
 	output [1:0] 	  acsi_rd_req,       // read request for two ACSI targets
 	output reg [1:0]  acsi_wr_req,       // write request for two ACSI targets
 	output [31:0] 	  acsi_lba,          // logical block to read or write
@@ -167,7 +167,7 @@ reg [7:0] buffer [512];
 wire [15:0] acsi_length;
 
 reg [2:0] acsi_io_state;   
-reg [31:0] acsi_image_size[2];
+reg [63:0] acsi_image_size[2];
 wire acsi_inserted_0 = (acsi_image_size[0] != 0);
 wire acsi_inserted_1 = (acsi_image_size[1] != 0);
 wire [7:0] acsi_enable = { 6'b000000, acsi_inserted_1, acsi_inserted_0 };  

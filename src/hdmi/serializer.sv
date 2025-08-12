@@ -1,8 +1,11 @@
-`define GW_IDE
-
+`ifndef ALTERA_RESERVED_QIS
+  `define GW_IDE
+`endif
+  
 module serializer
 #(
-    parameter int NUM_CHANNELS = 3
+    parameter int NUM_CHANNELS = 3,
+    parameter int VIDEO_RATE = 32000000
 )
 (
     input logic clk_pixel,

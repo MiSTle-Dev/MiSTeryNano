@@ -26,7 +26,7 @@ module acsi (
 	input 			  reset,
 
 	input [7:0] 	  enable,
-	input [31:0] 	  img_size [2],
+	input [63:0] 	  img_size [2],
 
 	// SD card interface
 	output reg [1:0]  data_rd_req, // request read from sd card
@@ -196,8 +196,8 @@ wire [15:0] inquiry_reply_data =
 		   16'h0000;
 
 // ------------------------ Read Capacity ----------------------------
-wire [31:0] current_image_size = img_size[current_target];
-wire [31:0] current_block_size = { 9'b000000000, current_image_size[31:9] };
+wire [63:0] current_image_size = img_size[current_target];
+wire [31:0] current_block_size = current_image_size[40:9];
 wire [31:0] max_block_number = current_block_size - 32'd1;   
    
 wire [15:0] read_capacity_reply_data = 
@@ -210,7 +210,7 @@ wire [15:0] read_capacity_reply_data =
 wire [15:0] mode_sense_reply_data = 
 			(reply_cnt == 0)?16'h000e:
 			(reply_cnt == 1)?16'h0008:   // size of extent descriptor list
-			(reply_cnt == 2)?{ 8'h00, current_block_size[23:16] }:
+			(reply_cnt == 2)?current_block_size[31:16]:
 			(reply_cnt == 3)?current_block_size[15:0]:
 			(reply_cnt == 5)?16'd512:    // block size in bytes
 			16'h0000;

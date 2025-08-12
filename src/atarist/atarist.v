@@ -40,7 +40,7 @@ module atarist (
 
 	// generic sd card services
 	input [3:0] 	   sd_img_mounted,
-	input [31:0] 	   sd_img_size,
+	input [63:0] 	   sd_img_size,
 
     // ACSI disk/sd card interface
 	output [1:0] 	   acsi_rd_req,
@@ -938,7 +938,7 @@ fdc1772 fdc1772 (
 	.img_type       ( 3'd1                ), // Atari ST floppy type
 	.img_wp         ( floppy_protected    ), // write protect
 	.img_mounted    ( sd_img_mounted[1:0] ), // signaling that new image has been mounted
-	.img_size       ( sd_img_size         ), // size of image in bytes, 737280 for 80 tracks, 9 spt double sided
+	.img_size       ( sd_img_size[31:0]   ), // size of image in bytes, 737280 for 80 tracks, 9 spt double sided
 
 	.sd_lba         ( sd_lba              ), // sector requested by fdc to be read/written
 	.sd_rd          ( sd_rd               ), // read request for two floppy drives

@@ -458,7 +458,7 @@ wire [31:0] sd_lba;
 wire [8:0]  sd_byte_index;
 wire	    sd_rd_byte_strobe;
 wire	    sd_busy, sd_done;
-wire [31:0] sd_img_size;
+wire [63:0] sd_img_size;
 wire [3:0]  sd_img_mounted;
 reg         sd_ready;
 
@@ -658,7 +658,7 @@ always @(posedge clk32) begin
     end else begin
         if(!sd_ready) begin
             // ready once image size is != 0
-            if(sd_img_size != 31'd0)
+            if(sd_img_size != 64'd0)
                 sd_ready <= 1'b1;
 
             // or after 2 seconds
