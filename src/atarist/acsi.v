@@ -62,6 +62,10 @@ reg cpu_selD;
 always @(posedge clk) if (clk_en) cpu_selD <= cpu_sel;
 wire cpu_req = ~cpu_selD & cpu_sel;
 
+// internal request signals, not exposed until sd card is free (not busy)
+reg [1:0] data_rd_req_int;
+reg [1:0] data_wr_req_int;						     
+   
 // Total number of command bytes:
 // cmd 0..1f  -> 6 
 // cmd 20..5f -> 10
@@ -236,6 +240,8 @@ always @(posedge clk) begin
       irq <= 1'b0;
       data_rd_req <= 2'b00;
       data_wr_req <= 2'b00;
+      data_rd_req_int <= 2'b00;
+      data_wr_req_int <= 2'b00;
 	  reply_cnt <= REPLY_IDLE;	  
       led_counter[0] <= 16'd0;
       led_counter[1] <= 16'd0;
@@ -256,20 +262,31 @@ always @(posedge clk) begin
 			end
 		 end
 	  end
-      	  
-      // SD card has delivered data to DMA
+
       if(data_busy) begin
+		 // SD card is busy and has thus registered the request
 		 data_rd_req <= 2'b00;
 		 data_wr_req <= 2'b00;
+	  end else begin
+		 // sd card is not busy, forward request if present
+		 if(data_rd_req_int) begin
+			data_rd_req <= data_rd_req_int;
+			data_rd_req_int <= 2'b00;
+		 end
+		 
+		 if(data_wr_req_int) begin
+			data_wr_req <= data_wr_req_int;
+			data_wr_req_int <= 2'b00;
+		 end
 	  end
-      
+
       if(data_next) begin
 		 // check if a read or write is to be continued		 
 		 // target can only be 0 or 1
-		 if(cmd_code[3:0] == 4'h8)
+		 if(cmd_code[3:0] == 4'h8 && !data_busy)
 		   data_rd_req[current_target] <= 1'b1;
 		 
-		 if(cmd_code[3:0] == 4'ha)
+		 if(cmd_code[3:0] == 4'ha && !data_busy)
 		   data_wr_req[current_target] <= 1'b1;		 
 		 
 		 // request next sector
@@ -368,7 +385,8 @@ always @(posedge clk) begin
                             // read(6) and read(10)
                             8'h08, 8'h28: begin
                                 // target can only be 0 or 1
-                                data_rd_req[current_target] <= 1'b1;
+                                // data_rd_req[current_target] <= 1'b1;
+                                data_rd_req_int[current_target] <= 1'b1;
                                 data_lba <= lba;
  							    data_length <= length;							   
                                 led_counter[current_target] <= 16'hffff;
@@ -378,7 +396,8 @@ always @(posedge clk) begin
                             8'h0a, 8'h2a: begin
                                 // trigger DMA read from RAM into fifo to write to
                                 // device. target can only be 0 or 1
-                                data_wr_req[current_target] <= 1'b1;
+                                // data_wr_req[current_target] <= 1'b1;
+                                data_wr_req_int[current_target] <= 1'b1;
                                 data_lba <= lba;
  							    data_length <= length;							   
                                 led_counter[current_target] <= 16'hffff;

@@ -103,17 +103,21 @@ reg [2:0] state;
 wire [7:0] inbyte_int;  
 
 // drive index for the current request
-wire [1:0] drive =
-                 (rstart[0] || wstart[0])?2'd0:
-                 (rstart[1] || wstart[1])?2'd1:
-                 (rstart[2] || wstart[2])?2'd2:
-                 2'd3;   
+wire [2:0] drive =
+                 (rstart[0] || wstart[0])?3'd0:
+                 (rstart[1] || wstart[1])?3'd1:
+                 (rstart[2] || wstart[2])?3'd2:
+                 (rstart[3] || wstart[3])?3'd3:
+                 3'd7;   
 
 // The MCU may allow for direct SD card access if the image is
 // continous (not fragmeneted) on card. In that case only the
 // start sector has to be known.
+
+// TODO: For unknown reason, direct IO does not work with the floppy. It
+// causes broken data and sporadic resets (may be due to broken data)
 reg [31:0] direct_start [4];   
-wire	   direct_enable = direct_start[drive] != 32'd0;   
+wire	   direct_enable = ((drive == 2) || (drive == 3)) && direct_start[drive] != 32'd0;   
 
 // interrupt handling
 wire rstart_any = {|{rstart}};
@@ -237,7 +241,7 @@ always @(posedge clk) begin
 			if(command == 8'd1) begin
                // request status byte, for the MCU it doesn't matter whether
 			   // the core wants to write or to read
-			   if(byte_cnt == 4'd0) data_out <= direct_enable?8'h00:{ 4'b000, rstart | wstart };
+			   if(byte_cnt == 4'd0) data_out <= direct_enable?8'h00:{ 4'b0000, rstart | wstart };
 			   if(byte_cnt == 4'd1) data_out <= rsector[31:24];
 			   if(byte_cnt == 4'd2) data_out <= rsector[23:16];
 			   if(byte_cnt == 4'd3) data_out <= rsector[15: 8];

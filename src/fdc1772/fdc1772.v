@@ -793,10 +793,12 @@ fdc_dpram fifo
 
 // ------------------ SD card control ------------------------
 localparam SD_IDLE = 0;
-localparam SD_READ = 1;
-localparam SD_WRITE = 2;
+localparam SD_READ_WAIT = 1;
+localparam SD_WRITE_WAIT = 2;
+localparam SD_READ = 3;
+localparam SD_WRITE = 4;
 
-reg [1:0] sd_state;
+reg [2:0] sd_state;
 reg       sd_card_write;
 reg       sd_card_read;
 
@@ -814,16 +816,21 @@ always @(posedge clkcpu) begin
 	SD_IDLE:
 	begin
 		s_odd <= 1'b0;
-		if (~sd_card_readD & sd_card_read) begin
-			sd_rd[fdn] <= 1;
-			sd_state <= SD_READ;
-		end
-		else if (~sd_card_writeD & sd_card_write) begin
-			sd_wr[fdn] <= 1;
-			sd_state <= SD_WRITE;
-		end
+		if (~sd_card_readD & sd_card_read)
+			sd_state <= SD_READ_WAIT;
+		else if (~sd_card_writeD & sd_card_write)
+			sd_state <= SD_WRITE_WAIT;
 	end
 
+	SD_READ_WAIT:
+        begin
+	   // request only if card is not busy otherwise
+	   if(!sd_ack) begin
+	      sd_rd[fdn] <= 1;
+	      sd_state <= SD_READ;
+	   end
+	end
+	  
 	SD_READ:
 	if (sd_ackD & ~sd_ack) begin
 		if (s_odd || fd_sector_size_code != 3) begin
@@ -834,6 +841,15 @@ always @(posedge clkcpu) begin
 		end
 	end
 
+	SD_WRITE_WAIT:
+        begin
+	   // request only if card is not busy otherwise
+	   if(!sd_ack) begin
+	      sd_wr[fdn] <= 1;
+	      sd_state <= SD_WRITE;
+	   end
+	end
+	  
 	SD_WRITE:
 	if (sd_ackD & ~sd_ack) begin
 		if (s_odd || fd_sector_size_code != 3) begin

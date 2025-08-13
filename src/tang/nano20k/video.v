@@ -24,6 +24,7 @@ module video (
 
           // values that can be configure by the user via osd          
           input [1:0]  system_scanlines,
+          input        system_wide_screen,
 
           // digital video out for lcd
           output lcd_clk,
@@ -43,6 +44,7 @@ video_analyzer video_analyzer (
    .hs(hs_in_n),
    .de(de_in),
 
+   .wide(system_wide_screen),
    .mode(vmode),
    .vreset(vreset)  // reset signal
 );  

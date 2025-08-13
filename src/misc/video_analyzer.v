@@ -12,6 +12,7 @@ module video_analyzer
  input		  vs,
  input		  de,
 
+ input		  wide,
  output reg [1:0] mode, // 0=ntsc, 1=pal, 2=mono
  output reg	  vreset
 );
@@ -25,10 +26,18 @@ reg [12:0] hcntL;
 reg [9:0] vcnt;    // signal ranges 0..313
 reg [9:0] vcntL;
 reg changed;
-
+reg wideL;   
+   
 always @(posedge clk) begin
     // ---- hsync processing -----
     hsD <= hs;
+
+    // make sure changes in wide/normal also trigger
+    // a vreset
+    if(wide != wideL) begin
+       changed <= 1'b1;
+       wideL <= wide;
+    end
 
     // begin of hsync, falling edge
     if(!hs && hsD) begin
@@ -69,11 +78,10 @@ always @(posedge clk) begin
    // area
    
    vreset <= 1'b0;
-   // account for back porches to adjust image position within the
-   // HDMI frame
-   if( (hcnt == 244 && vcnt == 36 && changed && mode == 2'd2) ||
-       (hcnt == 152 && vcnt == 28 && changed && mode == 2'd1) ||
-       (hcnt == 152 && vcnt == 18 && changed && mode == 2'd0) ) begin
+   // account for back porches to adjust image position within the HDMI frame
+   if( (hcnt == (wide?204:244) && vcnt == 36 && changed && mode == 2'd2) ||
+       (hcnt == (wide?112:152) && vcnt == 28 && changed && mode == 2'd1) ||
+       (hcnt == (wide?112:152) && vcnt == 18 && changed && mode == 2'd0) ) begin
       vreset <= 1'b1;
       changed <= 1'b0;
    end
