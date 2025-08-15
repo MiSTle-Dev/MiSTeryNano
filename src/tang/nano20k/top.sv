@@ -14,6 +14,13 @@ module top(
   output [5:0]	leds_n,
   output		ws2812,
 
+  // interface to Tang onboard BL616 UART
+  input			uart_rx,
+  output		uart_tx,
+  // onboard Bl616 monitor console port interface
+  output		bl616_mon_tx,
+  input			bl616_mon_rx,
+
   // spi flash interface
   output		mspi_cs,
   output		mspi_clk,
@@ -40,7 +47,7 @@ module top(
   input [7:0]	io,
 
   // interface to external BL616/M0S
-  inout [5:0]	m0s,
+  inout [4:0]	m0s,
 
   // MIDI
   input			midi_in,
@@ -66,6 +73,10 @@ module top(
   output [2:0]	tmds_d_p
 );
 
+// connect onboard BL616 console to hw pins for an USB-UART adapter
+assign uart_tx = bl616_mon_rx;
+assign bl616_mon_tx = uart_rx;
+
 wire clk32;
 wire pll_lock_hdmi;
 wire por; 
@@ -85,7 +96,7 @@ wire spi_intn;
 // din, ss and clk are inputs coming from the MCU
 // onboard connection to on-board BL616 only newer 3921 assemblies 
 assign spi_dir = spi_io_dout;
-assign m0s[5:0] = { 1'bz, spi_intn, 3'bzzz, spi_io_dout };
+assign m0s[4:0] = { spi_intn, 3'bzzz, spi_io_dout };
 assign spi_irqn = spi_intn;
 
 // by default the internal SPI is being used. Once there is
