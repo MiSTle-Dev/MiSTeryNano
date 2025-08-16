@@ -39,7 +39,7 @@
  ],
  "Incremental_Compile" : "",
  "Initialize_Primitives" : false,
- "JTAG" : false,
+ "JTAG" : true,
  "MODE_IO" : false,
  "MSPI" : true,
  "MSPI_JUMP" : false,
