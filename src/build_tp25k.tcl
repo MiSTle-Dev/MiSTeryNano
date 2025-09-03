@@ -102,5 +102,7 @@ set_option -use_done_as_gpio 1
 set_option -use_cpu_as_gpio 1
 set_option -use_i2c_as_gpio 1
 set_option -use_ready_as_gpio 1
+set_option -use_jtag_as_gpio 1
+set_option -bit_compress 1
 
 run all
