@@ -52,7 +52,7 @@ The MiSTeryNano's current features are:
     * [Tang Console 60k](TANG_CONSOLE_60K.md)	
     * [Efinix T20BGA256](src/efinix/t20_bga256/README.md)
   * Supports different MCUs for the [FPGA Companion](https://github.com/harbaum/FPGA-Companion/)
-    * [TN20K / TC60k onboard BL616](https://github.com/harbaum/FPGA-Companion/tree/main/src/bl616)
+    * [TN20K / Console 60k / Primer 25k onboard BL616 MPU](https://github.com/harbaum/FPGA-Companion/tree/main/src/bl616)
     * [M0S Dock/BL616](https://github.com/harbaum/FPGA-Companion/tree/main/src/bl616)
     * [Raspberry Pi Pico/RP2040](https://github.com/harbaum/FPGA-Companion/tree/main/src/rp2040)
     * [ESP32-S2 and S3](https://github.com/harbaum/FPGA-Companion/tree/main/src/esp32)
