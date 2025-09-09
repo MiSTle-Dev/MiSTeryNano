@@ -46,6 +46,9 @@ module gstshifter (
 	output reg [3:0] R,
 	output reg [3:0] G,
 	output reg [3:0] B,
+
+        output [1:0] SHMODE,
+
 	// DMA SOUND
 	input  SLOAD_N,
 	output SREQ,
@@ -79,7 +82,8 @@ reg [1:0] shmode;
 wire mono  = (shmode == 2'd2);
 wire mid   = (shmode == 2'd1);
 wire low   = (shmode == 2'd0);
-
+assign SHMODE = shmode;   // export for HDMI pixel clock generation
+   
 // 16 colors with 3*4 bits each (4 bits for STE, ST only uses 3 bits)
 reg [3:0] palette_r[15:0];
 reg [3:0] palette_g[15:0];

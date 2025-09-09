@@ -4,20 +4,21 @@
 
 module atarist (
 	// System clocks / reset / settings
-	input wire 		   clk_32,
-	input wire 		   porb,
-	input wire 		   resb,
+	input wire		   clk_32,
+	input wire		   porb,
+	input wire		   resb,
 
 	// Video output
-	input wire 		   mono_detect, // low for monochrome
+	input wire		   mono_detect, // low for monochrome
 	output wire [3:0]  r,
 	output wire [3:0]  g,
 	output wire [3:0]  b,
-	output wire 	   hsync_n,
-	output wire 	   vsync_n,
-	output wire 	   de,
-	output wire 	   blank_n,
-
+	output wire		   hsync_n,
+	output wire		   vsync_n,
+	output wire		   de,
+	output wire		   blank_n,
+    output wire [1:0]  shmode,
+				
     // keyboard, mouse and joystick(s)
 	output wire [14:0] keyboard_matrix_out,
 	input wire [7:0]   keyboard_matrix_in,
@@ -29,71 +30,71 @@ module atarist (
 	output wire [14:0] audio_mix_r,
 
     // floppy disk/sd card interface
-	output [31:0] 	   sd_lba,
-	output [1:0] 	   sd_rd,
-	output [1:0] 	   sd_wr,
-	input 			   sd_ack,
-	input [8:0] 	   sd_buff_addr,
-	input [7:0] 	   sd_dout,
-	output [7:0] 	   sd_din,
-	input 			   sd_dout_strobe,
+	output [31:0]	   sd_lba,
+	output [1:0]	   sd_rd,
+	output [1:0]	   sd_wr,
+	input			   sd_ack,
+	input [8:0]		   sd_buff_addr,
+	input [7:0]		   sd_dout,
+	output [7:0]	   sd_din,
+	input			   sd_dout_strobe,
 
 	// generic sd card services
-	input [3:0] 	   sd_img_mounted,
-	input [63:0] 	   sd_img_size,
+	input [3:0]		   sd_img_mounted,
+	input [63:0]	   sd_img_size,
 
     // ACSI disk/sd card interface
-	output [1:0] 	   acsi_rd_req,
-	output [1:0] 	   acsi_wr_req,
-	output [31:0] 	   acsi_sd_lba,
- 	input 			   acsi_sd_done,
- 	input 			   acsi_sd_busy,
-	input 			   acsi_sd_rd_byte_strobe,
-	input [7:0] 	   acsi_sd_rd_byte,
-	output [7:0] 	   acsi_sd_wr_byte,
-	input [8:0] 	   acsi_sd_byte_addr,
+	output [1:0]	   acsi_rd_req,
+	output [1:0]	   acsi_wr_req,
+	output [31:0]	   acsi_sd_lba,
+ 	input			   acsi_sd_done,
+ 	input			   acsi_sd_busy,
+	input			   acsi_sd_rd_byte_strobe,
+	input [7:0]		   acsi_sd_rd_byte,
+	output [7:0]	   acsi_sd_wr_byte,
+	input [8:0]		   acsi_sd_byte_addr,
 					 
     // serial/rs232 to MCU
-	output [31:0]      serial_status,
-	output [7:0]       serial_tx_available,
-	input              serial_tx_strobe,
-	output [7:0]       serial_tx_data,
-	output [7:0]       serial_rx_available,
-	input              serial_rx_strobe,
-	input [7:0]        serial_rx_data,
+	output [31:0]	   serial_status,
+	output [7:0]	   serial_tx_available,
+	input			   serial_tx_strobe,
+	output [7:0]	   serial_tx_data,
+	output [7:0]	   serial_rx_available,
+	input			   serial_rx_strobe,
+	input [7:0]		   serial_rx_data,
 				
 	// MIDI UART
-	input wire 		   midi_rx,
-	output wire 	   midi_tx,
+	input wire		   midi_rx,
+	output wire		   midi_tx,
 
 	// printer signals
-	output 			   parallel_strobe_oe,
-	input 			   parallel_strobe_in, 
-	output 			   parallel_strobe_out, 
-	output 			   parallel_data_oe,
-	input [7:0] 	   parallel_data_in,
-	output [7:0] 	   parallel_data_out,
-	input 			   parallel_busy, 
+	output			   parallel_strobe_oe,
+	input			   parallel_strobe_in, 
+	output			   parallel_strobe_out, 
+	output			   parallel_data_oe,
+	input [7:0]		   parallel_data_in,
+	output [7:0]	   parallel_data_out,
+	input			   parallel_busy, 
 
     // enable STE and extra 8MB ram
-    input wire 		   ste,
-    input wire 		   enable_extra_ram,
-    input wire 		   blitter_en,
-    input [1:0] 	   floppy_protected, // floppy A/B write protect
-	input 			   cubase_en,
+    input wire		   ste,
+    input wire		   enable_extra_ram,
+    input wire		   blitter_en,
+    input [1:0]		   floppy_protected, // floppy A/B write protect
+	input			   cubase_en,
 				
 	// DRAM interface
-	output wire 	   ram_ras_n,
-	output wire 	   ram_cash_n,
-	output wire 	   ram_casl_n,
-	output wire 	   ram_we_n,
-	output wire 	   ram_ref,
+	output wire		   ram_ras_n,
+	output wire		   ram_cash_n,
+	output wire		   ram_casl_n,
+	output wire		   ram_we_n,
+	output wire		   ram_ref,
 	output wire [23:1] ram_addr,
 	output wire [15:0] ram_data_in,
 	input wire [15:0]  ram_data_out,
 
 	// TOS ROM interface
-	output wire 	   rom_n, 
+	output wire		   rom_n, 
 	output wire [23:1] rom_addr,
 	input wire [15:0]  rom_data_out,
 				
@@ -374,6 +375,7 @@ gstshifter gstshifter (
 	.MDOUT      ( ram_data_in  ),
 
 	// VIDEO
+	.SHMODE     ( shmode ),
 	.MONO_OUT   ( mono ),
 	.LOAD_N     ( dcyc_n ),
 	.DE         ( de ),

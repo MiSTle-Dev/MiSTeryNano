@@ -12,6 +12,7 @@ module video2hdmi (
               // video control inputs
               input	   vreset, // top/left pixel reached
               input [1:0]  vmode, // Atari ST video mode
+              input [1:0]  shmode, // Atari ST shift mode
               input	   vwide, // request display on wide (16:9) screen
 	      input	   scandoubler,  // scandoubler enabled (for low/mid rez)
 
@@ -80,6 +81,7 @@ hdmi #(
 
   // video input
   .stmode(vmode),    // current video mode PAL/NTSC/MONO
+  .shmode(shmode),   // current shift mode LOW/MID/HIGH
   .wide(vwide),      // adopt to wide screen video
   .reset(vreset),    // signal to synchronize HDMI
   .scandoubler( scandoubler ), // signal to switch to low-rez

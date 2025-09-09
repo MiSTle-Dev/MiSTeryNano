@@ -65,7 +65,7 @@ module misterynano (
   output		mcu_intn,
 
   // generic IO, used for mouse/joystick/...
-  input [5:0]	io,
+  input [7:0]	io,
 
   // the parallel port of the ST only carries few signals
   output		parallel_strobe_oe,
@@ -108,6 +108,7 @@ module misterynano (
   output		vreset,
   output [1:0]	vmode,
   output		vwide,
+  output [1:0]  shmode,    // atari st shift mode (to diff mid/low)
 
   // digital 16 bit audio output
   output [15:0]	audio [2]
@@ -495,6 +496,7 @@ atarist atarist (
     .r(st_r),
     .g(st_g),
     .b(st_b),
+	.shmode(shmode),
     .mono_detect(!system_video),    // mono=0, color=1
 
     .keyboard_matrix_out(keyboard_matrix_out),

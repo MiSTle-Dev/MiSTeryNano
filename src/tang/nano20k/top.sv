@@ -127,6 +127,7 @@ wire spi_io_clk = spi_ext?m0s[3]:spi_sclk;
 wire [15:0] audio [2];
 wire        vreset;
 wire [1:0]  vmode;
+wire [1:0]  shmode;
 wire        vwide;
 wire		scandoubler;   
 
@@ -203,6 +204,7 @@ misterynano misterynano (
   .vreset ( vreset ),
   .vmode  ( vmode  ),
   .vwide  ( vwide  ),
+  .shmode  ( shmode  ),
   .scandoubler ( scandoubler ),
 	   
   // scandoubled digital video to be
@@ -227,6 +229,7 @@ video2hdmi video2hdmi (
     .vreset ( vreset ),
     .vmode ( vmode ),
     .vwide ( vwide ),
+    .shmode ( shmode ),
     .scandoubler( scandoubler ),
 
     .r( r ),
