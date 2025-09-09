@@ -39,7 +39,8 @@ module hdmi
     // synchronous reset back to 0,0
     input logic			      reset,
     input logic [1:0]		      stmode, // atari st video mode, 0=60hz ntsc, 1=50hz pal, 2=mono
-    input			      wide,   // try to adopt to wide (4:3) screens
+    input logic			      wide,   // try to adopt to wide (16:9) screens
+    input logic			      scandoubler,
     input logic [23:0]		      rgb, 
     input logic [AUDIO_BIT_WIDTH-1:0] audio_sample_word [1:0],
 
@@ -77,32 +78,41 @@ logic [1:0] invert;
 // Atari ST mode table:
 //                          frame   screen s_start   s_len
 // NTSC    848x484@60Hz  aspect 1.75    
-wire [43:0] htiming0  = { 11'd1016, 11'd848, 11'd16, 11'd62 };  
-wire [43:0] whtiming0 = { 11'd1016, 11'd928, 11'd16, 11'd32 };  
+wire [47:0] htiming0  = { 12'd1016, 12'd848, 12'd16, 12'd62 };  
+wire [47:0] whtiming0 = { 12'd1016, 12'd928, 12'd16, 12'd32 };  
 wire [39:0] vtiming0  = {  10'd526, 10'd484,  10'd9,  10'd6 };
 wire [7:0] cea0 = 8'd2; // CEA is HDMI mode in group 1
    
 // PAL     832x576@50hz  aspect 1.44   948x576@50hz
-wire [43:0] htiming1  = { 11'd1024, 11'd832, 11'd24, 11'd72 };  
-wire [43:0] whtiming1 = { 11'd1024, 11'd952, 11'd16, 11'd32 };  
-wire [39:0] vtiming1  = {  10'd626, 10'd576,  10'd5,  10'd5 };
+wire [47:0] htiming1h = { 12'd1024, 12'd832, 12'd24, 12'd72 };  
+wire [47:0] whtiming1 = { 12'd1024, 12'd952, 12'd16, 12'd32 };
+wire [39:0] vtiming1h = {  10'd626, 10'd576,  10'd5,  10'd5 };
 wire [7:0] cea1 = 8'd17;
+
+// PAL timing for low rez (no scan doubler)
+wire [47:0] htiming1l = { 12'd2048,12'd1664, 12'd48,12'd144 };  
+wire [39:0] vtiming1l = {  10'd313, 10'd288,  10'd3,  10'd3 };
+
+// mux between low and high rez PAL timing
+wire	    lowrez = !scandoubler && stmode < 2;   
+wire [47:0] htiming1 = lowrez?htiming1l:htiming1h;
+wire [39:0] vtiming1 = lowrez?vtiming1l:vtiming1h;   
    
 // MONO    640x400@71hz  aspect 1.6    
-wire [43:0] htiming2  = { 11'd896, 11'd640, 11'd24, 11'd72 };
-wire [43:0] whtiming2 = { 11'd896, 11'd720, 11'd24, 11'd72 };
+wire [47:0] htiming2  = { 12'd896, 12'd640, 12'd24, 12'd72 };
+wire [47:0] whtiming2 = { 12'd896, 12'd720, 12'd24, 12'd72 };
 wire [39:0] vtiming2  = { 10'd501, 10'd400,  10'd5,  10'd5 };  
 wire [7:0] cea2 = 8'd2;
    
-wire [91:0]  timing0 = {  htiming0, vtiming0, cea0 };
-wire [91:0] wtiming0 = { whtiming0, vtiming0, cea0 };
-wire [91:0]  timing1 = {  htiming1, vtiming1, cea1 };
-wire [91:0] wtiming1 = { whtiming1, vtiming1, cea1 };
-wire [91:0]  timing2 = {  htiming2, vtiming2, cea2 };
-wire [91:0] wtiming2 = { whtiming2, vtiming2, cea2 };
+wire [95:0]  timing0 = {  htiming0, vtiming0, cea0 };
+wire [95:0] wtiming0 = { whtiming0, vtiming0, cea0 };
+wire [95:0]  timing1 = {  htiming1, vtiming1, cea1 };
+wire [95:0] wtiming1 = { whtiming1, vtiming1, cea1 };
+wire [95:0]  timing2 = {  htiming2, vtiming2, cea2 };
+wire [95:0] wtiming2 = { whtiming2, vtiming2, cea2 };
 
 // select timing as indicated by control signals coming for Atari ST core
-wire [91:0] timing = 
+wire [95:0] timing = 
          !wide?( (stmode == 2'd0)?timing0:
                  (stmode == 2'd1)?timing1:
                   timing2):
@@ -111,10 +121,10 @@ wire [91:0] timing =
                   wtiming2);
 
 // demux timing parameters   
-wire [10:0] frame_width       = timing[91:81];
-wire [10:0] screen_width      = timing[80:70];
-wire [10:0] hsync_pulse_start = timing[69:59];
-wire [10:0] hsync_pulse_size  = timing[58:48];
+wire [11:0] frame_width       = timing[95:84];
+wire [11:0] screen_width      = timing[83:72];
+wire [11:0] hsync_pulse_start = timing[71:60];
+wire [11:0] hsync_pulse_size  = timing[59:48];
 
 wire [9:0] frame_height       = timing[47:38];
 wire [9:0] screen_height      = timing[37:28];
@@ -125,7 +135,7 @@ wire [7:0] cea                = timing[7:0];
    
 assign invert = 2'b11;
 
-reg [10:0] cx;
+reg [11:0] cx;
 reg [9:0] cy;
 
 always_comb begin

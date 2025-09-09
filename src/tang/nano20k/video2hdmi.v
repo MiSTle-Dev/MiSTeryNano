@@ -4,22 +4,23 @@
 // hdmi need 5 times that
 
 module video2hdmi (
-	      input	       clk,      // 27 Mhz in
+	      input	   clk, // 27 Mhz in
 	      
-	      output	   clk_32,   // 32 Mhz out
+	      output	   clk_32, // 32 Mhz out
 	      output	   pll_lock,
 
-          // video control inputs
-          input        vreset,   // top/left pixel reached
-          input [1:0]  vmode,    // Atari ST video mode
-          input        vwide,    // request display on wide (16:9) screen
+              // video control inputs
+              input	   vreset, // top/left pixel reached
+              input [1:0]  vmode, // Atari ST video mode
+              input	   vwide, // request display on wide (16:9) screen
+	      input	   scandoubler,  // scandoubler enabled (for low/mid rez)
 
 	      input [5:0]  r,
 	      input [5:0]  g,
 	      input [5:0]  b,
 
-          // audio is encoded into the video
-          input [15:0] audio[2],
+              // audio is encoded into the video
+              input [15:0] audio[2],
 
 	      // hdmi/tdms
 	      output	   tmds_clk_n,
@@ -81,6 +82,7 @@ hdmi #(
   .stmode(vmode),    // current video mode PAL/NTSC/MONO
   .wide(vwide),      // adopt to wide screen video
   .reset(vreset),    // signal to synchronize HDMI
+  .scandoubler( scandoubler ), // signal to switch to low-rez
 
   // Atari STE outputs 4 bits per color. Scandoubler outputs 6 bits (to be
   // able to implement dark scanlines) and HDMI expects 8 bits per color

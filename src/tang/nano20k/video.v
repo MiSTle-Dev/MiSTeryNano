@@ -11,29 +11,30 @@ module video (
 	      input [3:0]  g_in,
 	      input [3:0]  b_in,
 
-          input [15:0] audio_l,
-          input [15:0] audio_r,
+              input [15:0] audio_l,
+              input [15:0] audio_r,
 
-          // (spi) interface from MCU
-          input	       mcu_start,
-          input	       mcu_osd_strobe,
-          input [7:0]  mcu_data,
+              // (spi) interface from MCU
+              input	   mcu_start,
+              input	   mcu_osd_strobe,
+              input [7:0]  mcu_data,
 
-          output       vreset,
-          output [1:0] vmode,
+              output	   vreset,
+              output [1:0] vmode,
 
-          // values that can be configure by the user via osd          
-          input [1:0]  system_scanlines,
-          input        system_wide_screen,
+              // values that can be configure by the user via osd          
+              input [1:0]  system_scanlines,
+              input	   system_wide_screen,
+              input	   system_scandoubler,
 
-          // digital video out for lcd
-          output lcd_clk,
-          output lcd_hs_n,
-          output lcd_vs_n,
-          output lcd_de,
-          output [5:0] lcd_r,
-          output [5:0] lcd_g,
-          output [5:0] lcd_b
+              // digital video out for lcd
+              output	   lcd_clk,
+              output	   lcd_hs_n,
+              output	   lcd_vs_n,
+              output	   lcd_de,
+              output [5:0] lcd_r,
+              output [5:0] lcd_g,
+              output [5:0] lcd_b
 );
    
 /* -------------------- HDMI video and audio -------------------- */
@@ -53,11 +54,11 @@ wire sd_hs_n, sd_vs_n;
 wire [5:0] sd_r;
 wire [5:0] sd_g;
 wire [5:0] sd_b;
-  
+
 scandoubler #(10) scandoubler (
         // system interface
         .clk_sys(clk_pixel),
-        .bypass(vmode == 2'd2),      // bypass in ST high/mono
+        .bypass(vmode == 2'd2 || !system_scandoubler), // always bypass in ST high/mono
         .ce_divider(1'b1),
         .pixel_ena(),
 

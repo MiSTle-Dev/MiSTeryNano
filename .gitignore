@@ -6,3 +6,6 @@ src/impl/temp/**
 src/impl/pnr/**
 !src/impl/atarist_*.json
 *.user
+sim/atari_tb/atarist_tb
+sim/atari_tb/obj_dir
+*.gz

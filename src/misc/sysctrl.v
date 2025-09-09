@@ -27,11 +27,11 @@ module sysctrl (
   output reg [23:0] color, // a 24bit color to e.g. be used to drive the ws2812
 
   // IO port interface
-  input	[31:0]	    port_status,         // status bits to report additional info about the port
-  input	[7:0]	    port_out_available,  // number of bytes available for transmission to MCU
+  input [31:0]	    port_status, // status bits to report additional info about the port
+  input [7:0]	    port_out_available, // number of bytes available for transmission to MCU
   output reg	    port_out_strobe,
   input [7:0]	    port_out_data,
-  input	[7:0]	    port_in_available,   // number of unused bytes in the input buffer
+  input [7:0]	    port_in_available, // number of unused bytes in the input buffer
   output reg	    port_in_strobe,
   output reg [7:0]  port_in_data,
 		
@@ -46,7 +46,8 @@ module sysctrl (
   output reg [1:0]  system_floppy_wprot,
   output reg	    system_cubase_en,
   output reg [1:0]  system_port_mouse,
-  output reg	    system_tos_slot
+  output reg	    system_tos_slot,
+  output reg	    system_scandoubler
 );
 
 reg [3:0] state;
@@ -113,12 +114,13 @@ always @(posedge clk) begin
       system_memory <= 1'b0;        // 4 MB
       system_video <= 1'b0;         // color
       system_scanlines <= 2'b00;    // no scanlines
-      system_volume <= 2'b00;       // mute
+      system_volume <= 2'd1;        // low volume
       system_wide_screen <= 1'b0;   // normal video 
       system_floppy_wprot <= 2'b00; // floppy not write protected
       system_cubase_en <= 1'b0;     // no cubase dongle
       system_port_mouse <= 2'b00;   // mouse on usb -> db9 joystick
       system_tos_slot <= 1'b0;      // primary tos slot
+      system_scandoubler <= 1'b1;   // enable scandoubler
    end else begin // if (reset)
       //  bring button state into local clock domain
       buttonsD <= buttons;
@@ -211,6 +213,8 @@ always @(posedge clk) begin
                     if(id == "J") system_port_mouse <= data_in[1:0];
                     // Value "T": Primary(0) TOS slot or Secondary(1)
                     if(id == "T") system_tos_slot <= data_in[0];
+                    // Value "D": Scandoubler Disabled(0) or Enabled(1)
+                    if(id == "D") system_scandoubler <= data_in[0];
                 end
             end
 

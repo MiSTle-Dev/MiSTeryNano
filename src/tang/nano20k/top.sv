@@ -44,7 +44,8 @@ module top(
   output [3:0]	O_sdram_dqm, // 32/4
 
   // generic IO, used for mouse/joystick/...
-  input [7:0]	io,
+  input [5:0]	io,   // first port
+  // input [5:0]	spare,   // second port
 
   // interface to external BL616/M0S
   inout [4:0]	m0s,
@@ -96,7 +97,7 @@ wire spi_intn;
 // din, ss and clk are inputs coming from the MCU
 // onboard connection to on-board BL616 only newer 3921 assemblies 
 assign spi_dir = spi_io_dout;
-assign m0s[4:0] = { spi_intn, 3'bzzz, spi_io_dout };
+assign m0s = { spi_intn, 3'bzzz, spi_io_dout };
 assign spi_irqn = spi_intn;
 
 // by default the internal SPI is being used. Once there is
@@ -127,6 +128,7 @@ wire [15:0] audio [2];
 wire        vreset;
 wire [1:0]  vmode;
 wire        vwide;
+wire		scandoubler;   
 
 wire [5:0]  r;
 wire [5:0]  g;
@@ -201,6 +203,7 @@ misterynano misterynano (
   .vreset ( vreset ),
   .vmode  ( vmode  ),
   .vwide  ( vwide  ),
+  .scandoubler ( scandoubler ),
 	   
   // scandoubled digital video to be
   // used with lcds
@@ -224,6 +227,7 @@ video2hdmi video2hdmi (
     .vreset ( vreset ),
     .vmode ( vmode ),
     .vwide ( vwide ),
+    .scandoubler( scandoubler ),
 
     .r( r ),
     .g( g ),

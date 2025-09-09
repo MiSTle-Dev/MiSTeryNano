@@ -119,7 +119,7 @@ wire [7:0] in_byte =
 // setup data on rising edge of spi clock
 always @(posedge spi_io_clk or posedge spi_io_ss) begin
     if(spi_io_ss) begin
-       spi_io_dout <= 1'b0; // bl616 EN_CHIP fix
+        // ...
     end else begin
        spi_io_dout <= in_byte[~spi_cnt[2:0]];
     end

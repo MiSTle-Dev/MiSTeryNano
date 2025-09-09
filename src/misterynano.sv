@@ -65,7 +65,7 @@ module misterynano (
   output		mcu_intn,
 
   // generic IO, used for mouse/joystick/...
-  input [7:0]	io,
+  input [5:0]	io,
 
   // the parallel port of the ST only carries few signals
   output		parallel_strobe_oe,
@@ -104,6 +104,7 @@ module misterynano (
   output [5:0]	lcd_g,
   output [5:0]	lcd_b,
 
+  output        scandoubler,
   output		vreset,
   output [1:0]	vmode,
   output		vwide,
@@ -147,6 +148,10 @@ wire [1:0] system_floppy_wprot;
 wire       system_cubase_en;
 wire [1:0] system_port_mouse;
 wire       system_tos_slot;
+wire	   system_scandoubler;
+
+// export scandoubler disable so the HDMI can adjust its timing
+assign scandoubler = system_scandoubler;  
    
 /* -------------- clock generation --------------- */
 
@@ -434,6 +439,7 @@ sysctrl sysctrl (
         .system_floppy_wprot(system_floppy_wprot),
         .system_port_mouse(system_port_mouse),
         .system_tos_slot(system_tos_slot),
+		.system_scandoubler(system_scandoubler),
         
         .int_out_n(mcu_intn),
         .int_in( { 4'b0000, sdc_int, 1'b0, hid_int, 1'b0 }),
@@ -617,7 +623,9 @@ video video (
 
          // values that can be configure by the user via osd
          .system_scanlines(system_scanlines),
-
+		 .system_wide_screen(system_wide_screen),
+		 .system_scandoubler(system_scandoubler),
+		 
          // video control signal output
          .vreset ( vreset ),    // reached top/left pixel
          .vmode ( vmode ),      // atari st video mode
