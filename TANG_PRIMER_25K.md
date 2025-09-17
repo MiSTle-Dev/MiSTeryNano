@@ -11,7 +11,7 @@ Some SDRAM can be added in the form of the [Tang SDRAM](https://wiki.sipeed.com/
 The M0S required to control the MiSTeryNano is to be mounted in the middle PMOD with the help of the [M0S PMOD adapter](board/m0s_pmod).
 
 The whole setup will look like this:
-![MiSTeryNano on TP25K](board/m0s_pmod/m0s_pmod_tp25k.jpg)
+![MiSTeryNano on TP25K](https://github.com/MiSTle-Dev/Boards/blob/main/m0s_pmod/m0s_pmod_tp25k.jpg)
 
 On the software side the setup is very simuilar to the original Tang Nano 20K based solution. The core needs to be built specifically
 for the different FPGA of the Tang Primer using either the [TCL script with the GoWin command line interface](src/build_tp25k.tcl) or the
