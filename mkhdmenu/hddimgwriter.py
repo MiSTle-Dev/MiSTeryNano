@@ -28,11 +28,13 @@ def adjust_csum(sec, csum=0x1234):
     sec[510:512] = struct.pack(">H", csum)
 
 def file_exists(fs, name):
+    # search for a file in root dir only
+    
     for d in fs:
         if d["name"] == name:
-            return True
+            return d
 
-    return False
+    return None
     
 def write_mbr(f, partitions, options, driver=None):
     print("Writing MBR")
@@ -290,9 +292,27 @@ def write_hddimage(name, partitions, options):
     # check if filesytem contains a known harddisk driver
     driver = None
     for d in BOOTLOADER:
-        if len(partitions) and file_exists(partitions[0]["files"], d["file"]):
-            print("Partition C: contains", d["name"], d["file"])
-            driver = d
+        if len(partitions):
+            bloader = file_exists(partitions[0]["files"], d["file"])
+            if bloader:
+                print("Partition C: contains", d["name"], d["file"])
+            
+                # check if we are supposed to patch the boot loader
+                if "patch" in d:
+                    print("Applying bootloader patches:", d["patchdesc"])
+                    data = list(bloader["data"])
+                    for patch in d["patch"]:
+                        if data:
+                            if data[patch[0]] == patch[1]:
+                                data[patch[0]] = patch[2]
+                            else:
+                                print("Patch failed")
+                                data = None
+                    
+                if data:
+                    bloader["data"] = data
+                    
+                driver = d
     
     write_mbr(f, partitions, options, driver)
 

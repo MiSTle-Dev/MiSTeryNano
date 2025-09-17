@@ -10,10 +10,37 @@ install the matching bootloader. The AHDI bootloader will also work
 with ```HDDriver``` and ```CBHD``` if their driver files are renamed
 to ```SHDRIVER.SYS``` and being placed in the root of C:\.
 
-## Usage
+## Automated usage
+
+This script can be run from a config file containg all information
+to build an entire image. It comes with a ```klapauzius.cfg``` script
+which allows it to build a disk image containing all the
+[Klapauzius patched games](http://www.klapauzius.net/Old_Games.html)
+with a nice menu.
+
+Besides the script itself the following files are neeed:
+
+  - ```SHDRIVER.SYS``` - The AHDI harddisk driver, Version 6.061, file size 13177  bytes
+  - ```HDMENU.PRG``` e.g. from the [discussion on Atari Forum](https://www.atari-forum.com/viewtopic.php?t=43304)
+  - ```NEOPICS.zip```, optional for screenshots, also from the [discussion on Atari Forum](https://www.atari-forum.com/viewtopic.php?t=43304)
+
+These three files need to be places in the same directory as the python
+script. This can then be invoked like:
 
 ```
-Usage mkhdmenu.py [options] <imagename|size> [commands...] [outname]
+$ ./mkhdmenu.py klapauzius.cfg 
+```
+
+The script will then download the games all by itself.
+
+If everything goes to plan, then a file ```klapauzius.hd``` is generated.
+This can be used as an ACSI HDD image and will then launch directly into
+HDMenu allowing to select games.
+
+## Manual usage
+
+```
+Usage mkhdmenu.py [options] <imagename|size|cfgfile> [commands...] [outname]
 Options:
   -export-bootloader=<name>   if present export bootloaders from MBR and
                               bootsectors to <name>_mbr.bin and <name>_bootsector.bin

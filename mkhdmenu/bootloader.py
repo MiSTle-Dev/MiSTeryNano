@@ -1,6 +1,14 @@
 BOOTLOADER = [ {
 "name":"AHDI", "file": "SHDRIVER.SYS",
 
+"patchdesc": "ACSI #0 only",
+"patch": [ (0x28, 0xF0, 0xF0), (0x29, 0xAD, 0xAD),  # check for pattern 
+           # test ACSI #0 only
+           (0x62, 0x00, 0xFF), (0x63, 0xFF, 0x01), (0x64, 0xFF, 0x00), (0x65, 0x01, 0x00),
+           # skip inquiry call as it's very slow
+           (0x2c50, 0x61, 0x4e), (0x2c51, 0x00, 0x71), (0x2c52, 0xf2, 0x4e), (0x2c53, 0xd2, 0x71)
+          ],  
+
 # hexdump of the AHDI bootloader in the MBR
 "mbr":"""
 00000000  60 04 60 00 00 b2 08 b8  00 02 04 c5 31 fc 00 00  |`.`.........1...|
@@ -28,8 +36,9 @@ BOOTLOADER = [ {
 00000160  67 02 70 ff 3c bc 00 80  51 f8 04 3e 4e 75 00 00  |g.p.<...Q..>Nu..|
 00000170  00 8a 00 00 00 8a 00 00  00 8a 00 01 00 8a 2a 80  |..............*.|
 00000180  72 0a d2 b8 04 ba 08 38  00 05 fa 01 67 de b2 b8  |r......8....g...|
+00000190  04 ba 64 f2 58 4f 60 ca  00 00 00 00 00 00 00 00  |..d.XO`.........|
 """,
-
+    
 # hexdump of the AHDI bootloader in the partition bootsector
 "bootsector":"""
 00000000  60 1c 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |`...............|
