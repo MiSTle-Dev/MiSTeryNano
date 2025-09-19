@@ -53,6 +53,9 @@ def timestr(time):
 def datestr(date):
     return "{:02d}.{:02d}.{:04d}".format(date&0x1f,(date>>5)&0x0f,1980+((date>>9)&0x7f))
 
+# ppera uses various names for the main executable
+PPERA_PRG = [ "RUNME.TOS", "RUNFALC.TOS", "START.TOS", "START2M.TOS", "START.PRG" ]
+
 ######################################################################################
 ####                                handling files                                ####
 ######################################################################################
@@ -171,9 +174,10 @@ def add_file(files, file):
 
 def import_zip(drive, partition, src, dst, prg):
     # check if src is a (downloaded) byte array
-    if isinstance(src, bytes):
-        src = BytesIO(src)
-
+    name = None
+    if isinstance(src, tuple):
+        name = src[0]
+        src = BytesIO(src[1])
     try:            
         archive = zipfile.ZipFile(src, 'r')
     except Exception as e:
@@ -187,27 +191,59 @@ def import_zip(drive, partition, src, dst, prg):
     else:
         # if no destination path was given, then create a game path automatically
         if prg:
+            # prg was explicitely given
             dst = "GAMES\\"+prg+"\\"
         else:
+            dst = None
+            
             # search for PRG name and use it to create a path
             for filename in archive.namelist():
-                if filename.lower().endswith(".prg"):
-                    dst = "GAMES\\"+filename.split(".")[0]+"\\"
+                for prg_name in PPERA_PRG:
+                    if not dst and filename.lower().endswith(prg_name.lower()):
+                        dst = "GAMES\\"
+                        # check if there's a full path in the name
+                        if not "/" in filename:                        
+                            dst += name + "\\"
 
+            if not dst:
+                for filename in archive.namelist():
+                    if not dst and filename.lower().endswith(".prg"):
+                        dst = "GAMES\\"+filename.split(".")[0]+"\\"
+                    
         # cannot continue without path
-        if not dst: return None
-                
+        if not dst:
+            print("No program path found in ZIP!")
+            return None
+
     for filename in archive.namelist():
-        print("Creating", drive+dst+filename)
+        print("Creating", drive+dst+filename.replace("/","\\"))
         with archive.open(filename) as f:
             dt = archive.getinfo(filename).date_time
             ftime = (dt[3] << 11) + (dt[4] << 5) + dt[5]//2
             fdate = dt[2] + (dt[1] << 5) + ((dt[0]-1980)<<9)
 
-            file = { "name": dst.upper()+filename.upper(), "data": f.read(), "time": ftime, "date":fdate }
-            if not add_file(partition, file):
-                return None
+            # adjust filename from unix to TOS style
+            filename = filename.replace("/","\\")
 
+            # ignore directory entries as they will be created whenever necessary
+            if filename[-1] != "\\":            
+                file = { "name": dst.upper()+filename.upper(), "data": f.read(), "time": ftime, "date":fdate }
+                if not add_file(partition, file):
+                    return None
+
+    # if dst consists of "GAMES/" only, then the games path itself is inside the archive and
+    # needs to be added for later name matching or csv generation
+    if dst == "GAMES\\":
+        # find all paths inside archive
+        paths = []
+        for filename in archive.namelist():
+            if "/" in filename:
+                if not filename.split("/")[0] in paths:
+                    paths.append(filename.split("/")[0])
+
+        # print("PATHS", paths)
+        dst += paths[0]
+          
     # return the (generated) path as this is later needed to load the NEOPIC screenshot, cut off last "\\"
     if dst[-1] == "\\": dst = dst[:-1]
     
@@ -291,7 +327,7 @@ def import_item(partitions, src, dst=None):
         partition = partitions[0]
         
     # check if this is a web url
-    if src.lower().startswith("http://"):
+    if src.lower().startswith("http://") or src.lower().startswith("https://"):
         # there may be a ":" in the name which adds the PRG name as there may
         # be multiplex PRGs in the ZIP
 
@@ -311,7 +347,8 @@ def import_item(partitions, src, dst=None):
                 return False
 
             # add drive letter to generated path if needed (no dst path was given)
-            return import_zip(partition["drive"], partition["files"], response.read(), dst, prg)
+            bname = src.split("/")[-1].split(".")[0]
+            return import_zip(partition["drive"], partition["files"], (bname, response.read()), dst, prg)
     
     # check if this is a file url
     if src.lower().startswith("file://"):
@@ -367,22 +404,28 @@ def import_screenshots(partitions, games, data):
             fdate = dt[2] + (dt[1] << 5) + ((dt[0]-1980)<<9)
 
             # try to find the game.prg on any partition
-            prg = "GAMES\\" + game + "\\" + game + "."
-            result = find_file(partitions, prg+"PRG")
+            
+            # klapauzius style
+            result = find_file(partitions, "GAMES\\"+game+"\\"+game+".PRG")
+            # or if that fails ppera style
+            for prg_name in PPERA_PRG:            
+                if result == None:
+                    result = find_file(partitions, "GAMES\\"+game+"\\"+prg_name)
+                
             if result != None:
                 # result is the partition the file was found in (if it was found)
-                file = { "name": prg+"NEO", "data": f.read(), "time": ftime, "date":fdate }
+                file = { "name": "GAMES\\"+game+"\\"+game+".NEO", "data": f.read(), "time": ftime, "date":fdate }
                 print("Adding screenshot", partitions[result]["drive"]+file["name"])
                 if not add_file(partitions[result]["files"], file):
                     print("Failed to add screenshot!!")
             else:
-                print("HUH??")
+                print("Unable to identify", game)
 
             f.close()
             
     neopics.close()
         
-def mk_csv(partitions, data=None):
+def mk_csv(partitions, cfg=None):
     def csv_scan(files, parent):
         gamelist = [ ]
         for f in files:
@@ -391,9 +434,16 @@ def mk_csv(partitions, data=None):
                 for entry in sublist:
                     gamelist.append(f["name"]+"\\"+entry)
                 
-            else:            
-                if parent and parent == f["name"].split(".")[0] and f["name"].split(".")[-1] == "PRG":
+            else:
+                # detect games following the klapauzius naming scheme
+                if parent and parent == f["name"].split(".")[0] and f["name"].split(".")[-1].lower() == "prg":
                     gamelist.append(f["name"])
+                # detect games following the ppera naming scheme
+                if parent:
+                    for prg_name in PPERA_PRG:
+                        if f["name"].split("/")[-1].lower() == prg_name.lower():
+                            gamelist.append(f["name"].replace("/", "\\"))
+                            return gamelist  # return when first exec found
 
         return gamelist
     
@@ -410,34 +460,38 @@ def mk_csv(partitions, data=None):
 
             # check if we have a speaking name entry for this
             speaking_name = None
-            if data:
-                for src in data:
+            if cfg:
+                for src in cfg["data"]:
                     if "name" in src:
-                         if (DRIVES[p]+i).startswith(src["path"]):
+                        if (DRIVES[p]+i).startswith(src["path"]):
                             speaking_name = src["name"]            
 
+            # no speaking name, but maybe a link?
+            if not speaking_name:
+                if i.split("\\")[-2] in cfg["links"]:
+                    speaking_name = cfg["links"][i.split("\\")[-2]]
+                            
             if speaking_name:
                 csv = csv + speaking_name.encode("latin-1")
             else:
-                csv = csv + i.split("\\")[-1].split(".")[0].encode("latin-1")
+                csv = csv + i.split("\\")[-2].encode("latin-1")
                 
             csv = csv + (";"+DRIVES[p]).encode("latin-1")
             csv = csv + i.encode("latin-1")
             csv = csv + "\r\n".encode("latin-1")
 
-            games.append(i.split("\\")[-1].split(".")[0])
+            games.append(i.split("\\")[-2])
     if csv:
         dt = datetime.datetime.now()
         ftime = (dt.hour << 11) + (dt.minute << 5) + dt.second//2
         fdate = dt.day + (dt.month << 5) + ((dt.year-1980)<<9)
 
-        import_screenshots(partitions, games, data)
+        import_screenshots(partitions, games, cfg["data"])
     
         partitions[0]["files"].append( { "name": "HDMENU.CSV", "time":ftime, "date":fdate, "data":csv } )
     else:
         print("Warning, no games found, creating no HDMENU.CSV")
             
-        # print("Games:", csv)
 
 # ==========================================================================================        
 
@@ -490,7 +544,7 @@ def get_size(p):
     return size
 
 def parse_cfg_file(filename):
-    cfg = { "data": [], "names": { } }
+    cfg = { "data": [], "links": { } }
     with open(filename) as cfgfile:
         partition_index = 0   # start with one partition
         
@@ -516,9 +570,12 @@ def parse_cfg_file(filename):
                     src = line.split(" ",1)[1].strip().split(";")
                     data = { "url": src[0].strip() }
                     data["partition_index"] = partition_index
-                    if len(src) >= 2: data["name"]= src[1].strip()                        
+                    if len(src) >= 2: data["name"]= src[1].strip()
                     if len(src) >= 3: data["neopic"]= src[2].strip()                        
                     cfg["data"].append(data)                    
+                elif cmd.lower() == "link":
+                    link = line.split(" ",1)[1].strip().split(";")
+                    cfg["links"][link[0].strip()] = link[1].strip()
                 elif cmd.lower() == "partition":
                     partition_index += 1
                 else:
@@ -531,12 +588,11 @@ def parse_cfg_file(filename):
             partitions.append({"size":cfg["img"]["size"]//512, "files": [], "drive": DRIVES[i] })
 
         # import all src items
-        for item in cfg["data"]:
+        for item in cfg["data"]:            
             p = import_item(partitions, item["url"], item["path"] if "path" in item else item["partition_index"])
             if not "path" in item: item["path"] = p
-            if not p: return None
 
-        mk_csv(partitions, cfg["data"])
+        mk_csv(partitions, cfg)
     
         if not options["quiet"]:
             # dump the fs trees

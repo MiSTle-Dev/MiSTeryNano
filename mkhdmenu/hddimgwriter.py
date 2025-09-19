@@ -100,8 +100,13 @@ def import_fs(fs, fat, data):
                 # will we need a next cluster?
                 if clusters > 1:                    
                     next = cur+1
+
+                    # check if we reached end of fat (image is full)
+                    if next >= len(fat):
+                        print("File system exceeded!")
+                        return None
+                    
                     while fat[next]: next += 1
-                    # TODO: check if we reached end of fat (image is full)
                 else:
                     # end of cluster chain marker
                     next = 0xffff
@@ -131,6 +136,7 @@ def import_fs(fs, fat, data):
             if "subdir" in f:
                 # allocate enough space for all subdirectory entries
                 clusters = fat_allocate(fat, 32*(len(f["subdir"])+2))
+                if not clusters: print("Failure when processing", f["name"])
                 
                 entry[11] = 0x10
 
@@ -177,6 +183,7 @@ def import_fs(fs, fat, data):
                 entry[28:32] = struct.pack("<L", len(f["data"]))                
 
                 clusters = fat_allocate(fat, len(f["data"]))
+                if not clusters: print("Failure when processing", f["name"])
 
                 offset = 0
                 for c in clusters:

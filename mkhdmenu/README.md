@@ -12,13 +12,17 @@ to ```SHDRIVER.SYS``` and being placed in the root of C:\.
 
 ## Automated usage
 
-This script can be run from a config file containg all information
-to build an entire image. It comes with a ```klapauzius.cfg``` script
-which allows it to build a disk image containing all the
-[Klapauzius patched games](http://www.klapauzius.net/Old_Games.html)
-with a nice menu.
+The ```mkhdmenu``` script can be run from a config file allowing it
+to assemble complex hd images within a few seconds. Two examples
+are included:
 
-Besides the script itself the following files are neeed:
+  - [```klapauzius.cfg```](klapauzius.cfg) creates a HDD image
+    containing all the [Klapauzius patched games](http://www.klapauzius.net/Old_Games.html)
+    with a nice menu. Some games unfortunately don't work with the menu.
+  - [```thejoyofsticks_top50.cfg```](thejoyofsticks_top50.cfg) creates a HDD
+  containing the [Joy of Sticks Top50 games](https://thejoyofsticks.co.uk/the-top-50-atari-st-games)
+
+Besides the script itself the following files are needed:
 
   - ```SHDRIVER.SYS``` - The AHDI harddisk driver, Version 6.061, file size 13177  bytes
   - ```HDMENU.PRG``` e.g. from the [discussion on Atari Forum](https://www.atari-forum.com/viewtopic.php?t=43304)
@@ -28,14 +32,16 @@ These three files need to be places in the same directory as the python
 script. This can then be invoked like:
 
 ```
-$ ./mkhdmenu.py klapauzius.cfg 
+$ ./mkhdmenu.py thejoyofsticks_top50.cfg 
 ```
 
 The script will then download the games all by itself.
 
-If everything goes to plan, then a file ```klapauzius.hd``` is generated.
+If everything goes to plan, then a file ```thejoyofsticks_top50.hd``` is generated.
 This can be used as an ACSI HDD image and will then launch directly into
 HDMenu allowing to select games.
+
+![Screenshot](jos_top50_hdmenu.png)
 
 ## Manual usage
 
