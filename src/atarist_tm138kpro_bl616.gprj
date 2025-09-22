@@ -1,0 +1,101 @@
+<?xml version="1" encoding="UTF-8"?>
+<!DOCTYPE gowin-fpga-project>
+<Project>
+    <Template>FPGA</Template>
+    <Version>5</Version>
+    <Device name="GW5AST-138B" pn="GW5AST-LV138FPG676AC1/I0">gw5ast138b-007</Device>
+    <FileList>
+        <File path="atarist/acia.v" type="file.verilog" enable="1"/>
+        <File path="atarist/acsi.v" type="file.verilog" enable="1"/>
+        <File path="atarist/atarist.v" type="file.verilog" enable="1"/>
+        <File path="atarist/cubase2_dongle.v" type="file.verilog" enable="1"/>
+        <File path="atarist/cubase3_dongle.v" type="file.verilog" enable="1"/>
+        <File path="atarist/dma.v" type="file.verilog" enable="1"/>
+        <File path="atarist/io_fifo.v" type="file.verilog" enable="1"/>
+        <File path="atarist/mfp.v" type="file.verilog" enable="1"/>
+        <File path="atarist/mfp_hbit16.v" type="file.verilog" enable="1"/>
+        <File path="atarist/mfp_srff16.v" type="file.verilog" enable="1"/>
+        <File path="atarist/mfp_timer.v" type="file.verilog" enable="1"/>
+        <File path="atarist/stBlitter.sv" type="file.verilog" enable="1"/>
+        <File path="atarist/ste_joypad.v" type="file.verilog" enable="1"/>
+        <File path="fdc1772/fdc1772.v" type="file.verilog" enable="1"/>
+        <File path="fdc1772/floppy.v" type="file.verilog" enable="1"/>
+        <File path="fx68k/fx68k.sv" type="file.verilog" enable="1"/>
+        <File path="fx68k/fx68kAlu.sv" type="file.verilog" enable="1"/>
+        <File path="fx68k/uaddrPla.sv" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/clockgen.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/gstmcu.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/gstshifter.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/hdegen.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/hsyncgen.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/latch.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/mcucontrol.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/modules.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/register.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/shifter_video.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/sndcnt.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/vdegen.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/vidcnt.v" type="file.verilog" enable="1"/>
+        <File path="gstmcu/hdl/vsyncgen.v" type="file.verilog" enable="1"/>
+        <File path="hdmi/audio_clock_regeneration_packet.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/audio_info_frame.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/audio_sample_packet.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/auxiliary_video_information_info_frame.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/hdmi.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/packet_assembler.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/packet_picker.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/serializer.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/source_product_description_info_frame.sv" type="file.verilog" enable="1"/>
+        <File path="hdmi/tmds_channel.sv" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701.v" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_ALU.v" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_CORE.v" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_EXEC.v" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_MCODE.i" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_MCROM.v" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_SEQ.v" type="file.verilog" enable="1"/>
+        <File path="ikbd/hd63701/HD63701_defs.i" type="file.verilog" enable="1"/>
+        <File path="ikbd/ikbd.sv" type="file.verilog" enable="1"/>
+        <File path="ikbd/rom/MCU_BIROM.v" type="file.verilog" enable="1"/>
+        <File path="jt49/filter/jt49_dcrm.v" type="file.verilog" enable="1"/>
+        <File path="jt49/filter/jt49_dcrm2.v" type="file.verilog" enable="1"/>
+        <File path="jt49/filter/jt49_dly.v" type="file.verilog" enable="1"/>
+        <File path="jt49/filter/jt49_mave.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49_bus.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49_cen.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49_div.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49_eg.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49_exp.v" type="file.verilog" enable="1"/>
+        <File path="jt49/jt49_noise.v" type="file.verilog" enable="1"/>
+        <File path="misc/atarist_keymap.v" type="file.verilog" enable="1"/>
+        <File path="misc/dualshock2.v" type="file.verilog" enable="1"/>
+        <File path="misc/hid.v" type="file.verilog" enable="1"/>
+        <File path="misc/mcu_spi.v" type="file.verilog" enable="1"/>
+        <File path="misc/osd_u8g2.v" type="file.verilog" enable="1"/>
+        <File path="misc/scandoubler.v" type="file.verilog" enable="1"/>
+        <File path="misc/sd_card.v" type="file.verilog" enable="1"/>
+        <File path="misc/sd_rw.v" type="file.verilog" enable="1"/>
+        <File path="misc/sdcmd_ctrl.v" type="file.verilog" enable="1"/>
+        <File path="misc/sysctrl.v" type="file.verilog" enable="1"/>
+        <File path="misc/video_analyzer.v" type="file.verilog" enable="1"/>
+        <File path="misterynano.sv" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/flash_dspi.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/gowin_clkdiv/gowin_clkdiv.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/gowin_pll/flash_pll.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138k/sdram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro_bl616/top.sv" type="file.verilog" enable="1"/>
+        <File path="tang/nano20k/video.v" type="file.verilog" enable="1"/>
+        <File path="tang/nano20k/video2hdmi.v" type="file.verilog" enable="1"/>
+        <File path="tang/nano20k/ws2812.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro_bl616/atarist.cst" type="file.cst" enable="1"/>
+        <File path="tang/mega138kpro_bl616/atarist.sdc" type="file.sdc" enable="1"/>
+        <File path="fx68k/microrom.mem" type="file.other" enable="1"/>
+        <File path="fx68k/nanorom.mem" type="file.other" enable="1"/>
+        <File path="ikbd/rom/ikbd.hex" type="file.other" enable="1"/>
+        <File path="misc/atarist_xml.hex" type="file.other" enable="1"/>
+    </FileList>
+</Project>
