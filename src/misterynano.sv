@@ -146,6 +146,7 @@ wire       system_wide_screen;
 wire [1:0] system_floppy_wprot;
 wire       system_cubase_en;
 wire [1:0] system_port_mouse;
+wire       system_port_joy;
 wire       system_tos_slot;
    
 /* -------------- clock generation --------------- */
@@ -320,23 +321,49 @@ mcu_spi mcu (
 // joy0 is usually used for the mouse, joy1 for the joystick. The
 // joystick can either be driven from the external MCU or via FPGA IO pins
 wire [5:0] hid_mouse;   // USB/HID mouse with four directions and two buttons
-wire [7:0] hid_joy;     // USB/HID joystick with four directions and four buttons
+wire [7:0] hid_joy0;     // USB/HID joystick with four directions and four buttons
+wire [7:0] hid_joy1;     // USB/HID joystick with four directions and four buttons
 
 // external DB9 joystick port
 wire [5:0] db9_atari = { !io[5], !io[0], !io[2], !io[1], !io[4], !io[3] };
 wire [5:0] db9_amiga = { !io[5], !io[0], !io[3], !io[1], !io[4], !io[2] };
 
+// joy0 (port0) can be mouse or joystick. If mouse is connected it cannot work with parallel
+// so mouse is deactivted if joystick button is detected in this case usb joy, but after adding 
+// second db9 it can by added to joy0_joy. Mouse is activated when mouse button is added.
+wire [5:0] joy0_mouse = ((system_port_mouse == 2'd0)?hid_mouse:
+                  (system_port_mouse == 2'd1)? db9_atari:
+                  (system_port_mouse == 2'd2) ? db9_amiga:
+                  6'b000000); 
+wire [5:0] joy0_joy = ((system_port_joy == 1'd1) ? hid_joy0[5:0] : {1'd0, hid_joy1[4:0]});
+
+reg joy0_mouse_active;
+
+always @(posedge clk32) begin
+    if (por) begin
+        joy0_mouse_active = 1'b1;
+    end else begin
+        if (!joy0_mouse_active && (joy0_mouse[5] || joy0_mouse[4])) begin
+            joy0_mouse_active <= 1'b1;
+        end else begin
+            if (joy0_mouse_active && (joy0_joy[5] || joy0_joy[4])) begin
+                joy0_mouse_active <= 1'b0;
+            end
+        end
+    end
+end
+
 // any db9 mouse replaces usb mouse as mice will keep some signals
 // permanently active and can thus not just be wired together
-wire [5:0] joy0 = (system_port_mouse == 2'd0)?hid_mouse:
-                  (system_port_mouse == 2'd1)?db9_atari:
-                  (system_port_mouse == 2'd2)?db9_amiga:
-                  6'b000000;
+// add possibility to turn off mouse
+wire [5:0] joy0 =  joy0_joy | ((joy0_mouse_active) ? joy0_mouse : 6'b000000);
+
 
 // Joystick ports are just wired together and can be used in parallel
 // DB9 is used for joystick, whenever the mouse is mapped to USB
 wire [5:0] db9_joy = (system_port_mouse==2'd0)?db9_atari: 6'b000000;
-wire [4:0] joy1 = hid_joy[4:0] | db9_joy[4:0];
+
+wire [4:0] joy1 = ((system_port_joy == 1'd1) ? hid_joy1[4:0] : hid_joy0[4:0] ) | db9_joy[4:0];
 
 // The keyboard matrix is maintained inside HID
 wire [7:0] keyboard[14:0];
@@ -383,8 +410,8 @@ hid hid (
 
         .mouse(hid_mouse),
         .keyboard(keyboard),
-        .joystick0(hid_joy),
-        .joystick1()
+        .joystick0(hid_joy1),
+        .joystick1(hid_joy0)
          );   
          
 wire sdc_int;
@@ -433,6 +460,7 @@ sysctrl sysctrl (
         .system_wide_screen(system_wide_screen),
         .system_floppy_wprot(system_floppy_wprot),
         .system_port_mouse(system_port_mouse),
+        .system_port_joy(system_port_joy),
         .system_tos_slot(system_tos_slot),
         
         .int_out_n(mcu_intn),

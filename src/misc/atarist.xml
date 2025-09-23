@@ -73,6 +73,10 @@
 	<listentry label="Atari ST" value="1"/>
 	<listentry label="Amiga" value="2"/>
       </list>
+      <list label="USB Joy:" id="U" default="1">
+	<listentry label="Port0/Port1" value="0"/>
+	<listentry label="Port1/Port0" value="1"/>
+      </list>
       <list label="TOS Slot:" id="T" default="0">
 	<listentry label="Primary" value="0"/>
 	<listentry label="Secondary" value="1"/>
