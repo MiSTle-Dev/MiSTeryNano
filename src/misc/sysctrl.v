@@ -46,7 +46,7 @@ module sysctrl (
   output reg [1:0]  system_floppy_wprot,
   output reg	    system_cubase_en,
   output reg [1:0]  system_port_mouse,
-  output reg [1:0]  system_port_joy,
+  output reg        system_port_joy,
   output reg	    system_tos_slot
 );
 
