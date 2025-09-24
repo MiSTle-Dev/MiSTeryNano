@@ -44,7 +44,10 @@ module top(
   output [3:0]	O_sdram_dqm, // 32/4
 
   // generic IO, used for mouse/joystick/...
-  input [7:0]	io,
+  input [5:0]	io,
+
+  // spare pins, used for 2nd joystick
+  input [5:0]	spare,
 
   // interface to external BL616/M0S
   inout [4:0]	m0s,
