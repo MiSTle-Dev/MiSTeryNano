@@ -176,6 +176,9 @@ misterynano misterynano (
   // generic IO, used for mouse/joystick/...
   .io ( io ),
 
+  // spare pins, used for 2nd DB9 joystick
+  .spare ( spare ),
+
   // mcu interface
   .mcu_sclk ( spi_io_clk  ),
   .mcu_csn  ( spi_io_ss   ),
