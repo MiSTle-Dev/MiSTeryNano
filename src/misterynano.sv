@@ -65,7 +65,10 @@ module misterynano (
   output		mcu_intn,
 
   // generic IO, used for mouse/joystick/...
-  input [7:0]	io,
+  input [5:0]	io,
+
+  // spare pins, used for 2nd DB9 joystick
+  input [5:0]	spare,
 
   // the parallel port of the ST only carries few signals
   output		parallel_strobe_oe,
