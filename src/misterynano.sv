@@ -344,6 +344,9 @@ wire [7:0] hid_joy1;     // USB/HID joystick with four directions and four butto
 wire [5:0] db9_atari = { !io[5], !io[0], !io[2], !io[1], !io[4], !io[3] };
 wire [5:0] db9_amiga = { !io[5], !io[0], !io[3], !io[1], !io[4], !io[2] };
 
+// external DB9 joystick port 2
+wire [5:0] db9_joy2 = { !spare[5], !spare[0], !spare[2], !spare[1], !spare[4], !spare[3] };
+
 // joy0 (port0) can be mouse or joystick. If mouse is connected it cannot work with parallel
 // so mouse is deactivted if joystick button is detected in this case usb joy, but after adding 
 // second db9 it can by added to joy0_joy. Mouse is activated when mouse button is added.
@@ -379,7 +382,7 @@ wire [5:0] joy0 =  joy0_joy | ((joy0_mouse_active) ? joy0_mouse : 6'b000000);
 // DB9 is used for joystick, whenever the mouse is mapped to USB
 wire [5:0] db9_joy = (system_port_mouse==2'd0)?db9_atari: 6'b000000;
 
-wire [4:0] joy1 = ((system_port_joy == 1'd1) ? hid_joy1[4:0] : hid_joy0[4:0] ) | db9_joy[4:0];
+wire [4:0] joy1 = ((system_port_joy == 1'd1) ? hid_joy1[4:0] | db9_joy2[4:0] : hid_joy0[4:0] ) | db9_joy[4:0];
 
 // The keyboard matrix is maintained inside HID
 wire [7:0] keyboard[14:0];
