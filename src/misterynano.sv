@@ -385,8 +385,8 @@ wire [5:0] joy0 =  joy0_joy | ((joy0_mouse_active) ? joy0_mouse : 6'b000000);
 // DB9 is used for joystick, whenever the mouse is mapped to USB
 wire [5:0] db9_joy = (system_port_mouse==2'd0)?db9_atari: 6'b000000;
 
-wire [4:0] joy1 = ((system_port_joy == 1'd1) ? hid_joy1[4:0] | db9_joy2[4:0] : hid_joy0[4:0] ) | db9_joy[4:0];
-
+	wire [4:0] joy1 = ((system_port_joy == 1'd1) ? hid_joy1[4:0] : hid_joy0[4:0] ) | ((system_port_joy == 1'd1) ? db9_joy2[4:0] : db9_joy[4:0] );
+	
 // The keyboard matrix is maintained inside HID
 wire [7:0] keyboard[14:0];
 
