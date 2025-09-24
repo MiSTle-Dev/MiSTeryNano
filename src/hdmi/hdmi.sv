@@ -78,41 +78,36 @@ logic [1:0] invert;
 //                          frame   screen s_start   s_len
 // NTSC    848x484@60Hz  aspect 1.75    
 wire [43:0] htiming0  = { 11'd1016, 11'd848, 11'd16, 11'd62 };  
-wire [43:0] whtiming0 = { 11'd1016, 11'd928, 11'd16, 11'd32 };  
 wire [39:0] vtiming0  = {  10'd526, 10'd484,  10'd9,  10'd6 };
 wire [7:0] cea0 = 8'd2; // CEA is HDMI mode in group 1
    
 // PAL     832x576@50hz  aspect 1.44   948x576@50hz
 wire [43:0] htiming1  = { 11'd1024, 11'd832, 11'd24, 11'd72 };  
-wire [43:0] whtiming1 = { 11'd1024, 11'd952, 11'd16, 11'd32 };  
 wire [39:0] vtiming1  = {  10'd626, 10'd576,  10'd5,  10'd5 };
 wire [7:0] cea1 = 8'd17;
    
 // MONO    640x400@71hz  aspect 1.6    
 wire [43:0] htiming2  = { 11'd896, 11'd640, 11'd24, 11'd72 };
-wire [43:0] whtiming2 = { 11'd896, 11'd720, 11'd24, 11'd72 };
 wire [39:0] vtiming2  = { 10'd501, 10'd400,  10'd5,  10'd5 };  
 wire [7:0] cea2 = 8'd2;
    
 wire [91:0]  timing0 = {  htiming0, vtiming0, cea0 };
-wire [91:0] wtiming0 = { whtiming0, vtiming0, cea0 };
 wire [91:0]  timing1 = {  htiming1, vtiming1, cea1 };
-wire [91:0] wtiming1 = { whtiming1, vtiming1, cea1 };
 wire [91:0]  timing2 = {  htiming2, vtiming2, cea2 };
-wire [91:0] wtiming2 = { whtiming2, vtiming2, cea2 };
 
 // select timing as indicated by control signals coming for Atari ST core
 wire [91:0] timing = 
-         !wide?( (stmode == 2'd0)?timing0:
-                 (stmode == 2'd1)?timing1:
-                  timing2):
-               ( (stmode == 2'd0)?wtiming0:
-                 (stmode == 2'd1)?wtiming1:
-                  wtiming2);
+            (stmode == 2'd0)?timing0:
+            (stmode == 2'd1)?timing1:
+            timing2;
 
-// demux timing parameters   
+// demux timing parameters, in wide mode make the display wider, so the
+// area actually being used by the ST takes up a smaller fraction of the
+// whole width
+wire [10:0] wide_extra_width  = wide?11'd80:11'd0;
+
 wire [10:0] frame_width       = timing[91:81];
-wire [10:0] screen_width      = timing[80:70];
+wire [10:0] screen_width      = timing[80:70] + wide_extra_width;   
 wire [10:0] hsync_pulse_start = timing[69:59];
 wire [10:0] hsync_pulse_size  = timing[58:48];
 

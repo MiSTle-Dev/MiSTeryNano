@@ -112,6 +112,22 @@ module misterynano (
   output [15:0]	audio [2]
 );
 
+/* TODO: Map addional joysticks to printerport for e.g. Gauntlet II
+ DB9-A
+ 1 -> 6   DATA4
+ 2 -> 7   DATA5
+ 3 -> 8   DATA6
+ 4 -> 9   DATA7
+ 6 -> 11  BUSY
+
+ DB9-B
+ 1 -> 2   DATA0
+ 2 -> 3   DATA1
+ 3 -> 4   DATA2
+ 4 -> 5   DATA3
+ 6 -> 1   STROBE
+*/
+    
 // The Efinix T20 would not fit blitter and ACSI, so
 // we disable them. On GW2AR-18 ACSI saves ~200 LUTs, blitter 
 // saves ~2000 of them.
@@ -645,6 +661,7 @@ video video (
 
          // values that can be configure by the user via osd
          .system_scanlines(system_scanlines),
+         .system_wide_screen(system_wide_screen),
 
          // video control signal output
          .vreset ( vreset ),    // reached top/left pixel

@@ -181,7 +181,7 @@ misterynano misterynano (
   .parallel_data_oe ( ),
   .parallel_data_in ( 8'h00 ),
   .parallel_data_out ( ),
-  .parallel_busy ( 1'b1 ), 
+  .parallel_busy ( 1'b0 ), 
 		   
   // MIDI
   .midi_in  ( 1'b1  ),

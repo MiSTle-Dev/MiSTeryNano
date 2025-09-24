@@ -16,7 +16,7 @@ module top(
 
   // interface to Tang onboard BL616 UART
   input			uart_rx,
-  output		uart_tx,
+  // output		uart_tx,
   // onboard Bl616 monitor console port interface
   output		bl616_mon_tx,
   input			bl616_mon_rx,
@@ -74,7 +74,7 @@ module top(
 );
 
 // connect onboard BL616 console to hw pins for an USB-UART adapter
-assign uart_tx = bl616_mon_rx;
+// assign uart_tx = bl616_mon_rx;
 assign bl616_mon_tx = uart_rx;
 
 wire clk32;
@@ -182,12 +182,12 @@ misterynano misterynano (
 
   // parallel port
   .parallel_strobe_oe ( ),
-  .parallel_strobe_in ( 1'b1 ), 
+  .parallel_strobe_in ( 1'b1 ),
   .parallel_strobe_out ( ), 
   .parallel_data_oe ( ),
   .parallel_data_in ( 8'h00 ),
   .parallel_data_out ( ),
-  .parallel_busy ( 1'b1 ), 
+  .parallel_busy ( 1'b0 ), 
 		   
   // MIDI
   .midi_in  ( midi_in  ),
