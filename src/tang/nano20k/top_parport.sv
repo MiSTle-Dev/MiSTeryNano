@@ -183,10 +183,8 @@ misterynano misterynano (
   .mcu_mosi ( spi_io_din  ), // from MCU to FPGA
   .mcu_intn ( spi_intn    ),
 
-  // MIDI
-  .midi_in  ( 1'b1 ),
-  .midi_out (      ),
-
+  // MIDI is not implemented
+						 
   // parallel port
   .parallel_strobe_oe ( pp_strobe_oe ),
   .parallel_strobe_in ( pp_strobe_in ), 

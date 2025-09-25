@@ -491,8 +491,8 @@ wire mfp_io7 = mono_detect ^ (ste?xsint:1'b0);
 wire acsi_irq, fdc_irq;
 
 // inputs 1,2 and 6 are outputs from an MC1489 serial receiver
-wire  [7:0] mfp_gpio_in = {mfp_io7, 1'b1, !(acsi_irq | fdc_irq), !acia_irq, blitter_irq_n, 2'b11, !parallel_busy};
-wire  [1:0] mfp_timer_in = {de, ste?xsint_delayed:!parallel_busy};
+wire  [7:0] mfp_gpio_in = {mfp_io7, 1'b1, !(acsi_irq | fdc_irq), !acia_irq, blitter_irq_n, 2'b11, parallel_busy};
+wire  [1:0] mfp_timer_in = {de, ste?xsint_delayed:parallel_busy};
 wire  [7:0] mfp_data_out;
 wire        mfp_dtack;
 

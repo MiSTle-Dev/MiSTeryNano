@@ -186,14 +186,7 @@ misterynano misterynano (
   .mcu_mosi ( spi_io_din  ), // from MCU to FPGA
   .mcu_intn ( spi_intn    ),
 
-  // parallel port
-  .parallel_strobe_oe ( ),
-  .parallel_strobe_in ( 1'b1 ),
-  .parallel_strobe_out ( ), 
-  .parallel_data_oe ( ),
-  .parallel_data_in ( 8'h00 ),
-  .parallel_data_out ( ),
-  .parallel_busy ( 1'b0 ), 
+  // parallel port is unconnected
 		   
   // MIDI
   .midi_in  ( midi_in  ),

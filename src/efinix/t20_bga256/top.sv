@@ -132,18 +132,7 @@ misterynano misterynano (
   .mcu_mosi ( spi_din  ), // from MCU to FPGA
   .mcu_intn ( spi_intn    ),
 
-  // parallel port
-  .parallel_strobe_oe ( ),
-  .parallel_strobe_in ( 1'b1 ), 
-  .parallel_strobe_out ( ), 
-  .parallel_data_oe ( ),
-  .parallel_data_in ( 8'h00 ),
-  .parallel_data_out ( ),
-  .parallel_busy ( 1'b1 ), 
-                   
-  // MIDI
-  .midi_in  ( 1'b0   ),
-  .midi_out (        ),
+  // parallel port and MIDI are not implemented
                    
   // SD card slot
   .sd_clk     ( sd_clk     ),

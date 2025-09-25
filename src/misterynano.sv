@@ -72,15 +72,15 @@ module misterynano (
 
   // the parallel port of the ST only carries few signals
   output		parallel_strobe_oe,
-  input			parallel_strobe_in, 
+  input			parallel_strobe_in = 1'b1, 
   output		parallel_strobe_out, 
   output		parallel_data_oe,
-  input [7:0]	parallel_data_in,
+  input [7:0]	parallel_data_in = 8'hff,
   output [7:0]	parallel_data_out,
-  input			parallel_busy, 
+  input			parallel_busy = 1'b1, 
  					
   // MIDI
-  input			midi_in,
+  input			midi_in = 1'b1,
   output		midi_out,
 		   
   // SD card slot
