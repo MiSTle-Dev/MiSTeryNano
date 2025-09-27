@@ -139,7 +139,7 @@ assign pp_data = pp_data_oe?pp_data_out:8'bzzzzzzzz;
 wire [13:0] sdram_addr;
 assign O_sdram_addr = sdram_addr[10:0];
 
-misterynano misterynano (
+misterynano  #(.EXTERNAL_PARPORT(1)) misterynano (
   .clk   ( clk ),           // 27MHz clock uses e.g. for the flash pll
 
   .reset ( reset ),
@@ -174,7 +174,8 @@ misterynano misterynano (
   .sdram_dqm   ( O_sdram_dqm    ), // 32/4
 
   // generic IO, used for mouse/joystick/...
-  .io ( 8'b11111111 ),
+  .io    ( 6'b111111 ),
+  .spare ( 6'b111111 ),
 
   // mcu interface
   .mcu_sclk ( spi_io_clk  ),

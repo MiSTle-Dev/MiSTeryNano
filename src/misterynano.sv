@@ -5,11 +5,13 @@
     to different top levels exposing different signals.
 */
 
-module misterynano (
+module misterynano #( 
+  parameter		EXTERNAL_PARPORT = 1'b0 // set to 1 to enable external parport
+) (
   input			clk,
 `ifdef EFINIX
   // with efinix, all plls are toplevel
-  input         flash_clk,      // 100 MHz SPI flash clock
+  input			flash_clk, // 100 MHz SPI flash clock
 `endif
   input			reset, // S2
   input			user, // S1
@@ -95,7 +97,7 @@ module misterynano (
 `else
   inout			sd_cmd, // MOSI
   inout [3:0]	sd_dat, // 0: MISO
-`endif  
+`endif 
   
   // scandoubled digital video to be
   // used with lcds
@@ -165,7 +167,7 @@ wire       system_wide_screen;
 wire [1:0] system_floppy_wprot;
 wire       system_cubase_en;
 wire [1:0] system_port_mouse;
-wire       system_port_joy;
+wire [1:0] system_port_joy;
 wire       system_tos_slot;
    
 /* -------------- clock generation --------------- */
@@ -337,56 +339,90 @@ mcu_spi mcu (
         
 // ---- Mix HID mouse/joystick and DB9 joystick -----
 
-// joy0 is usually used for the mouse, joy1 for the joystick. The
-// joystick can either be driven from the external MCU or via FPGA IO pins
+// The basic information needed for joystick/mouse mapping is, how
+// many classic DB9 pors are being used. Classic Atari style joysticks
+// are fully passive and their presence cannot be detected automatically.
+
+// The simplest setup is without any DB9 ports being used. In that
+// case USB mouse is mapped to port 0, the first USB joystick detected
+// is mapped to port 1, a further USB joystick detected overlays
+// the mouse on port 0. Further USB joysticks are mapped to the printer
+// port in "Gauntlet II adapter style"
+
+// 
 wire [5:0] hid_mouse;   // USB/HID mouse with four directions and two buttons
-wire [7:0] hid_joy0;     // USB/HID joystick with four directions and four buttons
-wire [7:0] hid_joy1;     // USB/HID joystick with four directions and four buttons
+wire [7:0] hid_joy [4]; // up to four USB/HID joysticks with four directions and four buttons
+   
+// external DB9 port 0 mappings need to be "rewired" to accept amiga mice
+wire [5:0] db9_0_atari = { !io[5], !io[0], !io[2], !io[1], !io[4], !io[3] };
+wire [5:0] db9_0_amiga = { !io[5], !io[0], !io[3], !io[1], !io[4], !io[2] };
+// external DB9 port 1 only accepts Atari style joysticks
+wire [5:0] db9_1       = { !spare[5], !spare[0], !spare[2], !spare[1], !spare[4], !spare[3] };
 
-// external DB9 joystick port
-wire [5:0] db9_atari = { !io[5], !io[0], !io[2], !io[1], !io[4], !io[3] };
-wire [5:0] db9_amiga = { !io[5], !io[0], !io[3], !io[1], !io[4], !io[2] };
+// port 0 can be wired to the USB mouse, an Atari ST mouse or an Amiga mouse
+wire [5:0] port0_mouse =
+		   (system_port_mouse == 2'd0)?hid_mouse:
+           (system_port_mouse == 2'd1)?db9_0_atari:
+           db9_0_amiga;
 
-// external DB9 joystick port 2
-wire [5:0] db9_joy2 = { !spare[5], !spare[0], !spare[2], !spare[1], !spare[4], !spare[3] };
-
-// joy0 (port0) can be mouse or joystick. If mouse is connected it cannot work with parallel
-// so mouse is deactivted if joystick button is detected in this case usb joy, but after adding 
-// second db9 it can by added to joy0_joy. Mouse is activated when mouse button is added.
-wire [5:0] joy0_mouse = ((system_port_mouse == 2'd0)?hid_mouse:
-                  (system_port_mouse == 2'd1)? db9_atari:
-                  (system_port_mouse == 2'd2) ? db9_amiga:
-                  6'b000000); 
-wire [5:0] joy0_joy = ((system_port_joy == 1'd1) ? hid_joy0[5:0] : {1'd0, hid_joy1[4:0]}) | ((system_port_joy == 1'd1) ? db9_joy[4:0] : db9_joy2[4:0] );
-
-reg joy0_mouse_active;
-
+// Port 0 can be used for a joystick in parallel to the mouse. Since the default joystick port
+// on the Atari ST is port 1, only a second joystick will ever be mapped to port 0
+wire [5:0] port0_joystick = 
+		   (system_port_joy == 2'd0)?hid_joy[1]: // No DB9 joysticks at all
+		   // One DB9 joystick is mapped to port 1,  so any USB one goes to port 0
+		   (system_port_joy == 2'd1)?hid_joy[0]:
+		   // If two DB9 joysticks are enabled but the DB9 mouse is selected, then there can
+		   // actually only be one DB9 joystick as we only have two DB9 ports
+		   (system_port_joy == 2'd2 && system_port_mouse != 2'd0)?hid_joy[0]:
+		   // Else two DB9 joysticks are enabled and USB mouse is selected, then the second
+		   // DB9 port is the second joystick and to be used for port 0
+		   db9_1;   
+		   
+// Port 0 is by default mapped to the mouse. If a second joystick is connected, then
+// that can temporarily replace the mouse for two player games. Then both Atari ST ports
+// are connected to joysticks
+reg	   port0_mouse_active;   
 always @(posedge clk32) begin
-    if (por) begin
-        joy0_mouse_active = 1'b1;
-    end else begin
-        if (!joy0_mouse_active && (joy0_mouse[5] || joy0_mouse[4])) begin
-            joy0_mouse_active <= 1'b1;
-        end else begin
-            if (joy0_mouse_active && (joy0_joy[5] || joy0_joy[4])) begin
-                joy0_mouse_active <= 1'b0;
-            end
-        end
-    end
+   if (por)
+	 /* by default port0 is in mouse mode */
+     port0_mouse_active = 1'b1;
+   else begin
+      if(port0_mouse[5] || port0_mouse[4])
+		/* any mouse button press will activate it */
+        port0_mouse_active <= 1'b1;
+      else if (port0_joystick[5] || port0_joystick[4])
+		/* any joystick button press will deactivate the mouse */
+        port0_mouse_active <= 1'b0;
+   end
 end
 
-// any db9 mouse replaces usb mouse as mice will keep some signals
-// permanently active and can thus not just be wired together
-// add possibility to turn off mouse
-wire [5:0] joy0 =  joy0_joy | ((joy0_mouse_active) ? joy0_mouse : 6'b000000);
+// finally map either the mouse or the joystick onto port 0
+wire [5:0] db9_port0 = port0_mouse_active?port0_mouse:port0_joystick;
+   
+// Port 1 is the default joystick port on an Atari ST. The first USB joystick will map
+// here Unless at least one DB9 joystick is being used. If a DB9 mouse is connected, then
+// a joystick from the second DB9 port is being used.
+wire [5:0] db9_port1 = 
+		   (system_port_joy == 2'd0)?hid_joy[0]: // No DB9 joysticks at all
+		   (system_port_mouse != 2'd0)?db9_1:    // DB9 joystick and DB9 mouse connected as well
+		   db9_0_atari;                          // only Atari joystick(s) on DB9   
 
+// Port 2 is mapped to the printer port like the "Gaunlet 2 adapter" would. It's used once
+// there are at least three joysticks in the system, either a third USB joystick, or one DB9
+// joystick and a second USB joystick, or two DB9 joysticks and at least one USB joystick
+wire [5:0] db9_port2 = 
+		   (system_port_joy == 2'd0)?hid_joy[2]:   // No DB9 joysticks at all
+		   (system_port_joy == 2'd1)?hid_joy[1]:   // one db9 joystick
+		   (system_port_mouse != 2'd0)?hid_joy[1]: // two db9 joysticks enabled, but one use for mouse
+		   hid_joy[0];                             // two db9 joysticks
 
-// Joystick ports are just wired together and can be used in parallel
-// DB9 is used for joystick, whenever the mouse is mapped to USB
-wire [5:0] db9_joy = (system_port_mouse==2'd0)?db9_atari: 6'b000000;
-
-wire [4:0] joy1 = ((system_port_joy == 1'd1) ? hid_joy1[4:0] : hid_joy0[4:0] ) | ((system_port_joy == 1'd1) ? db9_joy2[4:0] : db9_joy[4:0] );
-	
+// Port 3 is mapped to the printer port like the "Gaunlet 2 adapter" would
+wire [5:0] db9_port3 =
+		   (system_port_joy == 2'd0)?hid_joy[3]:   // No DB9 joysticks at all
+		   (system_port_joy == 2'd1)?hid_joy[2]:   // one db9 joystick
+		   (system_port_mouse != 2'd0)?hid_joy[2]: // two db9 joysticks enabled, but one use for mouse
+		   hid_joy[1];                             // two db9 joysticks
+   
 // The keyboard matrix is maintained inside HID
 wire [7:0] keyboard[14:0];
 
@@ -424,16 +460,16 @@ hid hid (
         .data_in(mcu_data_out),
         .data_out(hid_data_out),
 
-        // input local db9 port events to be sent to MCU. Changes also trigger
+        // input local db9 joystick port events to be sent to MCU. Changes also trigger
         // an interrupt, so the MCU doesn't have to poll for joystick events
-        .db9_port( db9_joy ),
+		 // report state of port 0 unless there's a mouse connected, then port 1
+        .db9_port( (system_port_mouse == 2'd0)?db9_0_atari:db9_1 ),
         .irq( hid_int ),
         .iack( hid_iack ),
 
         .mouse(hid_mouse),
         .keyboard(keyboard),
-        .joystick0(hid_joy1),
-        .joystick1(hid_joy0)
+        .joystick(hid_joy)
          );   
          
 wire sdc_int;
@@ -525,7 +561,17 @@ wire [7:0] acsi_sd_rd_byte = sd_rd_data;
 wire [7:0] acsi_sd_wr_byte;
 wire [8:0] acsi_sd_byte_addr = sd_byte_index;
 `endif
-   
+
+// ----- Gauntlet II printer port joystick adapter -------
+// wire fire button of joystick 4 to printer port strobe
+wire	   parallel_strobe_in_int = EXTERNAL_PARPORT?parallel_strobe_in:!db9_port3[4];   
+// wire fire button of joystick 3 to printer port busy
+wire	   parallel_busy_int = EXTERNAL_PARPORT?parallel_busy:!db9_port2[4];   
+// map directions onto the data lines
+wire [7:0] parallel_data_in_int = EXTERNAL_PARPORT?parallel_data_in:
+		   ~{ db9_port2[0],db9_port2[1],db9_port2[2],db9_port2[3],
+			  db9_port3[0],db9_port3[1],db9_port3[2],db9_port3[3] };   
+  
 atarist atarist (
     .clk_32(clk32),
     .resb(!system_reset[0] && !reset && !por && ram_ready && flash_ready && sd_ready),       // user reset button
@@ -543,8 +589,8 @@ atarist atarist (
 
     .keyboard_matrix_out(keyboard_matrix_out),
     .keyboard_matrix_in(keyboard_matrix_in),
-	.joy0( joy0 ),
-	.joy1( joy1 ),
+	.joy0( db9_port0 ),
+	.joy1( db9_port1 ),
 
     // Sound output
     .audio_mix_l( audio_l ),
@@ -565,12 +611,12 @@ atarist atarist (
 
 	// parallel port
     .parallel_strobe_oe  ( parallel_strobe_oe  ),
-    .parallel_strobe_in  ( parallel_strobe_in  ), 
+    .parallel_strobe_in  ( parallel_strobe_in_int ), 
     .parallel_strobe_out ( parallel_strobe_out ), 
     .parallel_data_oe    ( parallel_data_oe    ),
-    .parallel_data_in    ( parallel_data_in    ),
+    .parallel_data_in    ( parallel_data_in_int ),
     .parallel_data_out   ( parallel_data_out   ),
-    .parallel_busy       ( parallel_busy       ),
+    .parallel_busy       ( parallel_busy_int   ),
 				 
     // interface to receive image file size/presence
     .sd_img_mounted ( sd_img_mounted ),

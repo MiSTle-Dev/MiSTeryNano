@@ -21,8 +21,7 @@ module hid (
   // output HID data received from USB
   output [5:0]     mouse,
   output reg [7:0] keyboard[14:0],
-  output reg [7:0] joystick0,
-  output reg [7:0] joystick1
+  output reg [7:0] joystick [4]
 );
 
 reg [1:0] mouse_btns;
@@ -63,6 +62,12 @@ always @(posedge clk) begin
       irq <= 1'b0;
       irq_enable <= 1'b0;
 
+      // by default no joystick is touched
+      joystick[0] <= 8'h00;
+      joystick[1] <= 8'h00;
+      joystick[2] <= 8'h00;
+      joystick[3] <= 8'h00;      
+      
       // reset entire keyboard to 1's
       keyboard[ 0] <= 8'hff; keyboard[ 1] <= 8'hff; keyboard[ 2] <= 8'hff;
       keyboard[ 3] <= 8'hff; keyboard[ 4] <= 8'hff; keyboard[ 5] <= 8'hff;
@@ -115,11 +120,9 @@ always @(posedge clk) begin
 
             // CMD 3: receive digital joystick data
             if(command == 8'd3) begin
-                if(state == 4'd0) device <= data_in;
-                if(state == 4'd1) begin
-                    if(device == 8'd0) joystick0 <= data_in;
-                    if(device == 8'd1) joystick1 <= data_in;
-                end 
+               if(state == 4'd0) device <= data_in;
+               if(state == 4'd1 && device <= 8'd4) 
+		 joystick[device] <= data_in;
             end
 
             // CMD 4: send digital joystick data to MCU
