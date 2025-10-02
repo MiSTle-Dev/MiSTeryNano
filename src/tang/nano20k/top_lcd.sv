@@ -36,9 +36,6 @@ module top(
   output [1:0]	O_sdram_ba, // two banks
   output [3:0]	O_sdram_dqm, // 32/4
 
-  // interface to external FPGA companion
-  inout [4:0]	m0s,
-
   // internal lcd
   output		lcd_dclk,
   output		lcd_hs, // lcd horizontal synchronization
@@ -53,6 +50,14 @@ module top(
   output		sd_clk,
   inout			sd_cmd, // MOSI
   inout [3:0]	sd_dat, // 0: MISO
+
+  // SPI connection to on-board BL616 for 3921 assemblies 
+  // By default an external connection is used with a M0S Dock
+  input                 spi_sclk,// in 
+  input                 spi_csn, // in
+  output                spi_dir, // out
+  input                 spi_dat, // in
+  output                spi_irqn,// out
 
   // audio
   output		hp_bck,
@@ -121,11 +126,11 @@ misterynano misterynano (
   .io          ( 1'b11111111    ), // unused
 
   // mcu interface
-  .mcu_sclk ( m0s[3]      ),
-  .mcu_csn  ( m0s[2]      ),
-  .mcu_miso ( m0s[0]      ), // from FPGA to MCU
-  .mcu_mosi ( m0s[1]      ), // from MCU to FPGA
-  .mcu_intn ( m0s[4]      ),
+  .mcu_sclk ( spi_sclk    ),
+  .mcu_csn  ( spi_csn     ),
+  .mcu_miso ( spi_dir     ), // from FPGA to MCU
+  .mcu_mosi ( spi_dat     ), // from MCU to FPGA
+  .mcu_intn ( spi_irqn    ),
 
   // parallel port and MIDI are unconnected
 		   
