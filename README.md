@@ -11,7 +11,7 @@ run the original operating systems as well as the majority of games and
 productivity software of the [Atari ST](https://de.wikipedia.org/wiki/Atari_ST).
 
 A complete MiSTeryNano setup also requires a supporting MCU acting as
-the [FPGA Companion](https://github.com/harbaum/FPGA-Companion/).
+the [FPGA Companion](https://github.com/MiSTle-Dev/FPGA-Companion/).
 
 For support and more information please visit the [Atari forum](https://www.atari-forum.com/viewtopic.php?p=457209).
 
@@ -31,7 +31,7 @@ The MiSTeryNano's current features are:
     * Blitter
   * Supports most TOS versions
   * Full IKBD implementation
-    * Mapped to USB via [FPGA Companion](https://github.com/harbaum/FPGA-Companion/)
+    * Mapped to USB via [FPGA Companion](https://github.com/MiSTle-Dev/FPGA-Companion/)
     * Mouse and keyboard via USB
     * Joystick via USB or dedicated IO pins of Tang Nano 20k
   * Floppy disk images
@@ -51,11 +51,11 @@ The MiSTeryNano's current features are:
     * [Tang Mega 138k Pro](TANG_MEGA_138K.md)
     * [Tang Console 60k/138k](TANG_CONSOLE_60K.md)	
     * [Efinix T20BGA256](src/efinix/t20_bga256/README.md)
-  * Supports different MCUs for the [FPGA Companion](https://github.com/harbaum/FPGA-Companion/)
-    * [integrated onboard BL616 MPU](https://github.com/harbaum/FPGA-Companion/tree/main/src/bl616)
-    * [M0S Dock/BL616](https://github.com/harbaum/FPGA-Companion/tree/main/src/bl616)
-    * [Raspberry Pi Pico/RP2040](https://github.com/harbaum/FPGA-Companion/tree/main/src/rp2040)
-    * [ESP32-S2 and S3](https://github.com/harbaum/FPGA-Companion/tree/main/src/esp32)
+  * Supports different MCUs for the [FPGA Companion](https://github.com/MiSTle-Dev/FPGA-Companion/)
+    * [integrated onboard BL616 MPU](https://github.com/MiSTle-Dev/FPGA-Companion/tree/main/src/bl616)
+    * [M0S Dock/BL616](https://github.com/MiSTle-Dev/FPGA-Companion/tree/main/src/bl616)
+    * [Raspberry Pi Pico/RP2040](https://github.com/MiSTle-Dev/FPGA-Companion/tree/main/src/rp2040)
+    * [ESP32-S2 and S3](https://github.com/MiSTle-Dev/FPGA-Companion/tree/main/src/esp32)
 
 ## Videos
 
@@ -94,9 +94,9 @@ These videos primarily document the progress during development:
 In order to use the MiSTeryNano the following things are needed:
 
   * Tang FPGA board like e.g. the [Tang Nano 20k](https://wiki.sipeed.com/nano20k) to run the MiSTeryNano core itself
-  * MCU board like the [M0S Dock](https://wiki.sipeed.com/hardware/en/maixzero/m0s/m0s.html) to run the [FPGA Companion](https://github.com/harbaum/FPGA-Companion/) to connect USB keyboard and mouse
+  * MCU board like the [M0S Dock](https://wiki.sipeed.com/hardware/en/maixzero/m0s/m0s.html) to run the [FPGA Companion](https://github.com/MiSTle-Dev/FPGA-Companion/) to connect USB keyboard and mouse
   * Breadboard to wire everything up and some jumper wires, or
-  * [a MiSTeryShield](https://github.com/MiSTle-Dev/Boards/misteryshield20k/)
+  * [a MiSTeryShield](https://github.com/MiSTle-Dev/Boards/tree/main/misteryshield20k/)
   * a USB-C to USB-A adapter to connect regular USB devices to the M0S Dock
 
 Many other variants can be built using various Tang FPGA boards and different MCUs. 
