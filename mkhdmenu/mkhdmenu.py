@@ -543,6 +543,37 @@ def get_size(p):
         
     return size
 
+def add_hdmenu_cfg(part):
+    print("Creating C:\\HDMENU.CFG")
+
+    data = bytearray(168)
+
+    data[0:4] = bytearray([0,0,0,3])  # version 3
+    data[4] = 0  # don't save config at exit
+    data[5] = 0  # use system default sync mode
+    data[6] = 1  # boot key goes to desktop
+    data[7] = 0  # no boot timeout
+    data[8] = 0  # keyclick off
+    data[9] = 0  # boot key scancode F10
+    data[10] = 2 # copyright timeout
+    data[11] = 0 # restore boot resolution before launching
+    data[12:16] = bytearray([0,0,0,0]) # screensaver off 
+    data[16:30] = bytearray([0x20]*14) # no external SNDH file
+    data[109] = 2 # auto set columns in text viewer
+    data[110] = 1 # text viewer mid rez
+    data[111] = 0 # vu meter off
+    data[112] = 0 # don't backup csv
+    data[113] = 0 # status line off
+    data[114] = 0 # music off (1=internal)
+    data[115] = 0 # alternative falcon video init
+    data[116] = 1 # text viewer white on black
+    data[117] = 1 # remember last game
+    
+    dt = datetime.datetime.now()
+    ftime = (dt.hour << 11) + (dt.minute << 5) + dt.second//2
+    fdate = dt.day + (dt.month << 5) + ((dt.year-1980)<<9)
+    part["files"].append( { "name": "HDMENU.CFG", "time":ftime, "date":fdate, "data":data } )
+    
 def parse_cfg_file(filename):
     cfg = { "data": [], "links": { } }
     with open(filename) as cfgfile:
@@ -578,6 +609,10 @@ def parse_cfg_file(filename):
                     cfg["links"][link[0].strip()] = link[1].strip()
                 elif cmd.lower() == "partition":
                     partition_index += 1
+                elif cmd.lower() == "cfg":
+                    cfg["hdmenu_cfg"] = True
+                elif cmd.lower() == "end":
+                    break
                 else:
                     print("Unknown command", cmd)
                     return None
@@ -587,6 +622,10 @@ def parse_cfg_file(filename):
         for i in range(partition_index+1):
             partitions.append({"size":cfg["img"]["size"]//512, "files": [], "drive": DRIVES[i] })
 
+        # create a hdmenu.cfg if requested
+        if "hdmenu_cfg" in cfg and cfg["hdmenu_cfg"]:
+            add_hdmenu_cfg(partitions[0])
+        
         # import all src items
         for item in cfg["data"]:            
             p = import_item(partitions, item["url"], item["path"] if "path" in item else item["partition_index"])
