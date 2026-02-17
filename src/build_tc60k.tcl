@@ -76,14 +76,13 @@ add_file misc/atarist_keymap.v
 add_file misc/dualshock2.v
 add_file misterynano.sv
 add_file tang/console60k/flash_dspi.v
-add_file tang/mega138k/sdram.v
+add_file tang/mega138kpro/sdram.v
 add_file tang/console60k/top.sv
 add_file tang/nano20k/video.v
 add_file tang/nano20k/video2hdmi.v
 add_file tang/nano20k/ws2812.v
-add_file tang/mega138k/gowin_clkdiv/gowin_clkdiv.v
-add_file tang/mega138k/gowin_dpb/fdc_dpram.v
-add_file tang/mega138k/gowin_dpb/sector_dpram.v
+add_file tang/mega138kpro/gowin_dpb/fdc_dpram.v
+add_file tang/mega138kpro/gowin_dpb/sector_dpram.v
 add_file tang/console60k/gowin_pll/flash_pll.v
 add_file tang/console60k/gowin_pll/pll_160m.v
 add_file tang/console60k/atarist.cst
@@ -98,18 +97,11 @@ set_option -output_base_name atarist_tc60k
 set_option -verilog_std sysv2017
 set_option -top_module top
 set_option -use_mspi_as_gpio 1
+set_option -use_jtag_as_gpio 1
 set_option -use_sspi_as_gpio 1
 set_option -use_done_as_gpio 1
 set_option -use_i2c_as_gpio 1
 set_option -use_cpu_as_gpio 1
 set_option -use_ready_as_gpio 1
-set_option -use_jtag_as_gpio 1
-set_option -show_all_warn 1
-set_option -bit_compress 1
-set_option -vccx 1.8
-set_option -vcc 0.9
-set_option -multi_boot 0
-set_option -mspi_jump 0
-set_option -cst_warn_to_error 1
 
 run all

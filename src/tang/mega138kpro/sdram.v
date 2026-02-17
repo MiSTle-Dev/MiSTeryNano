@@ -83,19 +83,18 @@ assign ready = !(|init_state);
 // ---------------------------------------------------------------------
 
 // all possible commands
-localparam CMD_INHIBIT         = 4'b1111;
-localparam CMD_NOP             = 4'b0111;
-localparam CMD_ACTIVE          = 4'b0011;
-localparam CMD_READ            = 4'b0101;
-localparam CMD_WRITE           = 4'b0100;
-localparam CMD_BURST_TERMINATE = 4'b0110;
-localparam CMD_PRECHARGE       = 4'b0010;
-localparam CMD_AUTO_REFRESH    = 4'b0001;
-localparam CMD_LOAD_MODE       = 4'b0000;
+localparam CMD_NOP             = 3'b111;
+localparam CMD_ACTIVE          = 3'b011;
+localparam CMD_READ            = 3'b101;
+localparam CMD_WRITE           = 3'b100;
+localparam CMD_BURST_TERMINATE = 3'b110;
+localparam CMD_PRECHARGE       = 3'b010;
+localparam CMD_AUTO_REFRESH    = 3'b001;
+localparam CMD_LOAD_MODE       = 3'b000;
 
-reg [3:0] sd_cmd;   // current command sent to sd ram
+reg [2:0] sd_cmd;   // current command sent to sd ram
 // drive control signals according to current command
-assign sd_cs  = sd_cmd[3];
+assign sd_cs  = 1'b0;   
 assign sd_ras = sd_cmd[2];
 assign sd_cas = sd_cmd[1];
 assign sd_we  = sd_cmd[0];
@@ -106,7 +105,7 @@ assign sd_dqm = { 2'bzz, (!cs || !we)?2'b00:ds };
 
 always @(posedge clk) begin
    reg csD;   
-   sd_cmd <= CMD_INHIBIT;  // default: idle
+   sd_cmd <= CMD_NOP;  // default: idle
 
    // init state machines runs once reset ends
    if(!reset_n) begin

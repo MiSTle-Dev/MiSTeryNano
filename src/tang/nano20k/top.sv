@@ -215,10 +215,25 @@ misterynano misterynano (
   .audio ( audio )
 );
 
-video2hdmi video2hdmi (
-    .clk      ( clk      ),       // 27 Mhz clock in
-    .clk_32   ( clk32    ),       // 32 Mhz clock out
-    .pll_lock ( pll_lock_hdmi ),  // output clock is stable
+wire		clk_pixel_x5;
+wire		clk_pixel;   
+pll_160m pll_hdmi (
+               .clkout(clk_pixel_x5),
+               .lock(pll_lock_hdmi),
+               .clkin(clk)
+               );
+   
+Gowin_CLKDIV clk_div_5 (
+        .hclkin(clk_pixel_x5),  // input hclkin
+        .resetn(pll_lock_hdmi), // input resetn
+        .clkout(clk_pixel)      // output clkout
+    );
+
+assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock
+
+video2hdmi #(.PIXEL_CLOCK(32_000_000)) video2hdmi (
+    .clk_pixel_x5 ( clk_pixel_x5  ),      // hdmi clock
+    .clk_pixel    ( clk_pixel     ),      // pixel clock
 
     .vreset ( vreset ),
     .vmode ( vmode ),

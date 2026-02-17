@@ -75,7 +75,6 @@ add_file misc/sysctrl.v
 add_file misc/video_analyzer.v
 add_file misc/atarist_keymap.v
 add_file tang/primer25k/flash_dspi.v
-add_file tang/primer25k/gowin_clkdiv/gowin_clkdiv.v
 add_file tang/primer25k/gowin_dpb/fdc_dpram.v
 add_file tang/primer25k/gowin_dpb/sector_dpram.v
 add_file tang/primer25k/gowin_pll/flash_pll.v
@@ -98,11 +97,10 @@ set_option -verilog_std sysv2017
 set_option -top_module top
 set_option -use_mspi_as_gpio 1
 set_option -use_sspi_as_gpio 1
+set_option -use_jtag_as_gpio 1
 set_option -use_done_as_gpio 1
 set_option -use_cpu_as_gpio 1
 set_option -use_i2c_as_gpio 1
 set_option -use_ready_as_gpio 1
-set_option -use_jtag_as_gpio 1
-set_option -bit_compress 1
 
 run all

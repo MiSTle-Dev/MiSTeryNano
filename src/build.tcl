@@ -95,13 +95,10 @@ add_file misc/atarist_xml.hex
 set_option -synthesis_tool gowinsynthesis
 set_option -output_base_name atarist
 set_option -verilog_std sysv2017
+set_option -loading_rate 25.000
 set_option -top_module top
 set_option -use_mspi_as_gpio 1
 set_option -use_sspi_as_gpio 1
-set_option -use_jtag_as_gpio 1
-set_option -show_all_warn 1
-set_option -cst_warn_to_error 1
-set_option -multi_boot 0
-set_option -mspi_jump 0
+set_option -bit_compress 1
 
 run all

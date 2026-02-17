@@ -80,8 +80,8 @@ always @(posedge clk) begin
    vreset <= 1'b0;
    // account for back porches to adjust image position within the HDMI frame
    if( (hcnt == (wide?204:244) && vcnt == 36 && changed && mode == 2'd2) ||
-       (hcnt == (wide?112:152) && vcnt == 28 && changed && mode == 2'd1) ||
-       (hcnt == (wide?112:152) && vcnt == 18 && changed && mode == 2'd0) ) begin
+       (hcnt == (wide?121:161) && vcnt == 26 && changed && mode == 2'd1) ||
+       (hcnt == (wide?121:161) && vcnt == 18 && changed && mode == 2'd0) ) begin
       vreset <= 1'b1;
       changed <= 1'b0;
    end

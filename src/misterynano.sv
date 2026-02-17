@@ -177,10 +177,10 @@ wire       system_tos_slot;
 assign por = !pll_lock_main;
 `else
 wire pll_lock_flash;   
-wire flash_clk;      // 100.265 MHz SPI flash clock
+wire flash_clk;      // 100 MHz SPI flash clock
 flash_pll flash_pll (
         .clkout( flash_clk ),
-        .clkoutp( mspi_clk ),   // shifted by -22.5/335.5 deg
+        .clkoutp( mspi_clk ),   // shifted by 22.5 deg
         .lock(pll_lock_flash),
         .clkin(clk)
     );

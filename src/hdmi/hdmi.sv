@@ -69,11 +69,6 @@ logic [1:0] invert;
 // Frame height should be 625/525, but has to be 626/526 for Atari ST
 // in PAL/NTSC mode
 
-// The w.... timing variants are using some modified timing and may look
-// on wide screens. Since the displayed area of these is wider than the
-// actual data to be displayed, the start value indicated the number of
-// (black) pixels before the active area starts
-
 // Atari ST mode table:
 //                          frame   screen s_start   s_len
 // NTSC    848x484@60Hz  aspect 1.75    
@@ -107,6 +102,7 @@ wire [91:0] timing =
 wire [10:0] wide_extra_width  = wide?11'd80:11'd0;
 
 wire [10:0] frame_width       = timing[91:81];
+wire [10:0] screen_width_real = timing[80:70];   
 wire [10:0] screen_width      = timing[80:70] + wide_extra_width;   
 wire [10:0] hsync_pulse_start = timing[69:59];
 wire [10:0] hsync_pulse_size  = timing[58:48];
@@ -255,7 +251,7 @@ generate
             else
             begin
                 mode <= data_island_guard ? 3'd4 : data_island_period ? 3'd3 : video_guard ? 3'd2 : video_data_period ? 3'd1 : 3'd0;
-                video_data <= rgb;
+                video_data <= (cx >= wide_extra_width/2 && cx < (screen_width_real + wide_extra_width/2) && cy < screen_height)?rgb:24'h000000;
                 control_data <= {{1'b0, data_island_preamble}, {1'b0, video_preamble || data_island_preamble}, {vsync, hsync}}; // ctrl3, ctrl2, ctrl1, ctrl0, vsync, hsync
                 data_island_data[11:4] <= packet_data[8:1];
                 data_island_data[3] <= cx != 0;

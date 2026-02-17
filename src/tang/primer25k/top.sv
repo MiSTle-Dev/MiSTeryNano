@@ -153,7 +153,7 @@ misterynano misterynano (
   .mspi_do   ( mspi_do   ),
 
   // SDRAM
-  .sdram_clk   ( O_sdram_clk    ),
+  .sdram_clk   ( ),
   .sdram_cke   ( ),
   .sdram_cs_n  ( O_sdram_cs_n   ), // chip select
   .sdram_cas_n ( O_sdram_cas_n  ), // column address select
@@ -199,11 +199,22 @@ misterynano misterynano (
   .audio ( audio )
 );
 
-video2hdmi video2hdmi (
-    .clk      ( clk      ),       // clock in
-    .clk_32   ( clk32    ),       // 32 Mhz clock out
-    .pll_lock ( pll_lock_hdmi ),  // output clock is stable
+wire	   clk_pixel_x5;
+wire	   clk_pixel;   
+pll_160m pll_hdmi (
+               .clkout(clk_pixel_x5),        // 158.333 MHz
+               .clkout1(clk_pixel),          // 31.66 MHz
+               .clkout2(O_sdram_clk),        // 31.66 MHz, shifted by 337,5°
+               .lock(pll_lock_hdmi),
+               .clkin(clk)
+	       );
 
+assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock
+
+video2hdmi #(.PIXEL_CLOCK(31_666_666)) video2hdmi (
+    .clk_pixel_x5 ( clk_pixel_x5  ),      // hdmi clock
+    .clk_pixel    ( clk_pixel     ),      // pixel clock
+  
     .vreset ( vreset ),
     .vmode ( vmode ),
     .vwide ( vwide ),

@@ -1,51 +1,29 @@
 // video2hdmi.v
 
-// this also generates the 32 Mhz main system clock as the 
-// hdmi need 5 times that
-
 module video2hdmi (
-	      input	       clk,      // 27 Mhz in
+          input clk_pixel_x5,   // 160 MHz HDMI clock
+          input clk_pixel,      // at 800x576@50Hz the pixel clock is 32 MHz
 	      
-	      output	   clk_32,   // 32 Mhz out
-	      output	   pll_lock,
-
           // video control inputs
           input        vreset,   // top/left pixel reached
           input [1:0]  vmode,    // Atari ST video mode
           input        vwide,    // request display on wide (16:9) screen
 
-	      input [5:0]  r,
-	      input [5:0]  g,
-	      input [5:0]  b,
+          input [5:0]  r,
+	  input [5:0]  g,
+	  input [5:0]  b,
 
           // audio is encoded into the video
           input [15:0] audio[2],
 
-	      // hdmi/tdms
-	      output	   tmds_clk_n,
-	      output	   tmds_clk_p,
-	      output [2:0] tmds_d_n,
-	      output [2:0] tmds_d_p  
+	  // hdmi/tdms
+	  output       tmds_clk_n,
+	  output       tmds_clk_p,
+	  output [2:0] tmds_d_n,
+	  output [2:0] tmds_d_p  
 );
-   
-wire clk_pixel_x5;   // 160 MHz HDMI clock
-wire clk_pixel;      // at 800x576@50Hz the pixel clock is 32 MHz
 
-assign clk_32 = clk_pixel;
-    
-`define PIXEL_CLOCK 32000000
-pll_160m pll_hdmi (
-               .clkout(clk_pixel_x5),
-               .lock(pll_lock),
-               .clkin(clk)
-	       );
-   
-Gowin_CLKDIV clk_div_5 (
-        .hclkin(clk_pixel_x5), // input hclkin
-        .resetn(pll_lock),     // input resetn
-        .clkout(clk_pixel)     // output clkout
-    );
-
+parameter          PIXEL_CLOCK = 32_000_000;   
 
 /* -------------------- HDMI video and audio -------------------- */
 
@@ -53,8 +31,7 @@ Gowin_CLKDIV clk_div_5 (
 reg clk_audio;
 reg [8:0] aclk_cnt;
 always @(posedge clk_pixel) begin
-    // divisor = pixel clock / 48000 / 2 - 1
-    if(aclk_cnt < `PIXEL_CLOCK / 48000 / 2 -1)
+    if(aclk_cnt < PIXEL_CLOCK / 48000 / 2 -1)
         aclk_cnt <= aclk_cnt + 9'd1;
     else begin
         aclk_cnt <= 9'd0;

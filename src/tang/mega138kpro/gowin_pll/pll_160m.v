@@ -5,16 +5,16 @@
 //Part Number: GW5AST-LV138FPG676AES
 //Device: GW5AST-138B
 //Device Version: B
-//Created Time: Fri Feb 23 19:09:41 2024
+//Created Time: Mon Feb 26 08:15:45 2024
 
-module flash_pll (lock, clkout, clkoutp, clkin);
+module pll_160m (lock, clkout, clkout1, clkout2, clkin);
 
 output lock;
 output clkout;
-output clkoutp;
+output clkout1;
+output clkout2;
 input clkin;
 
-wire clkout2;
 wire clkout3;
 wire clkout4;
 wire clkout5;
@@ -29,7 +29,7 @@ assign gw_gnd = 1'b0;
 PLL PLL_inst (
     .LOCK(lock),
     .CLKOUT0(clkout),
-    .CLKOUT1(clkoutp),
+    .CLKOUT1(clkout1),
     .CLKOUT2(clkout2),
     .CLKOUT3(clkout3),
     .CLKOUT4(clkout4),
@@ -80,20 +80,20 @@ PLL PLL_inst (
 defparam PLL_inst.FCLKIN = "50";
 defparam PLL_inst.IDIV_SEL = 1;
 defparam PLL_inst.FBDIV_SEL = 1;
-defparam PLL_inst.ODIV0_SEL = 8;
-defparam PLL_inst.ODIV1_SEL = 8;
-defparam PLL_inst.ODIV2_SEL = 8;
-defparam PLL_inst.ODIV3_SEL = 8;
+defparam PLL_inst.ODIV0_SEL = 6;
+defparam PLL_inst.ODIV1_SEL = 30;
+defparam PLL_inst.ODIV2_SEL = 30;
+defparam PLL_inst.ODIV3_SEL = 15;
 defparam PLL_inst.ODIV4_SEL = 8;
 defparam PLL_inst.ODIV5_SEL = 8;
 defparam PLL_inst.ODIV6_SEL = 8;
-defparam PLL_inst.MDIV_SEL = 16;
+defparam PLL_inst.MDIV_SEL = 19;
 defparam PLL_inst.MDIV_FRAC_SEL = 0;
 defparam PLL_inst.ODIV0_FRAC_SEL = 0;
 defparam PLL_inst.CLKOUT0_EN = "TRUE";
 defparam PLL_inst.CLKOUT1_EN = "TRUE";
-defparam PLL_inst.CLKOUT2_EN = "FALSE";
-defparam PLL_inst.CLKOUT3_EN = "FALSE";
+defparam PLL_inst.CLKOUT2_EN = "TRUE";
+defparam PLL_inst.CLKOUT3_EN = "TRUE";
 defparam PLL_inst.CLKOUT4_EN = "FALSE";
 defparam PLL_inst.CLKOUT5_EN = "FALSE";
 defparam PLL_inst.CLKOUT6_EN = "FALSE";
@@ -123,10 +123,10 @@ defparam PLL_inst.CLK6_OUT_SEL = 1'b0;
 defparam PLL_inst.DYN_DPA_EN = "FALSE";
 defparam PLL_inst.CLKOUT0_PE_COARSE = 0;
 defparam PLL_inst.CLKOUT0_PE_FINE = 0;
-defparam PLL_inst.CLKOUT1_PE_COARSE = 1;
+defparam PLL_inst.CLKOUT1_PE_COARSE = 0;
 defparam PLL_inst.CLKOUT1_PE_FINE = 0;
-defparam PLL_inst.CLKOUT2_PE_COARSE = 0;
-defparam PLL_inst.CLKOUT2_PE_FINE = 0;
+defparam PLL_inst.CLKOUT2_PE_COARSE = 28;
+defparam PLL_inst.CLKOUT2_PE_FINE = 1;
 defparam PLL_inst.CLKOUT3_PE_COARSE = 0;
 defparam PLL_inst.CLKOUT3_PE_FINE = 0;
 defparam PLL_inst.CLKOUT4_PE_COARSE = 0;
@@ -172,4 +172,4 @@ defparam PLL_inst.DYN_DT3_SEL = "FALSE";
 defparam PLL_inst.DYN_ICP_SEL = "FALSE";
 defparam PLL_inst.DYN_LPF_SEL = "FALSE";
 
-endmodule //flash_pll
+endmodule //pll_160m
