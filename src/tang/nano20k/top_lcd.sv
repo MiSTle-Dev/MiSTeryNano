@@ -70,6 +70,9 @@ module top(
 // generates the 32MHz directly
 wire clk32;
 wire pll_lock_32m;
+wire pll_lock_flash;
+wire pll_lock =  pll_lock_32m && pll_lock_flash;
+wire por = !pll_lock;
 
 pll_32m pll_32m (
     .clkout( clk32 ),
@@ -77,6 +80,13 @@ pll_32m pll_32m (
     .clkin(clk)
 );
 
+flash_pll pll_flash (
+			   .clkout(flash_clk),     // 100 Mhz
+			   .clkoutp(mspi_clk),     // -"- shifted by 22.5 deg
+               .lock(pll_lock_flash),
+               .clkin(clk)
+               );
+   
 // power on reset is returned by misterynano whenever all plls
 // are up and running.
 wire por;
@@ -96,7 +106,7 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),
-  .pll_lock_main( pll_lock_32m ),
+  .flash_clk ( flash_clk ),
   .por   ( por ),  
 
   .leds_n ( leds_n ),
@@ -104,7 +114,6 @@ misterynano misterynano (
 
   // spi flash interface
   .mspi_cs   ( mspi_cs   ),
-  .mspi_clk  ( mspi_clk  ),
   .mspi_di   ( mspi_di   ),
   .mspi_hold ( mspi_hold ),
   .mspi_wp   ( mspi_wp   ),

@@ -104,17 +104,18 @@ assign bl616_rx = 1'b0;          // from PMOD to BL616, nowadays unused
 assign uart_ext_tx = bl616_tx;   // from BL616 to PMOD
 
 wire clk32;
-wire pll_lock_hdmi;
-wire por; 
+wire pll_lock;
+wire flash_clk;
+wire por = !pll_lock; 
 
 reg     spi_ext = 1'b0;       // set when the external SPI interface on PMOD is active
 reg boot_button_detected = 1'b1;
-always @(posedge pll_lock_hdmi)
+always @(posedge pll_lock)
   boot_button_detected <= !user_n || !reset_n;   
 
 // enable JTAG if any button has been pressed during boot and also once
 // the external FPGA Companion has been seen
-assign jtagseln = !(!pll_lock_hdmi || boot_button_detected || spi_ext || bl616_jtagsel);
+assign jtagseln = !(!pll_lock || boot_button_detected || spi_ext || bl616_jtagsel);
 // -------------------------- FPGA Companion interface -----------------------
 
 // map output data onto both spi outputs
@@ -133,7 +134,7 @@ assign pmod_companion_intn = spi_intn;
 // a select from the external spi, then the connection is
 // being switched
 always @(posedge clk) begin
-    if(!pll_lock_hdmi)
+    if(!pll_lock)
         spi_ext = 1'b0;
     else begin
         // spi_ext is activated once the m0s pins 2 (ss or csn) is
@@ -240,15 +241,14 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .pll_lock_main( pll_lock_hdmi),
-  .por   ( por ),           // output. True while not all PLLs locked
+  .flash_clk ( flash_clk ),         // 32 Mhz system clock input
+  .por(por),
 
   .leds_n ( leds_int_n ),
   .ws2812 ( ws2812 ),
 
   // spi flash interface
   .mspi_cs   ( mspi_cs   ),
-  .mspi_clk  ( mspi_clk  ),
   .mspi_di   ( mspi_di   ),
   .mspi_hold ( mspi_hold ),
   .mspi_wp   ( mspi_wp   ),
@@ -305,13 +305,36 @@ misterynano misterynano (
 // ========================= clock generation =======================
 // ==================================================================
 
+/*
+Input clock: 50 Mhz
+pf: 950.0 Mhz
+Output0:
+  Freq: 158.33333333333334 Mhz
+  Phase: 0.0°
+Output1:
+  Freq: 31.666666666666668 Mhz
+  Phase: 0.0°
+Output2:
+  Freq: 31.666666666666668 Mhz
+  Phase: 337.5°
+Output3:
+  Freq: 95.0 Mhz
+  Phase: 0.0°
+Output4:
+  Freq: 95.0 Mhz
+  Phase: 22.5°
+*/
+ 
 wire	   clk_pixel_x5;
-wire	   clk_pixel;   
+wire	   clk_pixel; 
+  
 pll_160m pll_hdmi (
                .clkout(clk_pixel_x5),        // 158.333 MHz
                .clkout1(clk_pixel),          // 31.66 MHz
                .clkout2(O_sdram_clk),        // 31.66 MHz, shifted by 337,5°
-               .lock(pll_lock_hdmi),
+               .clkout3(flash_clk),          // 95 MHz
+               .clkout4(mspi_clk),           // 95 MHz, shifted by 22,5°
+               .lock(pll_lock),
                .clkin(clk)
 	       );
 

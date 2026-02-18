@@ -82,7 +82,10 @@ assign bl616_mon_tx = uart_rx;
 
 wire clk32;
 wire pll_lock_hdmi;
-wire por; 
+wire pll_lock_flash;
+wire pll_lock =  pll_lock_hdmi && pll_lock_flash;
+wire por = !pll_lock;
+
 
 // On the Tang Nano 20k we support two different MCU setups. Once uses the internal
 // BL616 of the Tang Nano 20k and one uses an external M0S Dock. The MCU control signals
@@ -147,15 +150,14 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .pll_lock_main( pll_lock_hdmi),
-  .por   ( por ),           // output. True while not all PLLs locked
+  .flash_clk ( flash_clk ),
+  .por   ( por ),
 
   .leds_n ( leds_n ),
   .ws2812 ( ws2812 ),
 
   // spi flash interface
   .mspi_cs   ( mspi_cs   ),
-  .mspi_clk  ( mspi_clk  ),
   .mspi_di   ( mspi_di   ),
   .mspi_hold ( mspi_hold ),
   .mspi_wp   ( mspi_wp   ),
@@ -222,7 +224,14 @@ pll_160m pll_hdmi (
                .lock(pll_lock_hdmi),
                .clkin(clk)
                );
-   
+
+flash_pll pll_flash (
+               .clkout(flash_clk),     // 100 Mhz
+			   .clkoutp(mspi_clk),     // -"- shifted by 22.5 deg
+               .lock(pll_lock_flash),
+               .clkin(clk)
+               );
+
 Gowin_CLKDIV clk_div_5 (
         .hclkin(clk_pixel_x5),  // input hclkin
         .resetn(pll_lock_hdmi), // input resetn

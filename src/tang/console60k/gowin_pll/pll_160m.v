@@ -7,16 +7,16 @@
 //Device Version: B
 //Created Time: Wed Mar 26 13:05:43 2025
 
-module pll_160m (lock, clkout, clkout1, clkout2, clkin);
+module pll_160m (lock, clkout, clkout1, clkout2,  clkout3, clkout4, clkin);
 
 output lock;
 output clkout;
 output clkout1;
 output clkout2;
+output clkout3;
+output clkout4;
 input clkin;
 
-wire clkout3;
-wire clkout4;
 wire clkout5;
 wire clkout6;
 wire clkfbout;
@@ -61,8 +61,8 @@ defparam PLLA_inst.FBDIV_SEL = 1;
 defparam PLLA_inst.ODIV0_SEL = 6;
 defparam PLLA_inst.ODIV1_SEL = 30;
 defparam PLLA_inst.ODIV2_SEL = 30;
-defparam PLLA_inst.ODIV3_SEL = 8;
-defparam PLLA_inst.ODIV4_SEL = 8;
+defparam PLLA_inst.ODIV3_SEL = 10;
+defparam PLLA_inst.ODIV4_SEL = 10;
 defparam PLLA_inst.ODIV5_SEL = 8;
 defparam PLLA_inst.ODIV6_SEL = 8;
 defparam PLLA_inst.MDIV_SEL = 19;
@@ -71,8 +71,8 @@ defparam PLLA_inst.ODIV0_FRAC_SEL = 0;
 defparam PLLA_inst.CLKOUT0_EN = "TRUE";
 defparam PLLA_inst.CLKOUT1_EN = "TRUE";
 defparam PLLA_inst.CLKOUT2_EN = "TRUE";
-defparam PLLA_inst.CLKOUT3_EN = "FALSE";
-defparam PLLA_inst.CLKOUT4_EN = "FALSE";
+defparam PLLA_inst.CLKOUT3_EN = "TRUE";
+defparam PLLA_inst.CLKOUT4_EN = "TRUE";
 defparam PLLA_inst.CLKOUT5_EN = "FALSE";
 defparam PLLA_inst.CLKOUT6_EN = "FALSE";
 defparam PLLA_inst.CLKFB_SEL = "INTERNAL";
@@ -108,7 +108,7 @@ defparam PLLA_inst.CLKOUT2_PE_FINE = 1;
 defparam PLLA_inst.CLKOUT3_PE_COARSE = 0;
 defparam PLLA_inst.CLKOUT3_PE_FINE = 0;
 defparam PLLA_inst.CLKOUT4_PE_COARSE = 0;
-defparam PLLA_inst.CLKOUT4_PE_FINE = 0;
+defparam PLLA_inst.CLKOUT4_PE_FINE = 5;
 defparam PLLA_inst.CLKOUT5_PE_COARSE = 0;
 defparam PLLA_inst.CLKOUT5_PE_FINE = 0;
 defparam PLLA_inst.CLKOUT6_PE_COARSE = 0;

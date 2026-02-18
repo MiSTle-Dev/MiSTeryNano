@@ -91,8 +91,9 @@ assign uart_tx = bl616_mon_rx;
 assign bl616_mon_tx = uart_rx;
 
 wire clk32;
-wire pll_lock_hdmi;
-wire por; 
+wire flash_clk;
+wire pll_lock;
+wire por = !pll_lock; 
 
 // intn and dout are outputs driven by the FPGA to the MCU
 // din, ss and clk are inputs coming from the MCU
@@ -218,15 +219,14 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .pll_lock_main( pll_lock_hdmi),
-  .por   ( por ),           // output. True while not all PLLs locked
+  .flash_clk ( flash_clk ), // 95 Mhz flash clock
+  .por   ( por ),           // True while not all PLLs locked
 
   .leds_n ( leds_int_n ),
   .ws2812 ( ),
 
   // spi flash interface
   .mspi_cs   ( mspi_cs   ),
-  .mspi_clk  ( mspi_clk  ),
   .mspi_di   ( mspi_di   ),
   .mspi_hold ( mspi_hold ),
   .mspi_wp   ( mspi_wp   ),
@@ -289,7 +289,9 @@ pll_160m pll_hdmi (
                .clkout(clk_pixel_x5),        // 158.333 MHz
                .clkout1(clk_pixel),          // 31.66 MHz
                .clkout2(O_sdram_clk),        // 31.66 MHz, shifted by 337,5°
-               .lock(pll_lock_hdmi),
+               .clkout3(flash_clk),          // 95 MHz
+               .clkout4(mspi_clk),           // 95 MHz, shifted by 22,5°
+               .lock(pll_lock),
                .clkin(clk)
 	       );
 

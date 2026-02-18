@@ -9,16 +9,13 @@ module misterynano #(
   parameter		EXTERNAL_PARPORT = 1'b0 // set to 1 to enable external parport
 ) (
   input			clk,
-`ifdef EFINIX
-  // with efinix, all plls are toplevel
   input			flash_clk, // 100 MHz SPI flash clock
-`endif
+
   input			reset, // S2
   input			user, // S1
 
   input			clk32,
-  input			pll_lock_main,
-  output		por, // power on-reset (! all PLL's locked)
+  input			por, // power on-reset (! all PLL's locked)
 
   output [5:0]	leds_n,
   output		ws2812,
@@ -33,7 +30,6 @@ module misterynano #(
   output		mspi_do_out,
   output		mspi_do_oe,
 `else
-  output		mspi_clk,
   inout			mspi_di,
   inout			mspi_hold,
   inout			mspi_wp,
@@ -170,24 +166,6 @@ wire [1:0] system_port_mouse;
 wire [1:0] system_port_joy;
 wire       system_tos_slot;
    
-/* -------------- clock generation --------------- */
-
-`ifdef EFINIX
-// in Efinix FPGAs the clock generation and PLLs are external.
-assign por = !pll_lock_main;
-`else
-wire pll_lock_flash;   
-wire flash_clk;      // 100 MHz SPI flash clock
-flash_pll flash_pll (
-        .clkout( flash_clk ),
-        .clkoutp( mspi_clk ),   // shifted by 22.5 deg
-        .lock(pll_lock_flash),
-        .clkin(clk)
-    );
-wire pll_lock = pll_lock_main && pll_lock_flash;
-assign por = !pll_lock;
-`endif
-    
 /* -------------------- flash -------------------- */  
 
 wire rom_n;
