@@ -1,4 +1,4 @@
-set_device GW5AT-LV60PG484AC1/I0 -name GW5AT-60B
+set_device GW5AT-LV60PG484AC1/I0 -device_version B
 
 add_file atarist/acia.v
 add_file atarist/acsi.v
@@ -102,5 +102,27 @@ set_option -use_done_as_gpio 1
 set_option -use_i2c_as_gpio 1
 set_option -use_cpu_as_gpio 1
 set_option -use_ready_as_gpio 1
+set_option -use_mode_as_gpio 0
+set_option -rw_check_on_ram 0
+set_option -user_code 00000002
+set_option -bit_compress 1
+set_option -vccx 1.8
+set_option -vcc 0.9
+set_option -multi_boot 0
+set_option -mspi_jump 0
+set_option -place_option 2
+set_option -route_option 1
+set_option -ireg_in_iob 1
+set_option -oreg_in_iob 1
+set_option -ioreg_in_iob 1
+set_option -power_on_reset_monitor 1
+set_option -timing_driven 1
+set_option -cst_warn_to_error 1
+set_option -rpt_auto_place_io_info 1
+set_option -convert_sdp32_36_to_sdp16_18 1
+set_option -correct_hold_violation 1
+set_option -loading_rate 70.000
+set_option -bit_incl_bsram_init 1
+set_option -show_all_warn 1
 
 run all
