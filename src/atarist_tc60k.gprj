@@ -83,6 +83,8 @@
         <File path="tang/console60k/flash_dspi.v" type="file.verilog" enable="1"/>
         <File path="tang/console60k/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
         <File path="tang/console60k/top.sv" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
         <File path="tang/mega138kpro/sdram.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video2hdmi.v" type="file.verilog" enable="1"/>
@@ -93,7 +95,5 @@
         <File path="fx68k/nanorom.mem" type="file.other" enable="1"/>
         <File path="ikbd/rom/ikbd.hex" type="file.other" enable="1"/>
         <File path="misc/atarist_xml.hex" type="file.other" enable="1"/>
-        <File path="tang/mega138kpro/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138kpro/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
     </FileList>
 </Project>

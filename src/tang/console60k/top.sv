@@ -137,7 +137,7 @@ assign pmod_companion_intn = spi_intn;
 // by default the internal SPI is being used. Once there is
 // a select from the external spi, then the connection is
 // being switched
-always @(posedge clk32) begin
+always @(posedge clk) begin
     if(!pll_lock)
         spi_ext = 1'b0;
     else begin
@@ -235,8 +235,6 @@ end
 assign i2s_bclk = clk_audio;
 assign i2s_lrck = por?1'b0:audio_bit_cnt[4];
 assign i2s_din = por?1'b0:audio[i2s_lrck][15-audio_bit_cnt[3:0]];
-
-wire [5:0] leds_int_n;
    
 misterynano misterynano (
   .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
