@@ -76,14 +76,16 @@ add_file misc/atarist_keymap.v
 add_file misc/dualshock2.v
 add_file misterynano.sv
 add_file tang/console60k/flash_dspi.v
-add_file tang/mega138k/sdram.v
+add_file tang/mega138kpro/sdram.v
 add_file tang/console138k/top.sv
 add_file tang/nano20k/video.v
 add_file tang/nano20k/video2hdmi.v
 add_file tang/nano20k/ws2812.v
 add_file tang/mega138kpro/gowin_dpb/fdc_dpram.v
 add_file tang/mega138kpro/gowin_dpb/sector_dpram.v
-add_file tang/mega138kpro/gowin_pll/pll_160m.v
+add_file tang/console138k/gowin_pll/pll_160m.v
+add_file tang/console138k/gowin_pll/pll_160m_mod.v
+add_file tang/console138k/pll_init.v
 add_file tang/console138k/atarist.cst
 add_file tang/console138k/atarist.sdc
 add_file fx68k/microrom.mem
@@ -104,12 +106,15 @@ set_option -use_jtag_as_gpio 1
 set_option -use_mode_as_gpio 0
 set_option -use_i2c_as_gpio 0
 set_option -print_all_synthesis_warning 0
-set_option -show_all_warn 1
+set_option -show_all_warn 0
 set_option -rw_check_on_ram 0
+set_option -user_code 00000002
 set_option -bit_compress 1
 set_option -multi_boot 0
 set_option -mspi_jump 0
 set_option -turn_off_bg 0
+set_option -vccx 1.8
+set_option -vcc 0.9
 set_option -power_on_reset_monitor 1
 set_option -timing_driven 1
 set_option -cst_warn_to_error 1
