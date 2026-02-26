@@ -13,11 +13,11 @@ module top(
   output [1:0]	leds_n,
 
   // interface to Tang onboard BL616 UART
-  input			uart_rx,
-  output		uart_tx,
+  //input		uart_rx,
+  //output		uart_tx,
   // onboard Bl616 monitor console port interface
-  output		bl616_mon_tx,
-  input			bl616_mon_rx,
+  //output		bl616_mon_tx,
+  //input			bl616_mon_rx,
 
   // spi flash interface
   output		mspi_cs,
@@ -69,9 +69,9 @@ module top(
   output		spi_irqn,
 
   // debug uart from/to BL616
-  input			bl616_reconfig,
+  //input			bl616_reconfig,
   input			bl616_tx,
-  output		bl616_rx,
+  //output		bl616_rx,
   // external UART signals, the BL616 UART is bridged to
   output		uart_ext_tx,
 
@@ -128,8 +128,8 @@ wire spi_intn;
 
 // intn and dout are outputs driven by the FPGA to the MCU
 // din, ss and clk are inputs coming from the MCU
-assign spi_dir = spi_io_dout;
-assign spi_irqn = spi_intn;
+assign spi_dir = pll_lock?spi_io_dout:1'b1;
+assign spi_irqn = pll_lock?spi_intn:1'b1;
 
 assign pmod_companion_dout = spi_io_dout;
 assign pmod_companion_intn = spi_intn;
@@ -311,13 +311,14 @@ assign lcd_b[1:0] = 2'b00;
 wire	   clk_pixel_x5;
 wire	   clk_pixel;   
 pll_160m pll_hdmi (
-               .clkout(clk_pixel_x5),        // 158.333 MHz
+               .clkout0(clk_pixel_x5),       // 158.333 MHz
                .clkout1(clk_pixel),          // 31.66 MHz
                .clkout2(O_sdram_clk),        // 31.66 MHz, shifted by 337,5°
                .clkout3(flash_clk),          // 95 MHz
                .clkout4(mspi_clk),           // 95 MHz, shifted by 22,5°
                .lock(pll_lock),
-               .clkin(clk)
+               .clkin(clk),
+               .mdclk(clk)
 	       );
 
 assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock

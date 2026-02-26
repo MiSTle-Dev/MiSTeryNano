@@ -84,6 +84,8 @@ add_file tang/nano20k/ws2812.v
 add_file tang/mega138kpro/gowin_dpb/fdc_dpram.v
 add_file tang/mega138kpro/gowin_dpb/sector_dpram.v
 add_file tang/console60k/gowin_pll/pll_160m.v
+add_file tang/console60k/gowin_pll/pll_160m_mod.v
+add_file tang/console60k/pll_init.v
 add_file tang/console60k/atarist.cst
 add_file tang/console60k/atarist.sdc
 add_file fx68k/microrom.mem
