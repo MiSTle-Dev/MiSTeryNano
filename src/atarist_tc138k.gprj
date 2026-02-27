@@ -79,18 +79,20 @@
         <File path="misc/sdcmd_ctrl.v" type="file.verilog" enable="1"/>
         <File path="misc/sysctrl.v" type="file.verilog" enable="1"/>
         <File path="misc/video_analyzer.v" type="file.verilog" enable="1"/>
-        <File path="tang/console138k_bl616/gowin_pll/flash_pll.v" type="file.verilog" enable="1"/>
-        <File path="tang/console138k_bl616/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
-        <File path="tang/console138k_bl616/misterynano.sv" type="file.verilog" enable="1"/>
-        <File path="tang/console138k_bl616/top.sv" type="file.verilog" enable="1"/>
-        <File path="tang/console138k_bl616/video2hdmi.v" type="file.verilog" enable="1"/>
+        <File path="misterynano.sv" type="file.verilog" enable="1"/>
         <File path="tang/console60k/flash_dspi.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_clkdiv/gowin_clkdiv.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/sdram.v" type="file.verilog" enable="1"/>
+        <File path="tang/console138k/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
+        <File path="tang/console138k/gowin_pll/pll_160m_mod.v" type="file.verilog" enable="1"/>
+        <File path="tang/console138k/pll_init.v" type="file.verilog" enable="1"/>
+        <File path="tang/console138k/top.sv" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/sdram.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video.v" type="file.verilog" enable="1"/>
+        <File path="tang/nano20k/video2hdmi.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/ws2812.v" type="file.verilog" enable="1"/>
+        <File path="tang/console138k/atarist.cst" type="file.cst" enable="1"/>
+        <File path="tang/console138k/atarist.sdc" type="file.sdc" enable="1"/>
         <File path="fx68k/microrom.mem" type="file.other" enable="1"/>
         <File path="fx68k/nanorom.mem" type="file.other" enable="1"/>
         <File path="ikbd/rom/ikbd.hex" type="file.other" enable="1"/>

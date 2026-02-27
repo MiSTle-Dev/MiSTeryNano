@@ -13,11 +13,11 @@ module top(
   output [1:0]	leds_n,
 
   // interface to Tang onboard BL616 UART
-  input			uart_rx,
-  output		uart_tx,
+  //input			uart_rx,
+  //output		uart_tx,
   // onboard Bl616 monitor console port interface
-  output		bl616_mon_tx,
-  input			bl616_mon_rx,
+  //output		bl616_mon_tx,
+  //input			bl616_mon_rx,
 
   // spi flash interface
   output		mspi_cs,
@@ -38,15 +38,14 @@ module top(
   output [1:0]	O_sdram_ba, // two banks
   output [1:0]	O_sdram_dqm, // 16/2
 
-  // interface to external BL616/M0S on middle PMOD
-  inout [4:0]	m0s,
-
-  // interface to onboard BL616 µC
-  input			spi_sclk, 
-  input			spi_csn,
-  output		spi_dir,
-  input			spi_dat,
-  output		spi_irqn,
+  // give explicit directions for pmod1 as it's being used for the
+  // FPGA Companion and this allows for clock buffering. Clock glitches
+  // were observed when using inouts for the companion
+  input			pmod_companion_din,
+  output		pmod_companion_dout,
+  input			pmod_companion_clk,
+  input			pmod_companion_ss,
+  output		pmod_companion_intn,
 
   // two dual shock controllers on left PMOD, only P1 is used
   // by MiSTeryNano for joystick
@@ -58,6 +57,23 @@ module top(
   output		ds2_sclk,
   output		ds2_mosi,
   input			ds2_miso, 
+
+  output		jtagseln,
+  input			bl616_jtagsel,
+
+  // interface to onboard BL616 µC
+  input			spi_sclk, 
+  input			spi_csn,
+  output		spi_dir,
+  input			spi_dat,
+  output		spi_irqn,
+
+  // debug uart from/to BL616
+  //input			bl616_reconfig,
+  input			bl616_tx,
+  //output		bl616_rx,
+  // external UART signals, the BL616 UART is bridged to
+  output		uart_ext_tx,
 
   // SD card slot
   output		sd_clk,
@@ -72,7 +88,7 @@ module top(
   output [7:0]	lcd_g, //lcd green
   output [7:0]	lcd_b, //lcd blue
   output		lcd_bl, //drive low to turn bl off
-		   
+
   // I2S DAC
   output		i2s_bclk,
   output		i2s_lrck,
@@ -86,17 +102,25 @@ module top(
   output [2:0]	tmds_d_p
 );
 
-// connect onboard BL616 console to hw pins for an USB-UART adapter
-assign uart_tx = bl616_mon_rx;
-assign bl616_mon_tx = uart_rx;
+// route BL616 debug uart via the twi signals through the FPGA to
+// unused pins on PMOD1 (the middle one)
+assign bl616_rx = 1'b0;          // from PMOD to BL616, nowadays unused
+assign uart_ext_tx = bl616_tx;   // from BL616 to PMOD
 
 wire clk32;
-wire pll_lock_hdmi;
-wire por; 
+wire pll_lock;
+wire flash_clk;
+wire por = !pll_lock; 
 
-// intn and dout are outputs driven by the FPGA to the MCU
-// din, ss and clk are inputs coming from the MCU
-assign m0s[4:0] = { spi_intn, 3'bzzz, spi_io_dout };
+reg     spi_ext = 1'b0;       // set when the external SPI interface on PMOD is active
+reg boot_button_detected = 1'b1;
+always @(posedge pll_lock)
+  boot_button_detected <= !user_n || !reset_n;   
+
+// enable JTAG if any button has been pressed during boot and also once
+// the external FPGA Companion has been seen
+assign jtagseln = !(!pll_lock || boot_button_detected || spi_ext || bl616_jtagsel);
+// -------------------------- FPGA Companion interface -----------------------
 
 // map output data onto both spi outputs
 wire spi_io_dout;
@@ -104,15 +128,17 @@ wire spi_intn;
 
 // intn and dout are outputs driven by the FPGA to the MCU
 // din, ss and clk are inputs coming from the MCU
-assign spi_dir = spi_io_dout;
-assign spi_irqn = spi_intn;
+assign spi_dir = pll_lock?spi_io_dout:1'b1;
+assign spi_irqn = pll_lock?spi_intn:1'b1;
 
+assign pmod_companion_dout = spi_io_dout;
+assign pmod_companion_intn = spi_intn;
+   
 // by default the internal SPI is being used. Once there is
 // a select from the external spi, then the connection is
 // being switched
-reg spi_ext;
-always @(posedge clk32) begin
-    if(por)
+always @(posedge clk) begin
+    if(!pll_lock)
         spi_ext = 1'b0;
     else begin
         // spi_ext is activated once the m0s pins 2 (ss or csn) is
@@ -120,17 +146,16 @@ always @(posedge clk32) begin
         // is connected and the FPGA switches its inputs to the
         // m0s. Until then the inputs of the internal BL616 are
         // being used.
-        if(m0s[2] == 1'b0)
-//          spi_ext = 1'b1; // auto switchover disabled !!!
-            spi_ext = 1'b0; // workaround for AST138K
+        if(pmod_companion_ss == 1'b0)
+            spi_ext = 1'b1;
     end
 end
 
-// switch between internal SPI connected to the on-board BL616 µC
-// or to the external connected M0S Dock or PiPico
-wire spi_io_din = spi_ext?m0s[1]:spi_dat;
-wire spi_io_ss = spi_ext?m0s[2]:spi_csn;
-wire spi_io_clk = spi_ext?m0s[3]:spi_sclk;
+// switch between internal SPI connected to the on-board bl616
+// or to the external one possibly connected to a FPGA Companion
+wire spi_io_din = spi_ext?pmod_companion_din:spi_dat;
+wire spi_io_ss = spi_ext?pmod_companion_ss:spi_csn;
+wire spi_io_clk = spi_ext?pmod_companion_clk:spi_sclk;
 
 wire [15:0] audio [2];
 wire        vreset;
@@ -219,22 +244,21 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .pll_lock_main( pll_lock_hdmi),
-  .por   ( por ),           // output. True while not all PLLs locked
+  .flash_clk ( flash_clk ), // 95 Mhz flash clock
+  .por   ( por ),           // True while not all PLLs locked
 
   .leds_n ( leds_int_n ),
   .ws2812 ( ),
 
   // spi flash interface
   .mspi_cs   ( mspi_cs   ),
-  .mspi_clk  ( mspi_clk  ),
   .mspi_di   ( mspi_di   ),
   .mspi_hold ( mspi_hold ),
   .mspi_wp   ( mspi_wp   ),
   .mspi_do   ( mspi_do   ),
 
   // SDRAM
-  .sdram_clk   ( O_sdram_clk    ),
+  .sdram_clk   ( ),
   .sdram_cke   ( ),
   .sdram_cs_n  ( O_sdram_cs_n   ), // chip select
   .sdram_cas_n ( O_sdram_cas_n  ), // columns address select
@@ -268,34 +292,69 @@ misterynano misterynano (
 	   
   // scandoubled digital video to be
   // used with lcds
-  .lcd_clk  ( lcd_clk    ),
-  .lcd_hs_n ( lcd_hs     ),
-  .lcd_vs_n ( lcd_vs     ),
-  .lcd_de   ( lcd_en     ),
-  .lcd_r    ( lcd_r[7:2] ),
-  .lcd_g    ( lcd_g[7:2] ),
-  .lcd_b    ( lcd_b[7:2] ),
+  .lcd_clk  ( lcd_clk),
+  .lcd_hs_n ( lcd_hs),
+  .lcd_vs_n ( lcd_vs),
+  .lcd_de   ( lcd_en),
+  .lcd_r    ( lcd_r ),
+  .lcd_g    ( lcd_g ),
+  .lcd_b    ( lcd_b ),
 
   // digital 16 bit audio output
   .audio ( audio )
 );
 
-assign lcd_r[1:0] = 2'b00;
-assign lcd_g[1:0] = 2'b00;
-assign lcd_b[1:0] = 2'b00;
+// ==================================================================
+// ========================= clock generation =======================
+// ==================================================================
 
-video2hdmi video2hdmi (
-    .clk      ( clk      ),       // clock in
-    .clk_32   ( clk32    ),       // 32 Mhz clock out
-    .pll_lock ( pll_lock_hdmi ),  // output clock is stable
+/*
+Input clock: 50 Mhz
+pf: 950.0 Mhz
+Output0:
+  Freq: 158.33333333333334 Mhz
+  Phase: 0.0°
+Output1:
+  Freq: 31.666666666666668 Mhz
+  Phase: 0.0°
+Output2:
+  Freq: 31.666666666666668 Mhz
+  Phase: 337.5°
+Output3:
+  Freq: 95.0 Mhz
+  Phase: 0.0°
+Output4:
+  Freq: 95.0 Mhz
+  Phase: 22.5°
+*/
+ 
+wire	   clk_pixel_x5;
+wire	   clk_pixel; 
+  
+pll_160m pll_hdmi (
+               .clkout0(clk_pixel_x5),       // 158.333 MHz
+               .clkout1(clk_pixel),          // 31.66 MHz
+               .clkout2(O_sdram_clk),        // 31.66 MHz, shifted by 337,5°
+               .clkout3(flash_clk),          // 95 MHz
+               .clkout4(mspi_clk),           // 95 MHz, shifted by 22,5°
+               .lock(pll_lock),
+               .clkin(clk),
+               .init_clk(clk)
+	       );
+
+assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock   
+
+video2hdmi #(.PIXEL_CLOCK(31_666_666)) video2hdmi (
+    .clk_pixel_x5 ( clk_pixel_x5  ),      // hdmi clock
+    .clk_pixel    ( clk_pixel     ),      // pixel clock
 
     .vreset ( vreset ),
     .vmode ( vmode ),
     .vwide ( vwide ),
 
-    .r( lcd_r[7:2] ),
-    .g( lcd_g[7:2] ),
-    .b( lcd_b[7:2] ),
+    .r( lcd_r ),
+    .g( lcd_g ),
+    .b( lcd_b ),
     .audio ( audio ),
     
     // tdms to be used with hdmi or dvi

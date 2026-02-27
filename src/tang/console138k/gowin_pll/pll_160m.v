@@ -1,28 +1,25 @@
 module pll_160m(
     clkin,
+    init_clk,
     clkout0,
     clkout1,
     clkout2,
     clkout3,
     clkout4,
-    lock,
-    mdclk
+    lock
 );
 
 
 input clkin;
+input init_clk;
 output clkout0;
 output clkout1;
 output clkout2;
 output clkout3;
 output clkout4;
 output lock;
-input mdclk;
-wire [7:0] mdrdo;
-wire [1:0] wMdOpc;
-wire wMdAInc;
-wire [7:0] wMdDIn;
-wire [7:0] wMdQOut;
+wire [5:0] icpsel;
+wire [2:0] lpfres;
 wire pll_lock;
 wire pll_rst;
 
@@ -34,31 +31,22 @@ wire pll_rst;
         .clkout4(clkout4),
         .clkout0(clkout0),
         .lock(pll_lock),
-        .mdrdo(wMdQOut),
         .clkin(clkin),
         .reset(pll_rst),
-        .mdclk(mdclk),
-        .mdopc(wMdOpc),
-        .mdainc(wMdAInc),
-        .mdwdi(wMdDIn)
+        .icpsel(icpsel),
+        .lpfres(lpfres),
+        .lpfcap(2'b00)
     );
 
 
     PLL_INIT u_pll_init(
+        .CLKIN(init_clk),
         .I_RST(1'b0),
         .O_RST(pll_rst),
-        .I_LOCK(pll_lock),
+        .PLLLOCK(pll_lock),
         .O_LOCK(lock),
-        .I_MD_CLK(mdclk),
-        .O_MD_INC(wMdAInc),
-        .O_MD_OPC(wMdOpc),
-        .O_MD_WR_DATA(wMdDIn),
-        .I_MD_RD_DATA(wMdQOut),
-        .PLL_INIT_BYPASS(1'b0),
-        .MDRDO(mdrdo),
-        .MDOPC(2'b00),
-        .MDAINC(1'b0),
-        .MDWDI(8'h0)
+        .ICPSEL(icpsel),
+        .LPFRES(lpfres)
     );
     defparam u_pll_init.CLK_PERIOD = 20;
     defparam u_pll_init.MULTI_FAC = 19;
