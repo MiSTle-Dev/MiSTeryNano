@@ -3,7 +3,11 @@
 
     This is the main MiSTeryNano core itself. It can be connected
     to different top levels exposing different signals.
-*/
+
+    TODO:
+    - floppy has read problems when switching between hdd and floppy
+ 
+ */
 
 module misterynano #( 
   parameter		EXTERNAL_PARPORT = 1'b0 // set to 1 to enable external parport
@@ -514,11 +518,11 @@ assign system_cubase_en = 1'b0; // no cubase dongle support
 `endif
 
 // signals to wire the floppy controller to the sd card
-wire [1:0]  sd_rd;   // fdc requests sector read
-wire [1:0]  sd_wr;   //     -"-             write
+wire [1:0]  fdc_rd_req;   // fdc requests sector read
+wire [1:0]  fdc_wr_req;   //     -"-             write
 wire [7:0]  sd_rd_data;
-wire [7:0]  sd_wr_data;
-wire [31:0] sd_lba;  
+wire [7:0]  fdc_sd_wr_data;
+wire [31:0] fdc_lba;  
 wire [8:0]  sd_byte_index;
 wire	    sd_rd_byte_strobe;
 wire	    sd_busy, sd_done;
@@ -624,13 +628,13 @@ atarist atarist (
 `endif
 				 
     // floppy/acsi sd card interface
-	.sd_lba         ( sd_lba ),
-	.sd_rd          ( sd_rd ),
-	.sd_wr          ( sd_wr ),
+	.sd_lba         ( fdc_lba ),
+	.sd_rd          ( fdc_rd_req ),
+	.sd_wr          ( fdc_wr_req ),
 	.sd_ack         ( sd_busy ),
 	.sd_buff_addr   ( sd_byte_index ),
 	.sd_dout        ( sd_rd_data ),
-	.sd_din         ( sd_wr_data ),
+	.sd_din         ( fdc_sd_wr_data ),
     .sd_dout_strobe ( sd_rd_byte_strobe ),
 
     // interface to ROM
@@ -747,22 +751,22 @@ end
 
 `ifndef NO_ACSI
 // differentiate between floppy and acsi requests
-wire      is_acsi = (acsi_rd_req != 0) ||  (acsi_wr_req != 0) || is_acsi_D;   
-reg 	  is_acsi_D;
-   
+reg [7:0] sdc_rd = 8'h00;
+reg [7:0] sdc_wr = 8'h00;   
+reg      is_acsi = 0;
+
 always @(posedge clk32) begin
-   // ACSI requests IO -> save state
-   if(acsi_rd_req || acsi_wr_req)
-     is_acsi_D <= 1'b1;
-   
-   // FDC requests IO 
-   if(sd_rd || sd_wr)
-     is_acsi_D <= 1'b0;
+   // toggle between floppy and acsi data paths to the sd card
+   if(|{fdc_rd_req,fdc_wr_req})             is_acsi <= 1'b0;
+   if(|{acsi_rd_req,acsi_wr_req}) is_acsi <= 1'b1;
+
+   sdc_rd <= { 4'h0, acsi_rd_req, fdc_rd_req };
+   sdc_wr <= { 4'h0, acsi_wr_req, fdc_wr_req };   
 end
 `endif
-   
+
 sd_card #(
-    .CLK_DIV(3'd1)                    // for 32 Mhz clock
+    .CLK_DIV(3'd0)                   // for 32 Mhz clock -> sd card clock = 16Mhz
 ) sd_card (
     .rstn(!por),                     // rstn active-low, 1:working, 0:reset
     .clk(clk32),                     // clock
@@ -798,16 +802,16 @@ sd_card #(
 
 `ifdef NO_ACSI
 	// on t20 only floppy is being implemented
-    .rstart( { 2'b00, sd_rd } ), 
-    .wstart( { 2'b00, sd_wr } ),
-    .rsector( sd_lba ),
-    .inbyte(sd_wr_data),
+    .rstart( { 6'b000000, fdc_rd_req } ), 
+    .wstart( { 6'b000000, fdc_wr_req } ),
+    .rsector( fdc_lba ),
+    .inbyte(fdc_sd_wr_data),
 `else
     // user read sector command interface (sync with clk32)
-    .rstart( { acsi_rd_req, sd_rd} ), 
-    .wstart( { acsi_wr_req, sd_wr } ), 
-    .rsector( is_acsi?acsi_lba:sd_lba),
-    .inbyte(is_acsi?acsi_sd_wr_byte:sd_wr_data),
+    .rstart( sdc_rd ), 
+    .wstart( sdc_wr ), 
+    .rsector( is_acsi?acsi_lba:fdc_lba),
+    .inbyte(is_acsi?acsi_sd_wr_byte:fdc_sd_wr_data),
 `endif
 
     .rbusy(sd_busy),
