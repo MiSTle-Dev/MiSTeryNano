@@ -165,8 +165,8 @@ wire        vwide;
 wire [5:0] leds_int_n;
 assign leds_n = ~leds_int_n[1:0];
 
-assign lcd_bl = 1'bz;
-   
+assign lcd_bl = !por;
+
 // MiSTer SDRAM is only 16 bits wide
 wire [31:0] sdram_dq;  
 assign IO_sdram_dq = sdram_dq[15:0];
