@@ -12,7 +12,7 @@ module serializer
     input logic clk_pixel_x5,
     input logic reset,
     input logic [9:0] tmds_internal [NUM_CHANNELS-1:0],
-`ifdef EFINIX
+`ifdef TMDS_BY_LOGIC
     output logic [5:0] tmds,
     output logic [1:0] tmds_clock
 `else
@@ -118,15 +118,19 @@ module serializer
                 end
             endgenerate
         `endif
-    `elsif EFINIX
+    `elsif TMDS_BY_LOGIC
         genvar i;
+        generate
         // a simple 10 bit differential double data rate serializer
         reg [9:0] shift[NUM_CHANNELS+1];
         reg [2:0] ocnt;
    
+        always @(posedge clk_pixel_x5)
+                ocnt <= (ocnt == 4)?3'd0:ocnt+3'd1;
+					 
         for (i = 0; i <= NUM_CHANNELS; i++) begin: shifting
             always @(posedge clk_pixel_x5) begin
-                ocnt <= (ocnt == 4)?3'd0:ocnt+3'd1;
+//                ocnt <= (ocnt == 4)?3'd0:ocnt+3'd1;
                 shift[i] <= (ocnt != 4)?{ 2'bxx, shift[i][9:2]}:
 	                    ((i==0)?10'b1111100000:tmds_internal[i-1]);
             end
@@ -139,6 +143,7 @@ module serializer
         for (i = 0; i < NUM_CHANNELS; i++) begin: ddr_map
             assign tmds[2*i+1:2*i] = clk_pixel_x5?{ !dd[i+1], dd[i+1]}:{ !shift[i+1][0], shift[i+1][0] };
         end
+        endgenerate
         assign tmds_clock = clk_pixel_x5?{ !dd[0], dd[0]}:{ !shift[0][0], shift[0][0] };
     `elsif GW_IDE
         OSER10 gwSer0( 
