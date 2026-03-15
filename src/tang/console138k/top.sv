@@ -110,7 +110,7 @@ assign uart_ext_tx = bl616_tx;   // from BL616 to PMOD
 wire clk32;
 wire pll_lock;
 wire flash_clk;
-wire por = !pll_lock; 
+wire por = !pll_lock || bl616_jtagsel; 
 
 reg     spi_ext = 1'b0;       // set when the external SPI interface on PMOD is active
 reg boot_button_detected = 1'b1;
@@ -119,7 +119,8 @@ always @(posedge pll_lock)
 
 // enable JTAG if any button has been pressed during boot and also once
 // the external FPGA Companion has been seen
-assign jtagseln = !(!pll_lock || boot_button_detected || spi_ext || bl616_jtagsel);
+//assign jtagseln = !(!pll_lock || boot_button_detected || spi_ext || bl616_jtagsel);
+assign jtagseln = !bl616_jtagsel;
 // -------------------------- FPGA Companion interface -----------------------
 
 // map output data onto both spi outputs
@@ -147,7 +148,7 @@ always @(posedge clk) begin
         // m0s. Until then the inputs of the internal BL616 are
         // being used.
         if(pmod_companion_ss == 1'b0)
-            spi_ext = 1'b1;
+            spi_ext = 1'b0;
     end
 end
 
@@ -239,8 +240,8 @@ assign i2s_din = por?1'b0:audio[i2s_lrck][15-audio_bit_cnt[3:0]];
 misterynano misterynano (
   .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
 
-  .reset ( !reset_n ),
-  .user  ( !user_n ),
+  .reset ( 1'b0), // !reset_n ),
+  .user  ( 1'b0), // !user_n ),
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
