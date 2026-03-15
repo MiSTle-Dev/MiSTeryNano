@@ -160,7 +160,7 @@ wire spi_io_clk = spi_ext?pmod_companion_clk:spi_sclk;
 wire [15:0] audio [2];
 wire        vreset;
 wire [1:0]  vmode;
-wire        vwide;
+wire [1:0]  screen;
 
 wire [5:0] leds_int_n;
 assign leds_n = ~leds_int_n[1:0];
@@ -288,7 +288,7 @@ misterynano misterynano (
 
   .vreset ( vreset ),
   .vmode  ( vmode  ),
-  .vwide  ( vwide  ),
+  .screen ( screen ),
 	   
   // scandoubled digital video to be
   // used with lcds
@@ -329,7 +329,7 @@ video2hdmi #(.PIXEL_CLOCK(31_666_666)) video2hdmi (
  
     .vreset ( vreset ),
     .vmode ( vmode ),
-    .vwide ( vwide ),
+    .screen ( screen ),
 
     .r( lcd_r[7:2] ),
     .g( lcd_g[7:2] ),

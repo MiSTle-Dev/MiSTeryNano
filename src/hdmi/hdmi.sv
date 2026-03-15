@@ -39,12 +39,12 @@ module hdmi
     // synchronous reset back to 0,0
     input logic			      reset,
     input logic [1:0]		      stmode, // atari st video mode, 0=60hz ntsc, 1=50hz pal, 2=mono
-    input			      wide,   // try to adopt to wide (4:3) screens
+    input logic [1:0]		      screen,   // try to adopt to wide (4:3) screens
     input logic [23:0]		      rgb, 
     input logic [AUDIO_BIT_WIDTH-1:0] audio_sample_word [1:0],
 
     // These outputs go to your HDMI port
-`ifdef EFINIX
+`ifdef TMDS_BY_LOGIC
     output logic [5:0] tmds,       // 6+2 pins/pmod used for hdmi
     output logic [1:0] tmds_clock
 `else
@@ -69,15 +69,19 @@ logic [1:0] invert;
 // Frame height should be 625/525, but has to be 626/526 for Atari ST
 // in PAL/NTSC mode
 
+// screen mode 0 is "standard" video with either 720x480 (ntsc) or
+// 720x576 (pal) pixels
+wire std = (screen == 2'd0);   
+   
 // Atari ST mode table:
 //                          frame   screen s_start   s_len
 // NTSC    848x484@60Hz  aspect 1.75    
-wire [43:0] htiming0  = { 11'd1016, 11'd848, 11'd16, 11'd62 };  
-wire [39:0] vtiming0  = {  10'd526, 10'd484,  10'd9,  10'd6 };
+wire [43:0] htiming0  = { 11'd1016, std?11'd720:11'd848, 11'd16, 11'd62 };  
+wire [39:0] vtiming0  = {  10'd526, std?10'd480:10'd484,  10'd9,  10'd6 };
 wire [7:0] cea0 = 8'd2; // CEA is HDMI mode in group 1
    
 // PAL     832x576@50hz  aspect 1.44   948x576@50hz
-wire [43:0] htiming1  = { 11'd1024, 11'd832, 11'd24, 11'd72 };  
+wire [43:0] htiming1  = { 11'd1024, std?11'd720:11'd832, 11'd24, 11'd72 };  
 wire [39:0] vtiming1  = {  10'd626, 10'd576,  10'd5,  10'd5 };
 wire [7:0] cea1 = 8'd17;
    
@@ -99,7 +103,7 @@ wire [91:0] timing =
 // demux timing parameters, in wide mode make the display wider, so the
 // area actually being used by the ST takes up a smaller fraction of the
 // whole width
-wire [10:0] wide_extra_width  = wide?11'd80:11'd0;
+wire [10:0] wide_extra_width  = (screen==2'd2)?11'd80:11'd0;
 
 wire [10:0] frame_width       = timing[91:81];
 wire [10:0] screen_width_real = timing[80:70];   

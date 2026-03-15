@@ -7,7 +7,7 @@ module video2hdmi (
           // video control inputs
           input        vreset,   // top/left pixel reached
           input [1:0]  vmode,    // Atari ST video mode
-          input        vwide,    // request display on wide (16:9) screen
+          input [1:0]  screen,   // screen mode (std, overscan, wide)
 
           input [5:0]  r,
 	  input [5:0]  g,
@@ -56,7 +56,7 @@ hdmi #(
 
   // video input
   .stmode(vmode),    // current video mode PAL/NTSC/MONO
-  .wide(vwide),      // adopt to wide screen video
+  .screen(screen),   // adopt to various screen modes (std, overscan, wide)
   .reset(vreset),    // signal to synchronize HDMI
 
   // Atari STE outputs 4 bits per color. Scandoubler outputs 6 bits (to be

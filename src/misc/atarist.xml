@@ -98,8 +98,9 @@
     </menu>
     <menu label="Settings">
       <list label="Screen:" id="W" default="0">
-	<listentry label="Normal" value="0"/>
-	<listentry label="Wide" value="1"/>
+	<listentry label="Standard" value="0"/>
+	<listentry label="Overscan" value="1"/>
+	<listentry label="Wide" value="2"/>
       </list>
       <list label="Scanlines:" id="S" default="0">
 	<listentry label="None" value="0"/>

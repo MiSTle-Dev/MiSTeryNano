@@ -111,7 +111,7 @@ module misterynano #(
 
   output		vreset,
   output [1:0]	vmode,
-  output		vwide,
+  output [1:0]	screen,
 
   // digital 16 bit audio output
   output [15:0]	audio [2]
@@ -163,12 +163,14 @@ wire       system_video;
 wire [1:0] system_reset;   // reset and coldboot flag
 wire [1:0] system_scanlines;
 wire [1:0] system_volume;
-wire       system_wide_screen;
+wire [1:0] system_screen;
 wire [1:0] system_floppy_wprot;
 wire       system_cubase_en;
 wire [1:0] system_port_mouse;
 wire [1:0] system_port_joy;
 wire       system_tos_slot;
+
+assign screen = system_screen;
    
 /* -------------------- flash -------------------- */  
 
@@ -497,7 +499,7 @@ sysctrl sysctrl (
         .system_reset(system_reset),
         .system_scanlines(system_scanlines),
         .system_volume(system_volume),
-        .system_wide_screen(system_wide_screen),
+        .system_screen(system_screen),
         .system_floppy_wprot(system_floppy_wprot),
         .system_port_mouse(system_port_mouse),
         .system_port_joy(system_port_joy),
@@ -683,8 +685,6 @@ wire [15:0] audio_vol_r =
 assign audio[0] = audio_vol_l;
 assign audio[1] = audio_vol_r;
 
-assign vwide = system_wide_screen;
-
 video video (
 	     .clk_pixel(clk32),
          .por(por),
@@ -695,7 +695,7 @@ video video (
 
          // values that can be configure by the user via osd
          .system_scanlines(system_scanlines),
-         .system_wide_screen(system_wide_screen),
+         .system_screen(system_screen),
 
          // video control signal output
          .vreset ( vreset ),    // reached top/left pixel
