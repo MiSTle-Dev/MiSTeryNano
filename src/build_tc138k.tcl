@@ -106,7 +106,7 @@ set_option -use_jtag_as_gpio 1
 set_option -use_mode_as_gpio 0
 set_option -use_i2c_as_gpio 0
 set_option -print_all_synthesis_warning 0
-set_option -show_all_warn 0
+set_option -show_all_warn 1
 set_option -rw_check_on_ram 0
 set_option -user_code 00000002
 set_option -bit_compress 0
