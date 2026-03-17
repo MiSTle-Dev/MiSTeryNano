@@ -13,7 +13,7 @@ module top(
   output [1:0]	leds_n,
 
   // interface to Tang onboard BL616 UART
-  //input			uart_rx,
+  //input		uart_rx,
   //output		uart_tx,
   // onboard Bl616 monitor console port interface
   //output		bl616_mon_tx,
@@ -110,16 +110,17 @@ assign uart_ext_tx = bl616_tx;   // from BL616 to PMOD
 wire clk32;
 wire pll_lock;
 wire flash_clk;
-wire por = !pll_lock; 
+wire por = !pll_lock || bl616_jtagsel; 
 
 reg     spi_ext = 1'b0;       // set when the external SPI interface on PMOD is active
 reg boot_button_detected = 1'b1;
 always @(posedge pll_lock)
   boot_button_detected <= !user_n || !reset_n;   
+// boot_button_detected, disabled to fix tc138k booting, needs to be investigated !!!
 
 // enable JTAG if any button has been pressed during boot and also once
 // the external FPGA Companion has been seen
-assign jtagseln = !(!pll_lock || boot_button_detected || spi_ext || bl616_jtagsel);
+assign jtagseln = !(!pll_lock || spi_ext || bl616_jtagsel);
 // -------------------------- FPGA Companion interface -----------------------
 
 // map output data onto both spi outputs
@@ -160,7 +161,7 @@ wire spi_io_clk = spi_ext?pmod_companion_clk:spi_sclk;
 wire [15:0] audio [2];
 wire        vreset;
 wire [1:0]  vmode;
-wire        vwide;
+wire [1:0]  screen;
 
 wire [5:0] leds_int_n;
 assign leds_n = ~leds_int_n[1:0];
@@ -239,8 +240,8 @@ assign i2s_din = por?1'b0:audio[i2s_lrck][15-audio_bit_cnt[3:0]];
 misterynano misterynano (
   .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
 
-  .reset ( !reset_n ),
-  .user  ( !user_n ),
+  .reset ( 1'b0), // !reset_n ), disabled to fix tc138k booting, needs to be investigated !!!
+  .user  ( 1'b0), // !user_n ),
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
@@ -288,7 +289,7 @@ misterynano misterynano (
 
   .vreset ( vreset ),
   .vmode  ( vmode  ),
-  .vwide  ( vwide  ),
+  .screen ( screen ),
 	   
   // scandoubled digital video to be
   // used with lcds
@@ -330,7 +331,6 @@ Output4:
  
 wire	   clk_pixel_x5;
 wire	   clk_pixel; 
-  
 pll_160m pll_hdmi (
                .clkout0(clk_pixel_x5),       // 158.333 MHz
                .clkout1(clk_pixel),          // 31.66 MHz
@@ -342,7 +342,7 @@ pll_160m pll_hdmi (
                .init_clk(clk)
 	       );
 
-assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock   
+assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock
 
 video2hdmi #(.PIXEL_CLOCK(31_666_666)) video2hdmi (
     .clk_pixel_x5 ( clk_pixel_x5  ),      // hdmi clock
@@ -350,7 +350,7 @@ video2hdmi #(.PIXEL_CLOCK(31_666_666)) video2hdmi (
 
     .vreset ( vreset ),
     .vmode ( vmode ),
-    .vwide ( vwide ),
+    .screen ( screen ),
 
     .r( lcd_r ),
     .g( lcd_g ),
