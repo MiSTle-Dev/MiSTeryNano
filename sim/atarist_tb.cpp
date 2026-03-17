@@ -22,8 +22,7 @@ Vatarist_tb *tb;
 static VerilatedFstC *trace;
 double simulation_time;
 
-// #define TOS "tos206de.img"
-#define TOS "tos104de.img"
+#define TOS "etos192uk.img"
 
 // optionally parse a sector address into track/side/sector
 char *sector_string(int drive, uint32_t lba) {
@@ -325,16 +324,13 @@ void tick(int c) {
   // each tick is 1/64 us or 15,625ns as we are simulating a 32 MHz clock
   simulation_time += TICKLEN;
 
-  static int last_rom = 0;
   if (c && !tb->rom_n) {
     // rom access
     tb->rom_data_out = (rom[(tb->rom_addr<<1) & 0x3ffff] * 256) + rom[((tb->rom_addr<<1) + 1)& 0x3ffff];
   }
-  last_rom = !tb->rom_n;
   
   // max 4 MB RAM
   if (c && !tb->ram_ras_n && !tb->ram_ref && tb->ram_addr < 0x200000) {
-    static int last_cas = 0;
     if((!tb->ram_cash_n || !tb->ram_casl_n) && !((tb->ram_addr<<1) & ~RAMMASK) ){      
       if(tb->ram_we_n) {	
 	tb->ram_data_out = (ram[(tb->ram_addr<<1)] * 256) + ram[(tb->ram_addr<<1) + 1];
@@ -346,7 +342,6 @@ void tick(int c) {
 	check_ram((tb->ram_addr<<1));
       }
     }
-    last_cas = !tb->ram_cash_n || !tb->ram_casl_n;
   }
   
   if(c) {
