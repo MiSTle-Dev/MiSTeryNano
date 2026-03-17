@@ -3,9 +3,6 @@
 
     This is the main MiSTeryNano core itself. It can be connected
     to different top levels exposing different signals.
-
-    TODO:
-    - floppy has read problems when switching between hdd and floppy
  
  */
 
@@ -23,22 +20,14 @@ module misterynano #(
 
   output [5:0]	leds_n,
   output		ws2812,
+  output		jtagsel,
 
   // spi flash interface
   output		mspi_cs,
-`ifdef EFINIX
-  input			mspi_di_in,
-  output		mspi_di_out,
-  output		mspi_di_oe,
-  input			mspi_do_in,
-  output		mspi_do_out,
-  output		mspi_do_oe,
-`else
   inout			mspi_di,
   inout			mspi_hold,
   inout			mspi_wp,
   inout			mspi_do,
-`endif
 					
   // "Magic" port names that the gowin compiler connects to the on-chip SDRAM
   output		sdram_clk,
@@ -47,15 +36,8 @@ module misterynano #(
   output		sdram_cas_n, // columns address select
   output		sdram_ras_n, // row address select
   output		sdram_wen_n, // write enable
-`ifdef EFINIX
-  input [15:0]	sdram_dq_in,
-  output [15:0]	sdram_dq_out,
-  output [15:0]	sdram_dq_oe,
-  output [1:0]	sdram_dqm, // 16/2
-`else
   inout [31:0]	sdram_dq, // up to 32 bit bidirectional data bus
   output [3:0]	sdram_dqm, // 32/4
-`endif
   output [12:0]	sdram_addr, // up to 13 bit multiplexed address bus
   output [1:0]	sdram_ba, // two banks
 
@@ -87,17 +69,8 @@ module misterynano #(
 		   
   // SD card slot
   output		sd_clk,
-`ifdef EFINIX
-  input			sd_cmd_in, // MOSI
-  output		sd_cmd_out,
-  output		sd_cmd_oe,
-  input [3:0]	sd_dat_in, // 0: MISO
-  output [3:0]	sd_dat_out,
-  output [3:0]	sd_dat_oe,
-`else
   inout			sd_cmd, // MOSI
   inout [3:0]	sd_dat, // 0: MISO
-`endif 
   
   // scandoubled digital video to be
   // used with lcds
@@ -132,15 +105,7 @@ module misterynano #(
  4 -> 5   DATA3
  6 -> 1   STROBE
 */
-    
-// The Efinix T20 would not fit blitter and ACSI, so
-// we disable them. On GW2AR-18 ACSI saves ~200 LUTs, blitter 
-// saves ~2000 of them.
-`ifdef EFINIX
- `define NO_ACSI
- `define NO_BLITTER
-`endif
-   
+       
 wire [5:0] leds;      // control leds with positive logic
 assign leds_n = ~leds;
 
@@ -195,19 +160,10 @@ flash flash (
     .dout(rom_dout),
 
     .mspi_cs(mspi_cs),
-`ifdef EFINIX
-    .mspi_di_in(mspi_di_in),
-    .mspi_di_out(mspi_di_out),
-    .mspi_di_oe(mspi_di_oe),
-    .mspi_do_in(mspi_do_in),
-    .mspi_do_out(mspi_do_out),
-    .mspi_do_oe(mspi_do_oe)
-`else
     .mspi_di(mspi_di),
     .mspi_do(mspi_do),
     .mspi_wp(mspi_wp),
     .mspi_hold(mspi_hold)
-`endif
 );
 
 /* -------------------- RAM -------------------- */
@@ -249,13 +205,7 @@ sdram sdram (
         // interface to sdram chip
         .sd_clk(sdram_clk),      // clock
         .sd_cke(sdram_cke),      // clock enable
-`ifdef EFINIX
-        .sd_data_in(sdram_dq_in), // 16 bit bidirectional data bus
-        .sd_data_out(sdram_dq_out), 
-        .sd_data_oe(sdram_dq_oe),
-`else
         .sd_data(sdram_dq),      // 16/32 bit bidirectional data bus
-`endif        
         .sd_addr(sdram_addr),    // 11 bit multiplexed address bus
         .sd_dqm(sdram_dqm),      // two byte masks
         .sd_ba(sdram_ba),        // two banks
@@ -487,7 +437,7 @@ sysctrl sysctrl (
 		.port_in_data(serial_rx_data),	 
 				 
         // values controlled by the OSD
-`ifdef NO_BLITTER
+`ifdef DISABLE_BLITTER
         .system_chipset(),
         .system_cubase_en(),
 `else
@@ -511,10 +461,11 @@ sysctrl sysctrl (
 
         .buttons( {user, reset} ),
         .leds(system_leds),
+		.jtagsel(jtagsel),   
         .color(ws2812_color)
          );   
          
-`ifdef NO_BLITTER
+`ifdef DISABLE_BLITTER
 assign system_chipset = 2'd0;   // regular ST only
 assign system_cubase_en = 1'b0; // no cubase dongle support   
 `endif
@@ -532,7 +483,7 @@ wire [63:0] sd_img_size;
 wire [3:0]  sd_img_mounted;
 reg         sd_ready;
 
-`ifndef NO_ACSI
+`ifndef DISABLE_ACSI
 // signals to wire ACSI to the SD card, some of these should be combined
 // with the floppy iside atarist.v and ultimately inside dma.v 
 wire [1:0] 	acsi_rd_req;
@@ -773,17 +724,8 @@ sd_card #(
   
     // SD card signals
     .sdclk(sd_clk),
-`ifdef EFINIX
-    .sdcmd_in(sd_cmd_in),
-    .sdcmd_out(sd_cmd_out),
-    .sdcmd_oe(sd_cmd_oe),
-    .sddat_in(sd_dat_in),
-    .sddat_out(sd_dat_out),
-    .sddat_oe(sd_dat_oe),
-`else
     .sdcmd(sd_cmd),
     .sddat(sd_dat),
-`endif
     
     // mcu interface
     .data_strobe(mcu_sdc_strobe),

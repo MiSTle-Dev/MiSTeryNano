@@ -40,12 +40,10 @@
 module sdram (
 	output		  sd_clk,      // sd clock
 	output		  sd_cke,      // clock enable
-	output reg [15:0] sd_data_out, // 16 bit bidirectional data bus
-	output reg [15:0] sd_data_oe,  // -"-
-	input [15:0]	  sd_data_in,  // -"-
-	output reg [12:0] sd_addr,      // 13 bit multiplexed address bus
-	output reg [1:0]  sd_dqm,      // two byte masks
-	output reg [1:0]  sd_ba,       // four banks
+	inout [15:0] sd_data,  // 16 bit bidirectional data bus
+	output reg [12:0] sd_addr, // 13 bit multiplexed address bus
+	output reg [1:0]  sd_dqm,  // two byte masks
+	output reg [1:0]  sd_ba,   // four banks
 	output		  sd_cs,       // a single chip select
 	output		  sd_we,       // write enable
 	output		  sd_ras,      // row address select
@@ -65,6 +63,10 @@ module sdram (
 	input		  we           // cpu/chipset requests write
 );
 
+// efinity doesn't like inout registers
+reg [15:0] sd_data_reg;   
+assign sd_data = sd_data_reg;   
+   
 assign sd_clk = !clk;
 assign sd_cke = reset_n;
    
@@ -121,7 +123,8 @@ assign sd_ras = sd_cmd[2];
 assign sd_cas = sd_cmd[1];
 assign sd_we  = sd_cmd[0];
 
-assign dout = sd_data_in;
+assign dout = sd_data;
+// assign sd_data = (cs && we) ? din : 16'bzzzz_zzzz_zzzz_zzzz;
 
 always @(posedge clk) begin
    reg csD, csD2;
@@ -198,14 +201,13 @@ always @(posedge clk) begin
 	       // A[12:9] 0010 / A10 = 1 (read/write and auto precharge)
                sd_addr <= { 4'b0010, addrD };  // 12:9 / 8:0 = 4+9
 	       if(weD) begin 
-		  sd_data_oe <= 16'hffff;		
-		  sd_data_out <= din;
+		      sd_data_reg <= din;
 	       end
             end
 	    
 	    // disable data output driver asap
             if(state == STATE_CMD_CONT+1)
-	      sd_data_oe <= 16'h0000;
+	      sd_data_reg <= 16'hzzzz;
 	    
 	    // return to idle state
             if(state == STATE_LAST)

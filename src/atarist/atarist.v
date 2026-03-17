@@ -219,6 +219,7 @@ wire        cmpcs_n, latch, rdat_n, wdat_n, dcyc_n, sreq, sload_n, mono;
 wire [15:0] shifter_dout;
 wire [ 7:0] dma_snd_l, dma_snd_r;
 
+`ifndef DISABLE_BLITTER
 // combined bus signals
 wire        fc0 = blitter_has_bus ? blitter_fc0 : cpu_fc0;
 wire        fc1 = blitter_has_bus ? blitter_fc1 : cpu_fc1;
@@ -236,6 +237,30 @@ wire [15:0] mbus_dout = !rdat_n ? shifter_dout :
                         cpu_dout;
 
 wire        dtack_n = mcu_dtack_n_adj & ~mfp_dtack & blitter_dtack_n;
+`else
+// combined bus signals
+wire        fc0 = cpu_fc0;
+wire        fc1 = cpu_fc1;
+wire        fc2 = cpu_fc2;
+wire        as_n = cpu_as_n;
+wire        rw = cpu_rw;
+wire        uds_n = cpu_uds_n;
+wire        lds_n = cpu_lds_n;
+wire [23:1] mbus_a = cpu_a;
+wire [15:0] mbus_dout = !rdat_n ? shifter_dout :
+                        !rom_n   ? rom_data_out :
+                        ~rdy_i ? dma_data_out :
+                        cpu_dout;
+
+wire        dtack_n = mcu_dtack_n_adj & ~mfp_dtack;
+
+assign blitter_br_n = 1'b1;
+assign blitter_bgack_n = 1'b1;
+assign blitter_sel = 1'b0;
+assign blitter_data_out = 16'h0000;
+wire blitter_irq_n = 1'b1;
+
+`endif
 
 /* ------------------------------------------------------------------------------ */
 /* ------------------------------ GSTMCU + Shifter ------------------------------ */
@@ -692,6 +717,7 @@ assign audio_mix_r =
 /* ------------------------------------------------------------------------------ */
 /* ---------------------------------- Blitter ----------------------------------- */
 /* ------------------------------------------------------------------------------ */
+`ifndef DISABLE_BLITTER
 wire        blitter_irq_n;
 
 wire        blitter_as_n;
@@ -702,8 +728,6 @@ wire        blitter_dtack_n;
 wire [23:1] blitter_addr;
 wire        blitter_has_bus;
 
-`ifndef EFINIX
-// EFINIX doesn't like this ...
 blt_clks Clks;
 
 assign Clks.clk = clk_32;
@@ -716,23 +740,12 @@ assign Clks.enPhi2 = cpu_16mhz_enable?~clk16_en:mhz8_en2;
 assign Clks.anyPhi = Clks.enPhi2 | Clks.enPhi1;
 
 assign { Clks.extReset, Clks.phi1, Clks.phi2} = 3'b000;
-`endif
 
 wire mblit_selected;
 wire mblit_oBGACKn;
 
 stBlitter stBlitter(
-`ifndef EFINIX
 	.Clks     ( Clks ),
-`else
-    .clk(clk_32),
-    .aRESETn(!peripheral_reset),
-    .sReset(!porb | peripheral_reset),
-    .pwrUp(!porb),
-
-    .enPhi1(cpu_16mhz_enable? clk16_en:mhz8_en1),
-    .enPhi2(cpu_16mhz_enable?~clk16_en:mhz8_en2),
-`endif
 	.ASn      ( as_n | ~blitter_en ),
 	.RWn      ( cpu_rw ),
 	.LDSn     ( lds_n ),
@@ -765,6 +778,7 @@ stBlitter stBlitter(
 
 assign blitter_bgack_n = mblit_oBGACKn & mcu_bgack_n;		// This really happens inside Blitter
 assign { blitter_fc2, blitter_fc1, blitter_fc0} = 3'b101;
+`endif
    
 /* ------------------------------------------------------------------------------ */
 /* ---------------------------- STe controller ports ---------------------------- */

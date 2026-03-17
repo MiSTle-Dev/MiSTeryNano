@@ -4,8 +4,8 @@
 
 module top (
     input	       clk,
-    output [7:0]       leds,
-    input [2:0]	       buttons,
+    output [7:0]   leds,
+    input [2:0]	   buttons,
 
     // Efinix PLLs are external from the logic
     input	       pll_lock,
@@ -14,11 +14,9 @@ module top (
     input	       flash_clk, // 100 MHz SPI flash clock
 
     // SDRAM interface
-    input [15:0]       SDRAM_DQ_IN,
-    output [15:0]      SDRAM_DQ_OUT,
-    output [15:0]      SDRAM_DQ_OE,
-    output [12:0]      SDRAM_A,
-    output [1:0]       SDRAM_BA,
+    inout [15:0]   SDRAM_DQ,
+    output [12:0]  SDRAM_A,
+    output [1:0]   SDRAM_BA,
     output	       SDRAM_UDQM,
     output	       SDRAM_LDQM,
     output	       SDRAM_CLK,
@@ -31,21 +29,13 @@ module top (
     // connection to fpga boot flash
     output	       mspi_clk,
     output	       mspi_cs,
-    input	       mspi_di_in,
-    output	       mspi_di_out,
-    output	       mspi_di_oe,
-    input	       mspi_do_in,
-    output	       mspi_do_out,
-    output	       mspi_do_oe,
-
+    inout	       mspi_di,
+    inout	       mspi_do,
+ 
     // SD card slot
     output         sd_clk,
-    input          sd_cmd_in,  // MOSI
-    output         sd_cmd_out,
-    output         sd_cmd_oe,
-    input [3:0]    sd_dat_in,  // 0: MISO
-    output [3:0]   sd_dat_out,
-    output [3:0]   sd_dat_oe,
+    inout          sd_cmd,  // MOSI
+    inout [3:0]    sd_dat,  // 0: MISO
 
     // SPI connection FPGA companion
     input	       spi_clk,
@@ -71,7 +61,7 @@ assign leds = { 2'b11, leds_n };
 wire [15:0] audio [2];
 wire        vreset;
 wire [1:0]  vmode;
-wire        vwide;
+wire [1:0]  screen;
 
 wire [5:0]  r;
 wire [5:0]  g;
@@ -82,18 +72,12 @@ wire	    por;
 misterynano misterynano (
   .clk   ( clk ),           // 50MHz clock used e.g. for the flash pll
   
-`ifdef EFINIX
-  // efinix places plls outside the design, thus we route the 
-  // flash related clock signals from the top
-  .flash_clk      ( flash_clk ),      // 100 MHz SPI flash clock
-`endif
-    
   .reset ( !buttons[0] ),
   .user  ( !buttons[1] ),
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .pll_lock_main( pll_lock ),
+  .flash_clk      ( flash_clk ),      // 100 MHz SPI flash clock
   .por   ( por ),           // output. True while not all PLLs locked
 
   .leds_n ( leds_n ),
@@ -101,12 +85,8 @@ misterynano misterynano (
 
   // spi flash interface
   .mspi_cs      ( mspi_cs   ),
-  .mspi_di_in   ( mspi_di_in   ),
-  .mspi_di_out  ( mspi_di_out   ),
-  .mspi_di_oe   ( mspi_di_oe   ),
-  .mspi_do_in   ( mspi_do_in   ),
-  .mspi_do_out  ( mspi_do_out   ),
-  .mspi_do_oe   ( mspi_do_oe   ),
+  .mspi_di      ( mspi_di   ),
+  .mspi_do      ( mspi_do   ),
 			 
   // SDRAM
   .sdram_clk   ( SDRAM_CLK      ),
@@ -115,9 +95,7 @@ misterynano misterynano (
   .sdram_cas_n ( SDRAM_nCAS     ), // columns address select
   .sdram_ras_n ( SDRAM_nRAS     ), // row address select
   .sdram_wen_n ( SDRAM_nWE      ), // write enable
-  .sdram_dq_in ( SDRAM_DQ_IN    ), // 16 bit bidirectional data bus
-  .sdram_dq_out( SDRAM_DQ_OUT   ),
-  .sdram_dq_oe ( SDRAM_DQ_OE    ),
+  .sdram_dq    ( SDRAM_DQ       ), // 16 bit bidirectional data bus
   .sdram_addr  ( SDRAM_A        ), // 13 bit multiplexed address bus
   .sdram_ba    ( SDRAM_BA       ), // four banks
   .sdram_dqm   ( { SDRAM_UDQM, SDRAM_LDQM } ), // 16/2
@@ -136,16 +114,12 @@ misterynano misterynano (
                    
   // SD card slot
   .sd_clk     ( sd_clk     ),
-  .sd_cmd_in  ( sd_cmd_in  ), // MOSI
-  .sd_cmd_out ( sd_cmd_out ),
-  .sd_cmd_oe  ( sd_cmd_oe  ),
-  .sd_dat_in  ( sd_dat_in  ), // 0: MISO
-  .sd_dat_out ( sd_dat_out ),
-  .sd_dat_oe  ( sd_dat_oe  ),
+  .sd_cmd     ( sd_cmd     ), // MOSI
+  .sd_dat     ( sd_dat     ), // 0: MISO
 
   .vreset ( vreset ),
   .vmode  ( vmode  ),
-  .vwide  ( vwide  ),
+  .screen ( screen ),
            
   // scandoubled digital video to be
   // used with lcds
@@ -187,7 +161,7 @@ hdmi #(
 
   // video input
   .stmode( vmode ),    // current video mode NTSC/PAL/MONO
-  .wide( vwide ),      // adopt to wide screen video
+  .screen( screen ),   // adopt to wide screen video
   .reset( vreset ),    // signal to synchronize HDMI
 
   // Atari STE outputs 4 bits per color. Scandoubler outputs 6 bits (to be

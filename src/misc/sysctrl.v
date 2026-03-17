@@ -26,6 +26,8 @@ module sysctrl (
   output reg [1:0]  leds, // two leds can be controlled from the MCU
   output reg [23:0] color, // a 24bit color to e.g. be used to drive the ws2812
 
+  output reg	    jtagsel, // FPGA Companion requests activation of JTAG
+
   // IO port interface
   input	[31:0]	    port_status,         // status bits to report additional info about the port
   input	[7:0]	    port_out_available,  // number of bytes available for transmission to MCU
@@ -104,6 +106,7 @@ always @(posedge clk) begin
       int_ack <= 8'h00;
       coldboot = 1'b1;      // reset is actually the power-on-reset
       sys_int = 1'b1;       // coldboot interrupt
+      jtagsel <= 1'b0;      
 
       port_out_strobe <= 1'b0;
       port_in_strobe <= 1'b0;
@@ -294,7 +297,11 @@ always @(posedge clk) begin
 	       data_out <= menu_rom_data;
 	       menu_rom_addr <= menu_rom_addr + 12'd1;
 	    end
-	   
+
+            // CMD 9: jtagsel
+            if(command == 8'd9) begin
+               if(state == 4'd0) jtagsel <= data_in[0];
+	    end
 	end
       end // if (data_in_strobe)
    end

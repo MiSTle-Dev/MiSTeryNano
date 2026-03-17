@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<efxpt:design_db name="MiSTeryNano" device_def="T20F256" version="2024.2.294.4.15" db_version="20242999" last_change_date="Thu Apr 17 18:54:01 2025" xmlns:efxpt="http://www.efinixinc.com/peri_design_db" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/peri_design_db peri_design_db.xsd ">
+<efxpt:design_db name="MiSTeryNano" device_def="T20F256" version="2025.2.288.3.8" db_version="20252999" last_change_date="Mon Mar 16 13:24:38 2026" xmlns:efxpt="http://www.efinixinc.com/peri_design_db" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/peri_design_db peri_design_db.xsd ">
     <efxpt:device_info>
         <efxpt:iobank_info>
             <efxpt:iobank name="1A" iostd="3.3 V LVTTL / LVCMOS"/>
@@ -297,9 +297,9 @@
     </efxpt:gpio_info>
     <efxpt:pll_info>
         <efxpt:pll name="pll_hdmi" pll_def="PLL_BR0" ref_clock_name="" ref_clock_freq="50.0000" multiplier="32" pre_divider="1" post_divider="2" reset_name="" locked_name="pll_lock" is_ipfrz="false" is_bypass_lock="true">
-            <efxpt:output_clock name="clk_pixel_x5" number="0" out_divider="5" adv_out_phase_shift="0"/>
-            <efxpt:output_clock name="clk_pixel" number="1" out_divider="25" adv_out_phase_shift="0"/>
-            <efxpt:output_clock name="flash_clk" number="2" out_divider="8" adv_out_phase_shift="0"/>
+            <efxpt:output_clock name="clk_pixel_x5" number="0" out_divider="5" adv_out_phase_shift="0" conn_type="gclk"/>
+            <efxpt:output_clock name="clk_pixel" number="1" out_divider="25" adv_out_phase_shift="0" conn_type="gclk"/>
+            <efxpt:output_clock name="flash_clk" number="2" out_divider="8" adv_out_phase_shift="0" conn_type="gclk"/>
             <efxpt:adv_prop ref_clock_mode="external" ref_clock1_name="" ext_ref_clock_id="3" clksel_name="" feedback_clock_name="" feedback_mode="internal"/>
         </efxpt:pll>
     </efxpt:pll_info>

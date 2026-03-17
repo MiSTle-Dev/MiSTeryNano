@@ -34,12 +34,10 @@ module flash
  
  // interface to the chip
  output reg	   mspi_cs,
- input		   mspi_di_in, // data in into flash chip
- output		   mspi_di_out,
- output		   mspi_di_oe,
- input		   mspi_do_in, // data out from flash chip
- output		   mspi_do_out,
- output		   mspi_do_oe,
+ inout		   mspi_di, // data in into flash chip
+ inout		   mspi_do, // data out from flash chip
+ output        mspi_wp,
+ output        mspi_hold,
  
 `ifdef VERILATOR		
  input [1:0]	   mspi_din, 
@@ -62,10 +60,8 @@ wire [1:0] data_out = {
     dspi_mode?dspi_out[0]:spi_di       
 };
 
-assign mspi_do_out = data_out[1];
-assign mspi_do_oe = output_en[1];
-assign mspi_di_out = data_out[0];
-assign mspi_di_oe = output_en[0];   
+assign mspi_do   = output_en[1]?data_out[1]:1'bz;
+assign mspi_di   = output_en[0]?data_out[0]:1'bz;
    
 wire [7:0] CMD_RD_DIO = 8'hbb; // "fast read dual IO" command
 wire [7:0] CMD_RDP    = 8'hab; // "release from deep powerdown"
@@ -110,7 +106,7 @@ assign dspi_out =
 `ifdef VERILATOR
 wire [1:0] dspi_in = mspi_din;  
 `else
-wire [1:0] dspi_in = { mspi_do_in, mspi_di_in };  
+wire [1:0] dspi_in = { mspi_do, mspi_di };  
 `endif
    
 always @(posedge clk or negedge resetn) begin
