@@ -15,3 +15,10 @@ This testbench simulates the complete Atari ST incl. video, floppy and
 ACSI harddisk. The simulated Atari runs at less than 1% real speed
 depending on the speed of your PC. This allows for extensive debugging
 of the Atari ST core and can even be used to boot games and demos.
+
+During simulation, the video is rendered into a window and screenshots of every single frame
+are being written to disk.
+
+![Emutos boot screen](screenshots/frame0100.png)
+
+![Emutos desktop](screenshots/frame0394.png)
