@@ -11,7 +11,7 @@
 const char *file_image[8] = {
   "./disk_a.st",               // Floppy A:
   NULL,                        // Floppy B:
-  "../../menu/thejoyofsticks_top50.hd",  // ACSI 0:
+  NULL,                        // ACSI 0:
   NULL,                        // ACSI 1:
   NULL, NULL, NULL, NULL       // unused
 };

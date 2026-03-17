@@ -9,7 +9,7 @@ module MCU_BIROM
    reg [7:0] 	rom[0:4095];
    initial begin
 `ifdef VERILATOR
-      $readmemh ("../rom/ikbd.hex", rom, 0);
+      $readmemh ("../src/ikbd/rom/ikbd.hex", rom, 0);
 `else
       $readmemh ("ikbd.hex", rom, 0);
 `endif
