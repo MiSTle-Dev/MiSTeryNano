@@ -10,13 +10,6 @@
 // At 80MHz this results in a random access time of 300 ns. At
 // 100 Mhz, it would be 240ns and at the max allowed 104MHz it
 // would be 230ns
-//
-// This variant for the Tang Primer 25K returns the data one clock
-// earlier. It's not quite clear if this is due to an effect in the
-// different FPGA or in the different flash chip which is a
-// XTX XT25F64 instead of the Winbond one on the TN20K
-//
-
 
 module flash
 (
@@ -146,17 +139,17 @@ always @(posedge clk or negedge resetn) begin
             dspi_mode <= 1'b1;
 
         // latch output
-        if(state == 6'd24) dout[15:14] <= dspi_in;
-        if(state == 6'd25) dout[13:12] <= dspi_in;
-        if(state == 6'd26) dout[11:10] <= dspi_in;
-        if(state == 6'd27) dout[9:8]   <= dspi_in;
-        if(state == 6'd28) dout[7:6]   <= dspi_in;
-        if(state == 6'd29) dout[5:4]   <= dspi_in;
-        if(state == 6'd30) dout[3:2]   <= dspi_in;
-        if(state == 6'd31) dout[1:0]   <= dspi_in;
+        if(state == 6'd25) dout[15:14] <= dspi_in;
+        if(state == 6'd26) dout[13:12] <= dspi_in;
+        if(state == 6'd27) dout[11:10] <= dspi_in;
+        if(state == 6'd28) dout[9:8]   <= dspi_in;
+        if(state == 6'd29) dout[7:6]   <= dspi_in;
+        if(state == 6'd30) dout[5:4]   <= dspi_in;
+        if(state == 6'd31) dout[3:2]   <= dspi_in;
+        if(state == 6'd32) dout[1:0]   <= dspi_in;
 
         // signal that the transfer is done
-        if(state == 6'd31) begin
+        if(state == 6'd32) begin
             state <= 6'd0;	    
             busy <= 1'b0;
             mspi_cs <= 1'b1;	// deselect flash chip	 

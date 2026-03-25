@@ -5,19 +5,12 @@
 */ 
 
 module top(
-  input			clk,   // 50 MHz in
+  input			clk, // 50 MHz in
 
   input			reset, // S2
   input			user, // S1
 
   output [1:0]	leds_n,
-
-  // interface to Tang onboard BL616 UART
-  input			uart_rx,
-  //output		uart_tx,
-  // onboard Bl616 monitor console port interface
-  output		bl616_mon_tx,
-  //input			bl616_mon_rx,
 
   // spi flash interface
   output		mspi_cs,
@@ -38,21 +31,29 @@ module top(
   output [1:0]	O_sdram_ba,    // two banks
   output [1:0]	O_sdram_dqm,   // 16/2
 
-  // interface to external BL616/M0S
-  inout [4:0]	m0s,
+  // give explicit directions for pmod1 as it's being used for the
+  // FPGA Companion and this allows for clock buffering. Clock glitches
+  // were observed when using inouts for the companion
+  input			pmod_companion_din,
+  output		pmod_companion_dout,
+  input			pmod_companion_clk,
+  input			pmod_companion_ss,
+  output		pmod_companion_intn,
+
+  output		jtagseln,
+  input			bl616_jtagsel,
+
+  // interface to onboard BL616 µC
+  input			spi_sclk, 
+  input			spi_csn,
+  output		spi_dir,
+  input			spi_dat,
+  output		spi_irqn,
 
   // SD card slot
   output		sd_clk,
   inout			sd_cmd, // MOSI
   inout [3:0]	sd_dat, // 0: MISO
-
-  // SPI connection to on-board BL616 for 3921 assemblies 
-  // By default an external connection is used with a M0S Dock
-  input			spi_sclk,
-  input			spi_csn,
-  output		spi_dir,
-  input			spi_dat,
-  output		spi_irqn,
 
   // hdmi/tdms
   output		tmds_clk_n,
@@ -61,21 +62,21 @@ module top(
   output [2:0]	tmds_d_p
 );
 
-// connect onboard BL616 console to hw pins for an USB-UART adapter
-//assign uart_tx = bl616_mon_rx;
-assign bl616_mon_tx = uart_rx;
 
 wire clk32;
-wire flash_clk;
 wire pll_lock;
-wire por = !pll_lock; 
+wire flash_clk;
+wire por = !pll_lock || boot_button_detected;
 
-// On the Tang Nano 20k we support two different MCU setups. Once uses the internal
-// BL616 of the Tang Nano 20k and one uses an external M0S Dock. The MCU control signals
-// of the MiSTeryNano have to be connected to both of them. This is simple for signals
-// being sent out of the FPGA as these are simply connected to both MCU ports (even
-// if no M0S may actually be connected at all). But for the input signals coming from
-// the MCUs, the active one needs to be selected. This happens here.
+reg     spi_ext = 1'b0;       // set when the external SPI interface on PMOD is active
+reg boot_button_detected = 1'b0;
+always @(posedge pll_lock)
+  boot_button_detected <= user || reset;
+
+// enable JTAG if any button has been pressed during boot and also once
+// the external FPGA Companion has been seen
+assign jtagseln = !(!pll_lock || boot_button_detected || spi_ext || bl616_jtagsel);
+// -------------------------- FPGA Companion interface -----------------------
 
 // map output data onto both spi outputs
 wire spi_io_dout;
@@ -83,17 +84,17 @@ wire spi_intn;
 
 // intn and dout are outputs driven by the FPGA to the MCU
 // din, ss and clk are inputs coming from the MCU
-// onboard connection to on-board BL616 only newer 3921 assemblies 
 assign spi_dir = spi_io_dout;
-assign m0s[4:0] = { spi_intn, 3'bzzz, spi_io_dout };
 assign spi_irqn = spi_intn;
 
+assign pmod_companion_dout = spi_io_dout;
+assign pmod_companion_intn = spi_intn;
+   
 // by default the internal SPI is being used. Once there is
 // a select from the external spi, then the connection is
 // being switched
-reg spi_ext;
-always @(posedge clk32) begin
-    if(por)
+always @(posedge clk) begin
+    if(!pll_lock)
         spi_ext = 1'b0;
     else begin
         // spi_ext is activated once the m0s pins 2 (ss or csn) is
@@ -101,16 +102,16 @@ always @(posedge clk32) begin
         // is connected and the FPGA switches its inputs to the
         // m0s. Until then the inputs of the internal BL616 are
         // being used.
-        if(m0s[2] == 1'b0)
+        if(pmod_companion_ss == 1'b0)
             spi_ext = 1'b1;
     end
 end
 
 // switch between internal SPI connected to the on-board bl616
-// or to the external one possibly connected to a M0S Dock
-wire spi_io_din = spi_ext?m0s[1]:spi_dat;
-wire spi_io_ss = spi_ext?m0s[2]:spi_csn;
-wire spi_io_clk = spi_ext?m0s[3]:spi_sclk;
+// or to the external one possibly connected to a FPGA Companion
+wire spi_io_din = spi_ext?pmod_companion_din:spi_dat;
+wire spi_io_ss = spi_ext?pmod_companion_ss:spi_csn;
+wire spi_io_clk = spi_ext?pmod_companion_clk:spi_sclk;
 
 wire [15:0] audio [2];
 wire        vreset;
@@ -121,8 +122,8 @@ wire [5:0]  r;
 wire [5:0]  g;
 wire [5:0]  b;
 
-wire [5:0] leds_int_n;   
-assign leds_n = ~leds_int_n[1:0];  
+wire [5:0] leds_int_n;
+assign leds_n = ~leds_int_n[1:0];
 
 // MiSTer SDRAM is only 16 bits wide
 wire [31:0] sdram_dq;  
@@ -132,7 +133,7 @@ wire [3:0] sdram_dqm;
 assign O_sdram_dqm = sdram_dqm[1:0];
 
 misterynano misterynano (
-  .clk   ( clk ),           // 27MHz clock uses e.g. for the flash pll
+  .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
 
   .reset ( reset ),
   .user  ( user ),
@@ -140,7 +141,7 @@ misterynano misterynano (
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
   .flash_clk ( flash_clk ), 
-  .por   ( por ),           // output. True while not all PLLs locked
+  .por   ( por ),           // True while not all PLLs locked
 
   .leds_n ( leds_int_n ),
   .ws2812 ( ),
@@ -202,14 +203,16 @@ misterynano misterynano (
 wire	   clk_pixel_x5;
 wire	   clk_pixel;   
 pll_160m pll_hdmi (
-               .clkout(clk_pixel_x5),        // 158.333 MHz
+               .clkout0(clk_pixel_x5),       // 158.333 MHz
                .clkout1(clk_pixel),          // 31.66 MHz
                .clkout2(O_sdram_clk),        // 31.66 MHz, shifted by 337,5°
                .clkout3(flash_clk),          // 95 MHz
                .clkout4(mspi_clk),           // 95 MHz, shifted by 22,5°
                .lock(pll_lock),
-               .clkin(clk)
-	       );
+               .clkin(clk),
+               .reset(1'b0),
+               .mdclk(clk) 
+       );
 
 assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock
 
