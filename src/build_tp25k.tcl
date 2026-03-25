@@ -78,6 +78,8 @@ add_file tang/primer25k/flash_dspi.v
 add_file tang/primer25k/gowin_dpb/fdc_dpram.v
 add_file tang/primer25k/gowin_dpb/sector_dpram.v
 add_file tang/primer25k/gowin_pll/pll_160m.v
+add_file tang/primer25k/gowin_pll/pll_160m_mod.v
+add_file tang/primer25k/pll_init.v
 add_file tang/primer25k/sdram.v
 add_file tang/primer25k/top.sv
 add_file tang/nano20k/video.v
