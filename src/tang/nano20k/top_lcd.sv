@@ -133,9 +133,6 @@ misterynano misterynano (
   .sdram_ba    ( O_sdram_ba     ), // two banks
   .sdram_dqm   ( O_sdram_dqm    ), // 32/4
 
-  // generic IO, used for mouse/joystick/...
-  .io          ( 1'b11111111    ), // unused
-
   // mcu interface
   .mcu_sclk ( spi_sclk    ),
   .mcu_csn  ( spi_csn     ),
@@ -143,7 +140,7 @@ misterynano misterynano (
   .mcu_mosi ( spi_dat     ), // from MCU to FPGA
   .mcu_intn ( spi_irqn    ),
 
-  // parallel port and MIDI are unconnected
+  // joystick, mouse, parallel port and MIDI are unconnected
 		   
   // SD card slot
   .sd_clk ( sd_clk ),

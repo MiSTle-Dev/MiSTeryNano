@@ -86,5 +86,7 @@ set_option -verilog_std sysv2017
 set_option -top_module top
 set_option -use_mspi_as_gpio 1
 set_option -use_sspi_as_gpio 1
+set_option -loading_rate 25.000
+set_option -bit_compress 1
 
 run all
