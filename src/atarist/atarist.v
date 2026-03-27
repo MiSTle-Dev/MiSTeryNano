@@ -179,13 +179,13 @@ wire        iodevice = ~as_n & fc2 & (fc0 ^ fc1) & mbus_a[23:16] == 8'hff;
 
 // CPU signals
 wire        mhz8, mhz8_en1, mhz8_en2;
-wire        berr_n;
+wire        berr_n /* verilator public */;
 wire        ipl0_n, ipl1_n, ipl2_n;
 wire        cpu_fc0, cpu_fc1, cpu_fc2;
 wire        cpu_as_n, cpu_rw, cpu_uds_n, cpu_lds_n, vma_n, vpa_n, cpu_E;
 wire        cpu_reset_n_o;
 wire [15:0] cpu_din, cpu_dout;
-wire [23:1] cpu_a;
+wire [23:1] cpu_a /* verilator public */;
 
 // Blitter signals needed beforehand
 wire        blitter_br_n;
@@ -480,9 +480,7 @@ fx68k fx68k (
 	.DTACKn     ( dtack_n    ),
 	.VPAn       ( vpa_n      ),
 	.BERRn      ( berr_n     ),
-`ifndef VERILATOR
 	.HALTn      ( 1'b1       ),
-`endif
 	.BRn        ( blitter_br_n & mcu_br_n ),
 	.BGACKn     ( blitter_bgack_n ),
 	.IPL0n      ( ipl0_n     ),

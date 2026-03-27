@@ -5,6 +5,7 @@
     <Version>5</Version>
     <Device name="GW2AR-18C" pn="GW2AR-LV18QN88C8/I7">gw2ar18c-000</Device>
     <FileList>
+        <File path="tang/nano20k/top.sv" type="file.verilog" enable="1"/>
         <File path="misterynano.sv" type="file.verilog" enable="1"/>
         <File path="atarist/acia.v" type="file.verilog" enable="1"/>
         <File path="atarist/acsi.v" type="file.verilog" enable="1"/>
@@ -86,7 +87,6 @@
         <File path="tang/nano20k/gowin_rpll/flash_pll.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/gowin_rpll/pll_160m.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/sdram.v" type="file.verilog" enable="1"/>
-        <File path="tang/nano20k/top.sv" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video2hdmi.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/ws2812.v" type="file.verilog" enable="1"/>

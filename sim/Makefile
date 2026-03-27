@@ -6,12 +6,11 @@ PRJ=atarist
 
 OBJ_DIR=obj_dir
 
-# the original fx68k won't simulate. Thus we use this special version for simulation
-FX68K_DIR=./fx68x_verilator
-FX68K_FILES= fx68k.sv fx68kAlu.sv uaddrPla.sv fx68k_MicroRom.v fx68k_NanoRom.v
+TB=$(PRJ)_tb
 
-# 
-TB=atarist_tb
+# the original fx68k won't simulate. This is a slightly modified version
+FX68K_DIR=./fx68k
+FX68K_FILES= fx68k.sv fx68kAlu.sv uaddrPla.sv
 
 GSTMCU_DIR=../src/gstmcu/hdl
 GSTMCU_FILES=gstmcu.v clockgen.v mcucontrol.v hsyncgen.v hdegen.v vsyncgen.v vdegen.v vidcnt.v sndcnt.v latch.v register.v modules.v gstshifter.v shifter_video.v shifter_video_async.v
@@ -44,17 +43,24 @@ EXTRA_LDFLAGS = `sdl2-config --libs` -lSDL2_image
 all: $(PRJ)
 
 $(PRJ): $(TB).cpp sd_card.cpp sd_card_config.h ${HDL_FILES} Makefile
-	verilator -O3 -Wno-fatal --no-timing --trace-fst --threads 1 --trace-underscore -I$(IKBD_DIR)/hd63701 -top-module $(PRJ)_tb $(VERILATOR_FLAGS) -cc ${HDL_FILES} --exe $(TB).cpp sd_card.cpp -o ../$(PRJ) -CFLAGS "${EXTRA_CFLAGS}" -LDFLAGS "${EXTRA_LDFLAGS}"
-	make -j -C ${OBJ_DIR} -f V$(PRJ)_tb.mk
+	verilator -O3 -Wno-fatal -Wno-BLKANDNBLK --no-timing --trace-fst --threads 1 --trace-underscore -I$(IKBD_DIR)/hd63701 -I../src/fx68k -top-module $(TB) $(VERILATOR_FLAGS) -cc ${HDL_FILES} --exe $(TB).cpp sd_card.cpp -o ../$(PRJ) -CFLAGS "${EXTRA_CFLAGS}" -LDFLAGS "${EXTRA_LDFLAGS}"
+	make -j -C ${OBJ_DIR} -f V$(TB).mk
 
-$(PRJ)_tb.fst: $(PRJ)
+$(FX68K_DIR)/%.sv: ../src/fx68k/%.sv
+	rm -rf $(FX68K_DIR)
+	mkdir $(FX68K_DIR)
+	cp -a ../src/fx68k/*.sv $(FX68K_DIR)
+	patch -p1 < fx68k_sim.patch
+	cp ../src/fx68k/*.mem .
+
+$(TB).fst: $(PRJ)
 	./$(PRJ)
 
 run: $(PRJ)
 	./$(PRJ)
 
-wave: $(PRJ)_tb.fst
-	gtkwave $(PRJ)_tb.gtkw
+wave: $(TB).fst
+	gtkwave $(TB).gtkw
 
 clean:
-	rm -rf obj_dir $(PRJ)
+	rm -rf obj_dir $(FX68K_DIR) *.mem $(PRJ)

@@ -4,6 +4,8 @@
     This top level implements the default variant for tc60k
 */ 
 
+`define GOWIN
+
 module top(
   input			clk, // 50 MHz in
 

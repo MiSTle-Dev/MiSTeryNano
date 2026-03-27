@@ -5,6 +5,7 @@
     <Version>5</Version>
     <Device name="GW5A-25A" pn="GW5A-LV25MG121NC1/I0">gw5a25a-002</Device>
     <FileList>
+        <File path="tang/primer25k/top.sv" type="file.verilog" enable="1"/>
         <File path="atarist/acia.v" type="file.verilog" enable="1"/>
         <File path="atarist/acsi.v" type="file.verilog" enable="1"/>
         <File path="atarist/atarist.v" type="file.verilog" enable="1"/>
@@ -89,7 +90,6 @@
         <File path="tang/primer25k/gowin_pll/pll_160m_mod.v" type="file.verilog" enable="1"/>
         <File path="tang/primer25k/pll_init.v" type="file.verilog" enable="1"/>
         <File path="tang/primer25k/sdram.v" type="file.verilog" enable="1"/>
-        <File path="tang/primer25k/top.sv" type="file.verilog" enable="1"/>
         <File path="tang/primer25k/atarist.cst" type="file.cst" enable="1"/>
         <File path="tang/primer25k/atarist.sdc" type="file.sdc" enable="1"/>
         <File path="fx68k/microrom.mem" type="file.other" enable="1"/>

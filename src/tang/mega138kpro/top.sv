@@ -4,6 +4,8 @@
     This top level implements the default variant for 138k
 */ 
 
+`define GOWIN
+
 module top(
   input			clk, // 50 MHz in
 
@@ -158,7 +160,7 @@ wire        vreset;
 wire [1:0]  vmode;
 wire [1:0]  screen;
 
-assign lcd_bl = 1'bz;
+assign lcd_bl = !por;
    
 // MiSTer SDRAM is only 16 bits wide
 wire [31:0] sdram_dq;  
@@ -241,12 +243,13 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .flash_clk ( flash_clk ),         // 32 Mhz system clock input
+  .flash_clk ( flash_clk ),
   .por(por),
-
+						 
   .leds_n ( leds_int_n ),
   .ws2812 ( ws2812 ),
-
+  .jtagsel( ),              // Companion request JTAG usage     
+						 
   // spi flash interface
   .mspi_cs   ( mspi_cs   ),
   .mspi_di   ( mspi_di   ),

@@ -5,6 +5,7 @@
     <Version>5</Version>
     <Device name="GW5AST-138B" pn="GW5AST-LV138FPG676AES">gw5ast138b-002</Device>
     <FileList>
+        <File path="tang/mega138kpro/top.sv" type="file.verilog" enable="1"/>
         <File path="atarist/acia.v" type="file.verilog" enable="1"/>
         <File path="atarist/acsi.v" type="file.verilog" enable="1"/>
         <File path="atarist/atarist.v" type="file.verilog" enable="1"/>
@@ -80,19 +81,16 @@
         <File path="misc/dualshock2.v" type="file.verilog" enable="1"/>
         <File path="misc/atarist_keymap.v" type="file.verilog" enable="1"/>
         <File path="misterynano.sv" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/flash_dspi.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/sdram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/top.sv" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/flash_dspi.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/sdram.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video2hdmi.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/ws2812.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_clkdiv/gowin_clkdiv.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_pll/flash_pll.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138k/atarist.cst" type="file.cst" enable="1"/>
-        <File path="tang/mega138k/atarist.sdc" type="file.sdc" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/atarist.cst" type="file.cst" enable="1"/>
+        <File path="tang/mega138kpro/atarist.sdc" type="file.sdc" enable="1"/>
         <File path="fx68k/microrom.mem" type="file.other" enable="1"/>
         <File path="fx68k/nanorom.mem" type="file.other" enable="1"/>
         <File path="ikbd/rom/ikbd.hex" type="file.other" enable="1"/>

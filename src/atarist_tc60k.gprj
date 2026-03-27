@@ -3,8 +3,9 @@
 <Project>
     <Template>FPGA</Template>
     <Version>5</Version>
-    <Device name="GW5AT-60B" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
+    <Device name="" pn="GW5AT-LV60PG484AC1/I0">gw5at60b-002</Device>
     <FileList>
+        <File path="tang/console60k/top.sv" type="file.verilog" enable="1"/>
         <File path="atarist/acia.v" type="file.verilog" enable="1"/>
         <File path="atarist/acsi.v" type="file.verilog" enable="1"/>
         <File path="atarist/atarist.v" type="file.verilog" enable="1"/>
@@ -68,8 +69,6 @@
         <File path="jt49/jt49_eg.v" type="file.verilog" enable="1"/>
         <File path="jt49/jt49_exp.v" type="file.verilog" enable="1"/>
         <File path="jt49/jt49_noise.v" type="file.verilog" enable="1"/>
-        <File path="misc/atarist_keymap.v" type="file.verilog" enable="1"/>
-        <File path="misc/dualshock2.v" type="file.verilog" enable="1"/>
         <File path="misc/hid.v" type="file.verilog" enable="1"/>
         <File path="misc/mcu_spi.v" type="file.verilog" enable="1"/>
         <File path="misc/osd_u8g2.v" type="file.verilog" enable="1"/>
@@ -79,18 +78,17 @@
         <File path="misc/sdcmd_ctrl.v" type="file.verilog" enable="1"/>
         <File path="misc/sysctrl.v" type="file.verilog" enable="1"/>
         <File path="misc/video_analyzer.v" type="file.verilog" enable="1"/>
+        <File path="misc/dualshock2.v" type="file.verilog" enable="1"/>
+        <File path="misc/atarist_keymap.v" type="file.verilog" enable="1"/>
         <File path="misterynano.sv" type="file.verilog" enable="1"/>
         <File path="tang/console60k/flash_dspi.v" type="file.verilog" enable="1"/>
-        <File path="tang/console60k/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
-        <File path="tang/console60k/gowin_pll/pll_160m_mod.v" type="file.verilog" enable="1"/>
-        <File path="tang/console60k/pll_init.v" type="file.verilog" enable="1"/>
-        <File path="tang/console60k/top.sv" type="file.verilog" enable="1"/>
-        <File path="tang/mega138kpro/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
-        <File path="tang/mega138kpro/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
         <File path="tang/mega138kpro/sdram.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/video2hdmi.v" type="file.verilog" enable="1"/>
         <File path="tang/nano20k/ws2812.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/fdc_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/mega138kpro/gowin_dpb/sector_dpram.v" type="file.verilog" enable="1"/>
+        <File path="tang/console60k/gowin_pll/pll_160m.v" type="file.verilog" enable="1"/>
         <File path="tang/console60k/atarist.cst" type="file.cst" enable="1"/>
         <File path="tang/console60k/atarist.sdc" type="file.sdc" enable="1"/>
         <File path="fx68k/microrom.mem" type="file.other" enable="1"/>

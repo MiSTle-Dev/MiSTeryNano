@@ -5,6 +5,8 @@
     FPGA Companion
 */ 
 
+`define GOWIN
+
 module top(
   input			clk,
 

@@ -4,6 +4,8 @@
     This top level implements the default variant for 25k with M0S Dock
 */ 
 
+`define GOWIN
+
 module top(
   input			clk, // 50 MHz in
 

@@ -1,7 +1,3 @@
-`ifndef ALTERA_RESERVED_QIS
-  `define GW_IDE
-`endif
-  
 module serializer
 #(
     parameter int NUM_CHANNELS = 3,
@@ -145,7 +141,7 @@ module serializer
         end
         endgenerate
         assign tmds_clock = clk_pixel_x5?{ !dd[0], dd[0]}:{ !shift[0][0], shift[0][0] };
-    `elsif GW_IDE
+    `elsif GOWIN
         OSER10 gwSer0( 
             .Q( tmds[ 0 ] ),
             .D0( tmds_internal[ 0 ][ 0 ] ),

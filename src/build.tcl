@@ -1,5 +1,6 @@
 set_device GW2AR-LV18QN88C8/I7 -name GW2AR-18C
 
+add_file tang/nano20k/top.sv
 add_file misterynano.sv
 add_file atarist/acia.v
 add_file atarist/acsi.v
@@ -81,7 +82,6 @@ add_file tang/nano20k/gowin_dpb/sector_dpram.v
 add_file tang/nano20k/gowin_rpll/flash_pll.v
 add_file tang/nano20k/gowin_rpll/pll_160m.v
 add_file tang/nano20k/sdram.v
-add_file tang/nano20k/top.sv
 add_file tang/nano20k/video.v
 add_file tang/nano20k/video2hdmi.v
 add_file tang/nano20k/ws2812.v
@@ -100,5 +100,7 @@ set_option -top_module top
 set_option -use_mspi_as_gpio 1
 set_option -use_sspi_as_gpio 1
 set_option -bit_compress 1
+# according to claude, this works, but it desn't
+#set_option -define GOWIN
 
 run all

@@ -1,5 +1,6 @@
 set_device GW2AR-LV18QN88C8/I7 -name GW2AR-18C
 
+add_file tang/nano20k/top_lcd.sv
 add_file misterynano.sv
 add_file atarist/acia.v
 add_file atarist/acsi.v
@@ -70,7 +71,6 @@ add_file tang/nano20k/gowin_dpb/sector_dpram.v
 add_file tang/nano20k/gowin_rpll/flash_pll.v
 add_file tang/nano20k/gowin_rpll/pll_32m.v
 add_file tang/nano20k/sdram.v
-add_file tang/nano20k/top_lcd.sv
 add_file tang/nano20k/video.v
 add_file tang/nano20k/ws2812.v
 add_file tang/nano20k/atarist_lcd.cst

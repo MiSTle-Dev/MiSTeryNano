@@ -1,5 +1,6 @@
 set_device GW5AST-LV138FPG676AES -name GW5AST-138B
 
+add_file tang/mega138kpro/top.sv
 add_file atarist/acia.v
 add_file atarist/acsi.v
 add_file atarist/atarist.v
@@ -77,7 +78,6 @@ add_file misc/dualshock2.v
 add_file misterynano.sv
 add_file tang/mega138kpro/flash_dspi.v
 add_file tang/mega138kpro/sdram.v
-add_file tang/mega138kpro/top.sv
 add_file tang/nano20k/video.v
 add_file tang/nano20k/video2hdmi.v
 add_file tang/nano20k/ws2812.v

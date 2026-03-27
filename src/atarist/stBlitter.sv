@@ -53,6 +53,7 @@ module stBlitter(
 		  input [15:0] iDBUS, output [15:0] oDBUS);
 			
 	wire blitSpace = { iABUS[23:6], 6'b0} == 24'hFF8A00;				// Space: FF8A00 - FF8A3F
+        // FC[2:0] == 101: supervisor data
 	assign selected = ({ FC2, FC1, FC0 } == 3'b101) & !ASn & blitSpace;
 	wire wrWordSel = selected & !RWn & !LDSn & !UDSn;
 	wire ramWrSel = wrWordSel & !iABUS[5];

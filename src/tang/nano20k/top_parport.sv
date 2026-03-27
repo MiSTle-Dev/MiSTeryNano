@@ -8,7 +8,9 @@
     interface. Since the FPGA supports at most 3.3V IO
     additional level shifters are needed when connecting
     with 5V peripherals.
-*/ 
+*/
+
+`define GOWIN
 
 module top(
   input			clk,

@@ -5,6 +5,8 @@
     Dock, DB9-Joystick and MIDI
 */ 
 
+`define GOWIN
+
 module top(
   input			clk,
 

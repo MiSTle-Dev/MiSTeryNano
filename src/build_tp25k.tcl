@@ -1,5 +1,6 @@
 set_device GW5A-LV25MG121NC1/I0 -name GW5A-25A
 
+add_file tang/primer25k/top.sv
 add_file misterynano.sv
 add_file atarist/acia.v
 add_file atarist/acsi.v
@@ -81,7 +82,6 @@ add_file tang/primer25k/gowin_pll/pll_160m.v
 add_file tang/primer25k/gowin_pll/pll_160m_mod.v
 add_file tang/primer25k/pll_init.v
 add_file tang/primer25k/sdram.v
-add_file tang/primer25k/top.sv
 add_file tang/nano20k/video.v
 add_file tang/nano20k/video2hdmi.v
 add_file tang/nano20k/ws2812.v
