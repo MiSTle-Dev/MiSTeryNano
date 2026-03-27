@@ -5,6 +5,8 @@
     connected on the same pins as LCD version.
 */ 
 
+`define GOWIN
+
 module top(
   input			clk,
 
@@ -55,8 +57,9 @@ module top(
 
 wire clk32;
 wire pll_lock_hdmi;
-
-wire        por;
+wire pll_lock_flash;
+wire pll_lock =  pll_lock_hdmi && pll_lock_flash;
+wire por = !pll_lock;
 
 wire [15:0] audio [2];
 wire        vreset;
@@ -79,8 +82,8 @@ misterynano misterynano (
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .pll_lock_main( pll_lock_hdmi),
-  .por   ( por ),           // output. True while not all PLLs locked
+  .flash_clk ( flash_clk ),
+  .por   ( por ),
 
   .leds_n ( leds_n ),
   .ws2812 ( ws2812 ),
@@ -140,10 +143,32 @@ misterynano misterynano (
   .audio ( audio )
 );
 
+wire            clk_pixel_x5;
+wire            clk_pixel;   
+pll_160m pll_hdmi (
+               .clkout(clk_pixel_x5),
+               .lock(pll_lock_hdmi),
+               .clkin(clk)
+               );
+
+flash_pll pll_flash (
+               .clkout(flash_clk),     // 100 Mhz
+               .clkoutp(mspi_clk),     // -"- shifted by 22.5 deg
+               .lock(pll_lock_flash),
+               .clkin(clk)
+               );
+
+Gowin_CLKDIV clk_div_5 (
+        .hclkin(clk_pixel_x5),  // input hclkin
+        .resetn(pll_lock_hdmi), // input resetn
+        .clkout(clk_pixel)      // output clkout
+    );
+
+assign clk32 = clk_pixel;   // the 32 Mhz system clock is the pixel clock
+
 video2hdmi video2hdmi (
-    .clk      ( clk      ),       // 27 Mhz clock in
-    .clk_32   ( clk32    ),       // 32 Mhz clock out
-    .pll_lock ( pll_lock_hdmi ),  // output clock is stable
+    .clk_pixel_x5 ( clk_pixel_x5  ),      // hdmi clock
+    .clk_pixel    ( clk_pixel     ),      // pixel clock
 
     .vreset ( vreset ),
     .vmode ( vmode ),
