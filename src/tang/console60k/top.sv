@@ -239,8 +239,6 @@ assign i2s_lrck = por?1'b0:audio_bit_cnt[4];
 assign i2s_din = por?1'b0:audio[i2s_lrck][15-audio_bit_cnt[3:0]];
    
 misterynano misterynano (
-  .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
-
   .reset ( !reset_n ),
   .user  ( !user_n ),
 

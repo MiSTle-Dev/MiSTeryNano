@@ -102,7 +102,6 @@ wire [13:0] sdram_addr;
 assign O_sdram_addr = sdram_addr[10:0];
 
 misterynano misterynano (
-  .clk   ( clk ),    // 27 Mhz in (e.g. for further PLLs)
   .reset ( reset ),
   .user  ( user ),
 

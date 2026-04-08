@@ -67,18 +67,14 @@ wire [5:0]  r;
 wire [5:0]  g;
 wire [5:0]  b;
 
-wire	    por;   
-
 misterynano misterynano (
-  .clk   ( clk ),           // 50MHz clock used e.g. for the flash pll
-  
   .reset ( !buttons[0] ),
   .user  ( !buttons[1] ),
 
   // clock and power on reset from system
   .clk32 ( clk32 ),         // 32 Mhz system clock input
   .flash_clk      ( flash_clk ),      // 100 MHz SPI flash clock
-  .por   ( por ),           // output. True while not all PLLs locked
+  .por   ( !pll_lock ),
 
   .leds_n ( leds_n ),
   .ws2812 ( ws2812 ),

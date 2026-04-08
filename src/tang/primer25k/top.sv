@@ -135,8 +135,6 @@ wire [3:0] sdram_dqm;
 assign O_sdram_dqm = sdram_dqm[1:0];
 
 misterynano misterynano (
-  .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
-
   .reset ( reset ),
   .user  ( user ),
 

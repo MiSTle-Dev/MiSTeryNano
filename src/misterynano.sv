@@ -9,7 +9,6 @@
 module misterynano #( 
   parameter		EXTERNAL_PARPORT = 1'b0 // set to 1 to enable external parport
 ) (
-  input			clk,
   input			flash_clk, // 100 MHz SPI flash clock
 
   input			reset, // S2
@@ -558,7 +557,7 @@ atarist atarist (
     .sd_img_size    ( sd_img_size ),
 
     // ACSI disk/sd card interface
-`ifdef NO_ACSI
+`ifdef DISABLE_ACSI
 	.acsi_rd_req( ),
 	.acsi_wr_req( ),
 	.acsi_sd_lba( ),
@@ -700,7 +699,7 @@ always @(posedge clk32) begin
     end
 end
 
-`ifndef NO_ACSI
+`ifndef DISABLE_ACSI
 // differentiate between floppy and acsi requests
 reg [7:0] sdc_rd = 8'h00;
 reg [7:0] sdc_wr = 8'h00;   
@@ -742,7 +741,7 @@ sd_card #(
     .irq(sdc_int),
     .iack(sdc_iack),
 
-`ifdef NO_ACSI
+`ifdef DISABLE_ACSI
 	// on t20 only floppy is being implemented
     .rstart( { 6'b000000, fdc_rd_req } ), 
     .wstart( { 6'b000000, fdc_wr_req } ),

@@ -145,8 +145,6 @@ wire [12:0] sdram_addr;
 assign O_sdram_addr = sdram_addr[10:0];
 
 misterynano misterynano (
-  .clk   ( clk ),           // 27MHz clock uses e.g. for the flash pll
-
   .reset ( reset ),
   .user  ( user ),
 

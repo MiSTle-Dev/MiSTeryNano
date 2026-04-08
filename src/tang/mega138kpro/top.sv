@@ -236,8 +236,6 @@ wire [5:0] leds_int_n;
 assign leds_n[4:0] = leds_int_n[4:0];
    
 misterynano misterynano (
-  .clk   ( clk ),           // 50MHz clock uses e.g. for the flash pll
-
   .reset ( !reset_n ),
   .user  ( !user_n ),
 
