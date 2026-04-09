@@ -1,0 +1,41 @@
+# Efinity Interface Configuration
+
+# Device: T20F256
+# Package: 256-ball FBGA (final)
+# Project: MiSTle MiSTeryNano
+# Configuration mode: active (x1)
+# Timing Model: C4 (final)
+
+# Create instance
+design.create_pll_input_clock_gpio("clk")
+design.create_block("pll_inst1","PLL")
+
+# Set property, non-defaults
+design.set_property("pll_inst1","CLKOUT0_EN","1","PLL")
+design.set_property("pll_inst1","CLKOUT1_EN","1","PLL")
+design.set_property("pll_inst1","CLKOUT2_EN","1","PLL")
+design.set_property("pll_inst1","REFCLK_SOURCE","EXTERNAL","PLL")
+design.set_property("pll_inst1","CLKOUT0_CONN_TYPE","gclk","PLL")
+design.set_property("pll_inst1","CLKOUT0_DIV","5","PLL")
+design.set_property("pll_inst1","CLKOUT0_PHASE","0","PLL")
+design.set_property("pll_inst1","CLKOUT0_PIN","clk_pixel_x5","PLL")
+design.set_property("pll_inst1","CLKOUT1_DIV","25","PLL")
+design.set_property("pll_inst1","CLKOUT1_PHASE","0","PLL")
+design.set_property("pll_inst1","CLKOUT1_PIN","clk_pixel","PLL")
+design.set_property("pll_inst1","CLKOUT2_DIV","8","PLL")
+design.set_property("pll_inst1","CLKOUT2_PHASE","0","PLL")
+design.set_property("pll_inst1","CLKOUT2_PIN","flash_clk","PLL")
+design.set_property("pll_inst1","EXT_CLK","EXT_CLK1","PLL")
+design.set_property("pll_inst1","LOCKED_PIN","","PLL")
+design.set_property("pll_inst1","LOCKED_PIN","pll_lock","PLL")
+design.set_property("pll_inst1","M","16","PLL")
+design.set_property("pll_inst1","N","5","PLL")
+design.set_property("pll_inst1","O","2","PLL")
+design.set_property("pll_inst1","REFCLK_FREQ","50.0","PLL")
+design.set_property("pll_inst1","RSTN_PIN","","PLL")
+design.set_property("pll_inst1","FEEDBACK_MODE","LOCAL","PLL")
+design.set_property("pll_inst1","FEEDBACK_CLK","CLK0","PLL")
+
+# Set resource assignment
+design.assign_pkg_pin("clk","L13")
+design.assign_resource("pll_inst1","PLL_BR0","PLL")

@@ -1,0 +1,111 @@
+# Efinity Interface Configuration
+
+# Device: T20F256
+# Package: 256-ball FBGA (final)
+# Project: MiSTle MiSTeryNano
+# Configuration mode: active (x1)
+# Timing Model: C4 (final)
+
+# Set property, non-defaults
+design.set_property("sd_cmd","PULL_OPTION","WEAK_PULLUP")
+design.set_property("sd_dat[0]","PULL_OPTION","WEAK_PULLUP")
+design.set_property("sd_dat[1]","PULL_OPTION","WEAK_PULLUP")
+design.set_property("sd_dat[2]","PULL_OPTION","WEAK_PULLUP")
+design.set_property("sd_dat[3]","PULL_OPTION","WEAK_PULLUP")
+design.set_property("spi_ss","PULL_OPTION","WEAK_PULLUP")
+design.set_property("buttons[0]","PULL_OPTION","WEAK_PULLUP")
+design.set_property("buttons[1]","PULL_OPTION","WEAK_PULLUP")
+design.set_property("buttons[2]","PULL_OPTION","WEAK_PULLUP")
+
+# Set resource assignment
+
+# main clock pin is assigned in xx_manual.isf
+#design.assign_pkg_pin("clk","L13")
+
+# companion
+design.assign_pkg_pin("spi_clk","G2")
+design.assign_pkg_pin("spi_ss","G5")
+design.assign_pkg_pin("spi_din","F1")
+design.assign_pkg_pin("spi_dout","G3")
+design.assign_pkg_pin("spi_intn","G1")
+
+# SDRAM
+design.assign_pkg_pin("SDRAM_CKE","M16")
+design.assign_pkg_pin("SDRAM_CLK","P16")
+design.assign_pkg_pin("SDRAM_LDQM","B9")
+design.assign_pkg_pin("SDRAM_UDQM","K16")
+design.assign_pkg_pin("SDRAM_nCAS","H12")
+design.assign_pkg_pin("SDRAM_nCS","D13")
+design.assign_pkg_pin("SDRAM_nRAS","E12")
+design.assign_pkg_pin("SDRAM_nWE","J12")
+design.assign_pkg_pin("SDRAM_A[0]","C12")
+design.assign_pkg_pin("SDRAM_A[1]","D11")
+design.assign_pkg_pin("SDRAM_A[2]","C11")
+design.assign_pkg_pin("SDRAM_A[3]","E11")
+design.assign_pkg_pin("SDRAM_A[4]","J13")
+design.assign_pkg_pin("SDRAM_A[5]","J14")
+design.assign_pkg_pin("SDRAM_A[6]","J15")
+design.assign_pkg_pin("SDRAM_A[7]","K12")
+design.assign_pkg_pin("SDRAM_A[8]","K14")
+design.assign_pkg_pin("SDRAM_A[9]","L15")
+design.assign_pkg_pin("SDRAM_A[10]","D12")
+design.assign_pkg_pin("SDRAM_A[11]","L16")
+design.assign_pkg_pin("SDRAM_A[12]","M15")
+design.assign_pkg_pin("SDRAM_BA[0]","C14")
+design.assign_pkg_pin("SDRAM_BA[1]","C13")
+design.assign_pkg_pin("SDRAM_DQ[0]","B14")
+design.assign_pkg_pin("SDRAM_DQ[1]","A14")
+design.assign_pkg_pin("SDRAM_DQ[2]","B13")
+design.assign_pkg_pin("SDRAM_DQ[3]","A13")
+design.assign_pkg_pin("SDRAM_DQ[4]","B12")
+design.assign_pkg_pin("SDRAM_DQ[5]","B11")
+design.assign_pkg_pin("SDRAM_DQ[6]","A11")
+design.assign_pkg_pin("SDRAM_DQ[7]","B10")
+design.assign_pkg_pin("SDRAM_DQ[8]","K15")
+design.assign_pkg_pin("SDRAM_DQ[9]","E16")
+design.assign_pkg_pin("SDRAM_DQ[10]","D16")
+design.assign_pkg_pin("SDRAM_DQ[11]","C16")
+design.assign_pkg_pin("SDRAM_DQ[12]","C15")
+design.assign_pkg_pin("SDRAM_DQ[13]","B16")
+design.assign_pkg_pin("SDRAM_DQ[14]","B15")
+design.assign_pkg_pin("SDRAM_DQ[15]","A15")
+
+# HDMI/tmds
+design.assign_pkg_pin("tmds[0]","J5")
+design.assign_pkg_pin("tmds[1]","K4")
+design.assign_pkg_pin("tmds[2]","L2")
+design.assign_pkg_pin("tmds[3]","J4")
+design.assign_pkg_pin("tmds[4]","K3")
+design.assign_pkg_pin("tmds[5]","J3")
+design.assign_pkg_pin("tmds[6]","K1")
+design.assign_pkg_pin("tmds[7]","K2")
+
+# spi flash
+design.assign_pkg_pin("mspi_clk","M3")
+design.assign_pkg_pin("mspi_cs","P3")
+design.assign_pkg_pin("mspi_di","L3")
+design.assign_pkg_pin("mspi_do","N1")
+
+# sd card
+design.assign_pkg_pin("sd_clk","L1")
+design.assign_pkg_pin("sd_cmd","H3")
+design.assign_pkg_pin("sd_dat[0]","H1")
+design.assign_pkg_pin("sd_dat[1]","H5")
+design.assign_pkg_pin("sd_dat[2]","H4")
+design.assign_pkg_pin("sd_dat[3]","H2")
+
+# buttons
+design.assign_pkg_pin("buttons[0]","P2")
+design.assign_pkg_pin("buttons[1]","N3")
+design.assign_pkg_pin("buttons[2]","L4")
+
+# leds
+design.assign_pkg_pin("leds[0]","D14")
+design.assign_pkg_pin("leds[1]","E13")
+design.assign_pkg_pin("leds[2]","G13")
+design.assign_pkg_pin("leds[3]","F14")
+design.assign_pkg_pin("leds[4]","N14")
+design.assign_pkg_pin("leds[5]","N16")
+design.assign_pkg_pin("leds[6]","P15")
+design.assign_pkg_pin("leds[7]","M14")
+

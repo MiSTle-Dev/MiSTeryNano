@@ -7,10 +7,12 @@
  */
 
 module misterynano #( 
+  parameter     SDRAM_WIDTH = 32,
+  parameter     SD_CLK_DIV = 3'd0,      // clock divider for SD card, 0 should be fine for 32 Mhz main clock
   parameter		EXTERNAL_PARPORT = 1'b0 // set to 1 to enable external parport
 ) (
-  input			flash_clk, // 100 MHz SPI flash clock
 
+  input			flash_clk, // 100 MHz SPI flash clock
   input			reset, // S2
   input			user, // S1
 
@@ -35,8 +37,8 @@ module misterynano #(
   output		sdram_cas_n, // columns address select
   output		sdram_ras_n, // row address select
   output		sdram_wen_n, // write enable
-  inout [31:0]	sdram_dq, // up to 32 bit bidirectional data bus
-  output [3:0]	sdram_dqm, // 32/4
+  inout [SDRAM_WIDTH-1:0]	sdram_dq, // up to 32 bit bidirectional data bus
+  output [(SDRAM_WIDTH/8)-1:0]	sdram_dqm, // 32/4
   output [12:0]	sdram_addr, // up to 13 bit multiplexed address bus
   output [1:0]	sdram_ba, // two banks
 
@@ -699,24 +701,29 @@ always @(posedge clk32) begin
     end
 end
 
-`ifndef DISABLE_ACSI
-// differentiate between floppy and acsi requests
 reg [7:0] sdc_rd = 8'h00;
 reg [7:0] sdc_wr = 8'h00;   
-reg      is_acsi = 0;
 
+`ifndef DISABLE_ACSI
+// differentiate between floppy and acsi requests
+reg      is_acsi = 0;
 always @(posedge clk32) begin
    // toggle between floppy and acsi data paths to the sd card
-   if(|{fdc_rd_req,fdc_wr_req})             is_acsi <= 1'b0;
+   if(|{fdc_rd_req,fdc_wr_req})   is_acsi <= 1'b0;
    if(|{acsi_rd_req,acsi_wr_req}) is_acsi <= 1'b1;
 
    sdc_rd <= { 4'h0, acsi_rd_req, fdc_rd_req };
    sdc_wr <= { 4'h0, acsi_wr_req, fdc_wr_req };   
 end
+`else
+always @(posedge clk32) begin
+   sdc_rd <= { 6'h0, fdc_rd_req };
+   sdc_wr <= { 6'h0, fdc_wr_req };   
+end
 `endif
 
 sd_card #(
-    .CLK_DIV(3'd0)                   // for 32 Mhz clock -> sd card clock = 16Mhz
+    .CLK_DIV(SD_CLK_DIV)                   // for 32 Mhz clock -> sd card clock = 16Mhz
 ) sd_card (
     .rstn(!por),                     // rstn active-low, 1:working, 0:reset
     .clk(clk32),                     // clock
@@ -741,16 +748,14 @@ sd_card #(
     .irq(sdc_int),
     .iack(sdc_iack),
 
+    .rstart( sdc_rd ), 
+    .wstart( sdc_wr ), 
 `ifdef DISABLE_ACSI
 	// on t20 only floppy is being implemented
-    .rstart( { 6'b000000, fdc_rd_req } ), 
-    .wstart( { 6'b000000, fdc_wr_req } ),
     .rsector( fdc_lba ),
     .inbyte(fdc_sd_wr_data),
 `else
     // user read sector command interface (sync with clk32)
-    .rstart( sdc_rd ), 
-    .wstart( sdc_wr ), 
     .rsector( is_acsi?acsi_lba:fdc_lba),
     .inbyte(is_acsi?acsi_sd_wr_byte:fdc_sd_wr_data),
 `endif

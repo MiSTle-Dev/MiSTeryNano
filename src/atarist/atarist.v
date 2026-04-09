@@ -254,8 +254,10 @@ wire [15:0] mbus_dout = !rdat_n ? shifter_dout :
 
 wire        dtack_n = mcu_dtack_n_adj & ~mfp_dtack;
 
+// remove blitter from br/bg/bgack chains (keeping some of the blitter signal names)
 assign blitter_br_n = 1'b1;
-assign blitter_bgack_n = 1'b1;
+assign blitter_bgack_n = mcu_bgack_n;
+assign mcu_bg_n = blitter_bg_n;        // usually chained inside blitter
 assign blitter_sel = 1'b0;
 assign blitter_data_out = 16'h0000;
 wire blitter_irq_n = 1'b1;

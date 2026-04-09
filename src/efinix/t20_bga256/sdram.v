@@ -158,38 +158,37 @@ always @(posedge clk) begin
         init_state <= init_state - 5'd1;
    
       if(init_state != 0) begin
-	 // initialization takes place at the end of the reset
-	 if(state == STATE_IDLE) begin
-	    if(init_state == 13) begin
-	       sd_cmd <= CMD_PRECHARGE;
-	       sd_addr[10] <= 1'b1;      // precharge all banks
-	    end
+        // initialization takes place at the end of the reset
+        if(state == STATE_IDLE) begin
+            if(init_state == 13) begin
+                sd_cmd <= CMD_PRECHARGE;
+                sd_addr[10] <= 1'b1;      // precharge all banks
+            end
 	    
-	    if(init_state == 2) begin
-	       sd_cmd <= CMD_LOAD_MODE;
-	       sd_addr <= MODE;
-	    end
-	    
-	 end
+            if(init_state == 2) begin
+                sd_cmd <= CMD_LOAD_MODE;
+                sd_addr <= MODE;
+            end
+        end
       end else begin
-	 // normal operation, start on ... 
-	 if(state == STATE_IDLE) begin
+        // normal operation, start on ... 
+        if(state == STATE_IDLE) begin
             // ... rising edge of cs
             if(ram_cs) begin
                if(!refresh) begin
-		  // RAS phase. If enabled during write causes noise
-		  sd_cmd <= CMD_ACTIVE;
-		  sd_addr <= addr[21:9];  // 4 Megawords = 8 Megabytes per bank
-		  sd_ba <= 2'b00;         // use one of the four banks only
-		  sd_dqm <= we?ds:2'b00;
+                // RAS phase. If enabled during write causes noise
+                sd_cmd <= CMD_ACTIVE;
+                sd_addr <= addr[21:9];  // 4 Megawords = 8 Megabytes per bank
+                sd_ba <= 2'b00;         // use one of the four banks only
+                sd_dqm <= we?ds:2'b00;
                end else
-	         sd_cmd <= CMD_AUTO_REFRESH;
+                sd_cmd <= CMD_AUTO_REFRESH;
 	       
                state <= 3'd1;
                addrD <= addr[8:0];	     
-	       weD <= we;
+               weD <= we;
             end
-	 end else begin
+	    end else begin
             // always advance state unless we are in idle state
             state <= state + 3'd1;
 	    
@@ -198,23 +197,22 @@ always @(posedge clk) begin
             // CAS phase 
             if(state == STATE_CMD_CONT) begin
                sd_cmd <= weD?CMD_WRITE:CMD_READ;
-	       // A[12:9] 0010 / A10 = 1 (read/write and auto precharge)
-               sd_addr <= { 4'b0010, addrD };  // 12:9 / 8:0 = 4+9
-	       if(weD) begin 
-		      sd_data_reg <= din;
-	       end
-            end
+
+            // A[12:9] 0010 / A10 = 1 (read/write and auto precharge)
+            sd_addr <= { 4'b0010, addrD };  // 12:9 / 8:0 = 4+9
+            if(weD) sd_data_reg <= din;
+        end
 	    
 	    // disable data output driver asap
-            if(state == STATE_CMD_CONT+1)
+        if(state == STATE_CMD_CONT+1)
 	      sd_data_reg <= 16'hzzzz;
 	    
 	    // return to idle state
-            if(state == STATE_LAST)
+        if(state == STATE_LAST)
 	      state <= 0;	 
-	 end
       end
-   end
+    end
+  end
 end
    
 endmodule

@@ -3,15 +3,14 @@
 //
 
 module top (
-    input	       clk,
     output [7:0]   leds,
     input [2:0]	   buttons,
 
     // Efinix PLLs are external from the logic
-    input	       pll_lock,
-    input	       clk_pixel_x5,
-    input	       clk_pixel, 
-    input	       flash_clk, // 100 MHz SPI flash clock
+    (* syn_peri_port = 0 *) input pll_lock,
+    (* syn_peri_port = 0 *) input clk_pixel_x5,
+    (* syn_peri_port = 0 *) input clk_pixel, 
+    (* syn_peri_port = 0 *) input flash_clk, // 100 MHz SPI flash clock
 
     // SDRAM interface
     inout [15:0]   SDRAM_DQ,
@@ -67,17 +66,18 @@ wire [5:0]  r;
 wire [5:0]  g;
 wire [5:0]  b;
 
-misterynano misterynano (
-  .reset ( !buttons[0] ),
-  .user  ( !buttons[1] ),
+misterynano #( .SDRAM_WIDTH(16) )  
+  misterynano (
+  .reset      ( !buttons[0] ),
+  .user       ( !buttons[1] ),
 
   // clock and power on reset from system
-  .clk32 ( clk32 ),         // 32 Mhz system clock input
-  .flash_clk      ( flash_clk ),      // 100 MHz SPI flash clock
-  .por   ( !pll_lock ),
+  .clk32      ( clk32 ),         // 32 Mhz system clock input
+  .flash_clk  ( flash_clk ),     // 100 MHz SPI flash clock
+  .por        ( !pll_lock ),
 
-  .leds_n ( leds_n ),
-  .ws2812 ( ws2812 ),
+  .leds_n     ( leds_n ),
+  .ws2812     ( ),
 
   // spi flash interface
   .mspi_cs      ( mspi_cs   ),
@@ -95,9 +95,6 @@ misterynano misterynano (
   .sdram_addr  ( SDRAM_A        ), // 13 bit multiplexed address bus
   .sdram_ba    ( SDRAM_BA       ), // four banks
   .sdram_dqm   ( { SDRAM_UDQM, SDRAM_LDQM } ), // 16/2
-
-  // generic IO, used for mouse/joystick/...
-  .io ( 8'hff ),
 
   // mcu interface
   .mcu_sclk ( spi_clk  ),

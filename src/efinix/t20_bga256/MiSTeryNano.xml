@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<efx:project name="MiSTeryNano" description="" last_change="1773734902" sw_version="2025.2.288.3.8" last_run_state="fail" last_run_flow="syn" config_result_in_sync="sync" design_ood="change" place_ood="" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project name="MiSTeryNano" description="" last_change="1775746165" sw_version="2025.2.288.3.8" last_run_state="pass" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
         <efx:family name="Trion"/>
         <efx:device name="T20F256"/>
@@ -29,7 +29,7 @@
         <efx:design_file name="../../misc/sysctrl.v" version="default" library="default"/>
         <efx:design_file name="../../misc/hid.v" version="default" library="default"/>
         <efx:design_file name="../../misc/atarist_keymap.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/atarist.v" version="default" library="default"/>
+        <efx:design_file name="../../atarist/stBlitter.sv" version="default" library="default"/>
         <efx:design_file name="../../gstmcu/hdl/register.v" version="default" library="default"/>
         <efx:design_file name="../../gstmcu/hdl/vsyncgen.v" version="default" library="default"/>
         <efx:design_file name="../../gstmcu/hdl/gstshifter.v" version="default" library="default"/>
@@ -82,12 +82,14 @@
         <efx:design_file name="../../misc/sd_rw.v" version="default" library="default"/>
         <efx:design_file name="../../misc/sdcmd_ctrl.v" version="default" library="default"/>
         <efx:design_file name="../sector_dpram.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/stBlitter.sv" version="default" library="default"/>
+        <efx:design_file name="../../atarist/atarist.v" version="default" library="default"/>
         <efx:top_vhdl_arch name=""/>
     </efx:design_info>
     <efx:constraint_info>
         <efx:sdc_file name="MiSTeryNano.sdc"/>
         <efx:inter_file name=""/>
+        <efx:isf_file name="MiSTeryNano_pins.isf"/>
+        <efx:isf_file name="MiSTeryNano_manual.isf"/>
     </efx:constraint_info>
     <efx:sim_info/>
     <efx:misc_info/>
