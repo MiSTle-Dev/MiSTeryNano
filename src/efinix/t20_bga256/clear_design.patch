@@ -1,0 +1,655 @@
+--- MiSTeryNano.peri.xml	2026-04-10 19:26:52.676054384 +0200
++++ MiSTeryNano.peri.xml	2026-04-10 19:25:40.352601262 +0200
+@@ -18,651 +18,9 @@
+         </efxpt:ctrl_info>
+     </efxpt:device_info>
+     <efxpt:gpio_info device_def="T20F256">
+-        <efxpt:gpio name="SDRAM_A[0]" gpio_def="GPIOR_85" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[0]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[0]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[10]" gpio_def="GPIOR_89" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[10]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[10]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[11]" gpio_def="GPIOR_143" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[11]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[11]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[12]" gpio_def="GPIOR_144" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[12]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[12]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[1]" gpio_def="GPIOR_87" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[1]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[1]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[2]" gpio_def="GPIOR_86" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[2]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[2]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[3]" gpio_def="GPIOR_88" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[3]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[3]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[4]" gpio_def="GPIOR_133" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[4]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[4]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[5]" gpio_def="GPIOR_135" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[5]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[5]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[6]" gpio_def="GPIOR_131" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[6]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[6]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[7]" gpio_def="GPIOR_148" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[7]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[7]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[8]" gpio_def="GPIOR_138" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[8]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[8]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_A[9]" gpio_def="GPIOR_147" mode="output" bus_name="SDRAM_A" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_A[9]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_A[9]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_BA[0]" gpio_def="GPIOR_102" mode="output" bus_name="SDRAM_BA" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_BA[0]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_BA[0]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_BA[1]" gpio_def="GPIOR_99" mode="output" bus_name="SDRAM_BA" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_BA[1]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_BA[1]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_CKE" gpio_def="GPIOR_145" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_CKE"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_CKE" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_CLK" gpio_def="GPIOR_146" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_CLK"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_CLK" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[0]" gpio_def="GPIOR_92" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[0]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[0]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[0]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[0]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[0]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[0]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[10]" gpio_def="GPIOR_116" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[10]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[10]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[10]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[10]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[10]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[10]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[11]" gpio_def="GPIOR_108" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[11]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[11]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[11]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[11]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[11]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[11]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[12]" gpio_def="GPIOR_112" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[12]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[12]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[12]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[12]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[12]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[12]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[13]" gpio_def="GPIOR_106" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[13]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[13]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[13]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[13]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[13]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[13]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[14]" gpio_def="GPIOR_98" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[14]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[14]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[14]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[14]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[14]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[14]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[15]" gpio_def="GPIOR_94" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[15]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[15]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[15]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[15]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[15]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[15]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[1]" gpio_def="GPIOR_90" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[1]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[1]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[1]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[1]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[1]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[1]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[2]" gpio_def="GPIOR_97" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[2]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[2]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[2]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[2]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[2]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[2]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[3]" gpio_def="GPIOR_95" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[3]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[3]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[3]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[3]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[3]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[3]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[4]" gpio_def="GPIOR_93" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[4]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[4]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[4]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[4]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[4]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[4]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[5]" gpio_def="GPIOR_83" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[5]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[5]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[5]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[5]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[5]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[5]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[6]" gpio_def="GPIOR_84" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[6]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[6]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[6]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[6]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[6]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[6]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[7]" gpio_def="GPIOR_82" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[7]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[7]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[7]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[7]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[7]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[7]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[8]" gpio_def="GPIOR_136" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[8]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[8]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[8]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[8]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[8]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[8]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_DQ[9]" gpio_def="GPIOR_119" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="SDRAM_DQ[9]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="SDRAM_DQ[9]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_DQ[9]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="SDRAM_DQ[9]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="SDRAM_DQ[9]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="SDRAM_DQ[9]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_LDQM" gpio_def="GPIOR_80" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_LDQM"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_LDQM" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_UDQM" gpio_def="GPIOR_132" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_UDQM"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_UDQM" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_nCAS" gpio_def="GPIOR_139" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_nCAS"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_nCAS" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_nCS" gpio_def="GPIOR_103" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_nCS"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_nCS" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_nRAS" gpio_def="GPIOR_91" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_nRAS"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_nRAS" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="SDRAM_nWE" gpio_def="GPIOR_141" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="SDRAM_nWE"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="SDRAM_nWE" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="buttons[0]" gpio_def="GPIOL_02" mode="input" bus_name="buttons" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="buttons[0]"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="buttons[0]" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="buttons[1]" gpio_def="GPIOL_04" mode="input" bus_name="buttons" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="buttons[1]"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="buttons[1]" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="buttons[2]" gpio_def="GPIOL_05" mode="input" bus_name="buttons" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="buttons[2]"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="buttons[2]" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="clk" gpio_def="GPIOR_157" mode="input" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:input_config name="clk" name_ddio_lo="" conn_type="pll_clkin" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[0]" gpio_def="GPIOR_104" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[0]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[0]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[1]" gpio_def="GPIOR_105" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[1]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[1]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[2]" gpio_def="GPIOR_117" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[2]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[2]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[3]" gpio_def="GPIOR_118" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[3]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[3]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[4]" gpio_def="GPIOR_153" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[4]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[4]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[5]" gpio_def="GPIOR_154" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[5]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[5]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[6]" gpio_def="GPIOR_155" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[6]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[6]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="leds[7]" gpio_def="GPIOR_156" mode="output" bus_name="leds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="leds[7]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="leds[7]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="mspi_clk" gpio_def="GPIOL_01" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="mspi_clk"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="mspi_clk" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="mspi_cs" gpio_def="GPIOL_00" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="mspi_cs"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="mspi_cs" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="mspi_di" gpio_def="GPIOL_08" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="mspi_di~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="mspi_di~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="mspi_di~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="mspi_di~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="mspi_di~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="mspi_di~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="mspi_do" gpio_def="GPIOL_09" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="mspi_do~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="mspi_do~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="mspi_do~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="mspi_do~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="mspi_do~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="mspi_do~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="sd_clk" gpio_def="GPIOL_23" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="sd_clk"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="sd_clk" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="sd_cmd" gpio_def="GPIOL_24" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="sd_cmd~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="sd_cmd~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="sd_cmd~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="sd_cmd~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="sd_cmd~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="sd_cmd~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="sd_dat[0]" gpio_def="GPIOL_22" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="sd_dat[0]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="sd_dat[0]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="sd_dat[0]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="sd_dat[0]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="sd_dat[0]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="sd_dat[0]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="sd_dat[1]" gpio_def="GPIOL_21" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="sd_dat[1]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="sd_dat[1]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="sd_dat[1]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="sd_dat[1]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="sd_dat[1]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="sd_dat[1]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="sd_dat[2]" gpio_def="GPIOL_26" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="sd_dat[2]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="sd_dat[2]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="sd_dat[2]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="sd_dat[2]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="sd_dat[2]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="sd_dat[2]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="sd_dat[3]" gpio_def="GPIOL_25" mode="inout" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="sd_dat[3]~EFX_IO_BUF~O"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-                <efxpt:netlist_parameter name="OE_PIN" value="sd_dat[3]~EFX_IO_BUF~OE"/>
+-                <efxpt:netlist_parameter name="OUT_PIN" value="sd_dat[3]~EFX_IO_BUF~I"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="sd_dat[3]~EFX_IO_BUF~O" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-            <efxpt:output_config name="sd_dat[3]~EFX_IO_BUF~I" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-            <efxpt:output_enable_config name="sd_dat[3]~EFX_IO_BUF~OE" is_register="false" clock_name="" is_clock_inverted="false"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="spi_clk" gpio_def="GPIOL_29" mode="input" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="CONN_TYPE" value="GCLK"/>
+-                <efxpt:netlist_parameter name="IN_PIN" value="spi_clk"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="spi_clk" name_ddio_lo="" conn_type="gclk" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="spi_din" gpio_def="GPIOL_30" mode="input" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="spi_din"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="spi_din" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="none" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="spi_dout" gpio_def="GPIOL_27" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="spi_dout"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="spi_dout" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="spi_intn" gpio_def="GPIOL_31" mode="output" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="spi_intn"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="spi_intn" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="spi_ss" gpio_def="GPIOL_28" mode="input" bus_name="" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="IN_PIN" value="spi_ss"/>
+-                <efxpt:netlist_parameter name="IN_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:input_config name="spi_ss" name_ddio_lo="" conn_type="normal" is_register="false" clock_name="" is_clock_inverted="false" pull_option="weak pullup" is_schmitt_trigger="false" ddio_type="none"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[0]" gpio_def="GPIOL_11" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[0]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[0]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[1]" gpio_def="GPIOL_12" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[1]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[1]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[2]" gpio_def="GPIOL_13" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[2]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[2]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[3]" gpio_def="GPIOL_14" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[3]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[3]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[4]" gpio_def="GPIOL_15" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[4]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[4]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[5]" gpio_def="GPIOL_16" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[5]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[5]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[6]" gpio_def="GPIOL_18" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[6]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[6]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+-        <efxpt:gpio name="tmds[7]" gpio_def="GPIOL_19" mode="output" bus_name="tmds" is_lvds_gpio="false" io_standard="3.3 V LVTTL / LVCMOS">
+-            <efxpt:netlist_config netlist_checksum="MiSTeryNano.peri.db">
+-                <efxpt:netlist_parameter name="OUT_PIN" value="tmds[7]"/>
+-                <efxpt:netlist_parameter name="OUT_REG" value="BYPASS"/>
+-            </efxpt:netlist_config>
+-            <efxpt:output_config name="tmds[7]" name_ddio_lo="" register_option="none" clock_name="" is_clock_inverted="false" is_slew_rate="false" tied_option="none" ddio_type="none" drive_strength="1"/>
+-        </efxpt:gpio>
+         <efxpt:global_unused_config state="input with weak pullup"/>
+-        <efxpt:bus name="leds" mode="output" msb="7" lsb="0"/>
+-        <efxpt:bus name="SDRAM_A" mode="output" msb="12" lsb="0"/>
+-        <efxpt:bus name="SDRAM_BA" mode="output" msb="1" lsb="0"/>
+-        <efxpt:bus name="tmds" mode="output" msb="7" lsb="0"/>
+-        <efxpt:bus name="buttons" mode="input" msb="2" lsb="0"/>
+     </efxpt:gpio_info>
+-    <efxpt:pll_info>
+-        <efxpt:pll name="pll_inst1" pll_def="PLL_BR0" ref_clock_name="" ref_clock_freq="50.0000" multiplier="16" pre_divider="5" post_divider="2" reset_name="" locked_name="pll_lock" is_ipfrz="false" is_bypass_lock="true">
+-            <efxpt:output_clock name="clk_pixel_x5" number="0" out_divider="5" adv_out_phase_shift="0" conn_type="gclk"/>
+-            <efxpt:output_clock name="clk_pixel" number="1" out_divider="25" adv_out_phase_shift="0" conn_type="gclk"/>
+-            <efxpt:output_clock name="flash_clk" number="2" out_divider="8" adv_out_phase_shift="0" conn_type="gclk"/>
+-            <efxpt:adv_prop ref_clock_mode="external" ref_clock1_name="" ext_ref_clock_id="3" clksel_name="" feedback_clock_name="clk_pixel_x5" feedback_mode="local"/>
+-        </efxpt:pll>
+-    </efxpt:pll_info>
++    <efxpt:pll_info/>
+     <efxpt:lvds_info/>
+     <efxpt:jtag_info/>
+     <efxpt:partial_design source="MiSTeryNano.peri.db"/>

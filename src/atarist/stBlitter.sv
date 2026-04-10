@@ -36,7 +36,16 @@ localparam REG_1A = 26/2;
 localparam REG_1C = 28/2;
 
 module stBlitter(
+`ifdef BLT_CLKS_STRUCT
 		  input	       blt_clks Clks,
+`else
+          input        clk,
+          input        aRESETn,
+          input        pwrUp,
+          
+          input        enPhi1,
+          input        enPhi2,
+`endif
 		  input	       ASn, RWn, LDSn, UDSn,
 		  input	       FC0, FC1, FC2,
 		  input	       BERRn, iDTACKn,
@@ -51,7 +60,22 @@ module stBlitter(
 			
 		  input [23:1] iABUS, output [23:1] oABUS, 
 		  input [15:0] iDBUS, output [15:0] oDBUS);
-			
+
+ `ifndef BLT_CLKS_STRUCT
+    blt_clks Clks;
+
+    assign Clks.clk = clk;
+    assign Clks.aRESETn = aRESETn;
+    assign Clks.sReset = (pwrUp | !aRESETn);
+    assign Clks.pwrUp = pwrUp;
+
+    assign Clks.enPhi1 = enPhi1;
+    assign Clks.enPhi2 = enPhi2;
+    assign Clks.anyPhi = enPhi2 | enPhi1;
+
+    assign { Clks.extReset, Clks.phi1, Clks.phi2} = 3'b000;
+`endif       
+    
 	wire blitSpace = { iABUS[23:6], 6'b0} == 24'hFF8A00;				// Space: FF8A00 - FF8A3F
         // FC[2:0] == 101: supervisor data
 	assign selected = ({ FC2, FC1, FC0 } == 3'b101) & !ASn & blitSpace;

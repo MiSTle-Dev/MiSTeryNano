@@ -1,179 +1,177 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<efx:project name="MiSTeryNano" description="" last_change="1775746165" sw_version="2025.2.288.3.8" last_run_state="pass" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
+<efx:project xmlns:efx="http://www.efinixinc.com/enf_proj" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="MiSTeryNano" description="" last_change="1775850031" sw_version="2025.2.288.3.8" last_run_state="pass" last_run_flow="bitstream" config_result_in_sync="sync" design_ood="sync" place_ood="sync" route_ood="sync" xsi:schemaLocation="http://www.efinixinc.com/enf_proj enf_proj.xsd">
     <efx:device_info>
-        <efx:family name="Trion"/>
-        <efx:device name="T20F256"/>
-        <efx:timing_model name="C4"/>
+        <efx:family name="Trion" />
+        <efx:device name="T20F256" />
+        <efx:timing_model name="C4" />
     </efx:device_info>
     <efx:design_info def_veri_version="sv_09" def_vhdl_version="vhdl_2008" unified_flow="true">
-        <efx:top_module name="top"/>
-        <efx:design_file name="top.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/hdmi.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/serializer.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/source_product_description_info_frame.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/auxiliary_video_information_info_frame.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/audio_sample_packet.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/packet_picker.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/tmds_channel.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/audio_clock_regeneration_packet.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/audio_info_frame.sv" version="default" library="default"/>
-        <efx:design_file name="../../hdmi/packet_assembler.sv" version="default" library="default"/>
-        <efx:design_file name="sdram.v" version="default" library="default"/>
-        <efx:design_file name="../../misterynano.sv" version="default" library="default"/>
-        <efx:design_file name="../../tang/nano20k/ws2812.v" version="default" library="default"/>
-        <efx:design_file name="../../tang/nano20k/video.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/video_analyzer.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/scandoubler.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/osd_u8g2.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/mcu_spi.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/sysctrl.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/hid.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/atarist_keymap.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/stBlitter.sv" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/register.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/vsyncgen.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/gstshifter.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/latch.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/hsyncgen.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/mcucontrol.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/gstmcu.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/vidcnt.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/clockgen.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/shifter_video_async.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/hdegen.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/sndcnt.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/vdegen.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/modules.v" version="default" library="default"/>
-        <efx:design_file name="../../gstmcu/hdl/shifter_video.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/io_fifo.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/mfp.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/cubase3_dongle.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/cubase2_dongle.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/acsi.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/acia.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/mfp_timer.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/dma.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/mfp_hbit16.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/mfp_srff16.v" version="default" library="default"/>
-        <efx:design_file name="../../fx68k/fx68k.sv" version="default" library="default"/>
-        <efx:design_file name="../../fx68k/fx68kAlu.sv" version="default" library="default"/>
-        <efx:design_file name="../../fx68k/uaddrPla.sv" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/ikbd.sv" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/hd63701/HD63701_ALU.v" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/hd63701/HD63701_MCROM.v" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/hd63701/HD63701.v" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/hd63701/HD63701_EXEC.v" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/hd63701/HD63701_CORE.v" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/hd63701/HD63701_SEQ.v" version="default" library="default"/>
-        <efx:design_file name="../../ikbd/rom/MCU_BIROM.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49_div.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49_eg.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49_noise.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49_cen.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49_bus.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49_exp.v" version="default" library="default"/>
-        <efx:design_file name="../../jt49/jt49.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/ste_joypad.v" version="default" library="default"/>
-        <efx:design_file name="../../fdc1772/floppy.v" version="default" library="default"/>
-        <efx:design_file name="../../fdc1772/fdc1772.v" version="default" library="default"/>
-        <efx:design_file name="../fdc_dpram.v" version="default" library="default"/>
-        <efx:design_file name="flash_dspi.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/sd_card.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/sd_rw.v" version="default" library="default"/>
-        <efx:design_file name="../../misc/sdcmd_ctrl.v" version="default" library="default"/>
-        <efx:design_file name="../sector_dpram.v" version="default" library="default"/>
-        <efx:design_file name="../../atarist/atarist.v" version="default" library="default"/>
-        <efx:top_vhdl_arch name=""/>
+        <efx:top_module name="top" />
+        <efx:design_file name="top.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/hdmi.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/serializer.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/source_product_description_info_frame.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/auxiliary_video_information_info_frame.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/audio_sample_packet.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/packet_picker.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/tmds_channel.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/audio_clock_regeneration_packet.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/audio_info_frame.sv" version="default" library="default" />
+        <efx:design_file name="../../hdmi/packet_assembler.sv" version="default" library="default" />
+        <efx:design_file name="sdram.v" version="default" library="default" />
+        <efx:design_file name="../../misterynano.sv" version="default" library="default" />
+        <efx:design_file name="../../tang/nano20k/ws2812.v" version="default" library="default" />
+        <efx:design_file name="../../tang/nano20k/video.v" version="default" library="default" />
+        <efx:design_file name="../../misc/video_analyzer.v" version="default" library="default" />
+        <efx:design_file name="../../misc/scandoubler.v" version="default" library="default" />
+        <efx:design_file name="../../misc/osd_u8g2.v" version="default" library="default" />
+        <efx:design_file name="../../misc/mcu_spi.v" version="default" library="default" />
+        <efx:design_file name="../../misc/sysctrl.v" version="default" library="default" />
+        <efx:design_file name="../../misc/hid.v" version="default" library="default" />
+        <efx:design_file name="../../misc/atarist_keymap.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/stBlitter.sv" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/register.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/vsyncgen.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/gstshifter.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/latch.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/hsyncgen.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/mcucontrol.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/gstmcu.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/vidcnt.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/clockgen.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/shifter_video_async.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/hdegen.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/sndcnt.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/vdegen.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/modules.v" version="default" library="default" />
+        <efx:design_file name="../../gstmcu/hdl/shifter_video.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/io_fifo.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/mfp.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/cubase3_dongle.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/cubase2_dongle.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/acsi.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/acia.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/mfp_timer.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/dma.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/mfp_hbit16.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/mfp_srff16.v" version="default" library="default" />
+        <efx:design_file name="../../fx68k/fx68k.sv" version="default" library="default" />
+        <efx:design_file name="../../fx68k/fx68kAlu.sv" version="default" library="default" />
+        <efx:design_file name="../../fx68k/uaddrPla.sv" version="default" library="default" />
+        <efx:design_file name="../../ikbd/ikbd.sv" version="default" library="default" />
+        <efx:design_file name="../../ikbd/hd63701/HD63701_ALU.v" version="default" library="default" />
+        <efx:design_file name="../../ikbd/hd63701/HD63701_MCROM.v" version="default" library="default" />
+        <efx:design_file name="../../ikbd/hd63701/HD63701.v" version="default" library="default" />
+        <efx:design_file name="../../ikbd/hd63701/HD63701_EXEC.v" version="default" library="default" />
+        <efx:design_file name="../../ikbd/hd63701/HD63701_CORE.v" version="default" library="default" />
+        <efx:design_file name="../../ikbd/hd63701/HD63701_SEQ.v" version="default" library="default" />
+        <efx:design_file name="../../ikbd/rom/MCU_BIROM.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49_div.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49_eg.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49_noise.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49_cen.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49_bus.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49_exp.v" version="default" library="default" />
+        <efx:design_file name="../../jt49/jt49.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/ste_joypad.v" version="default" library="default" />
+        <efx:design_file name="../../fdc1772/floppy.v" version="default" library="default" />
+        <efx:design_file name="../../fdc1772/fdc1772.v" version="default" library="default" />
+        <efx:design_file name="../fdc_dpram.v" version="default" library="default" />
+        <efx:design_file name="flash_dspi.v" version="default" library="default" />
+        <efx:design_file name="../../misc/sd_card.v" version="default" library="default" />
+        <efx:design_file name="../../misc/sd_rw.v" version="default" library="default" />
+        <efx:design_file name="../../misc/sdcmd_ctrl.v" version="default" library="default" />
+        <efx:design_file name="../sector_dpram.v" version="default" library="default" />
+        <efx:design_file name="../../atarist/atarist.v" version="default" library="default" />
+        <efx:top_vhdl_arch name="" />
     </efx:design_info>
     <efx:constraint_info>
-        <efx:sdc_file name="MiSTeryNano.sdc"/>
-        <efx:inter_file name=""/>
-        <efx:isf_file name="MiSTeryNano_pins.isf"/>
-        <efx:isf_file name="MiSTeryNano_manual.isf"/>
+        <efx:sdc_file name="MiSTeryNano.sdc" />
+        <efx:inter_file name="" />
+        <efx:isf_file name="MiSTeryNano_pins.isf" />
+        <efx:isf_file name="MiSTeryNano_manual.isf" />
     </efx:constraint_info>
-    <efx:sim_info/>
-    <efx:misc_info/>
-    <efx:ooc_info/>
-    <efx:ip_info/>
+    <efx:sim_info />
+    <efx:misc_info />
+    <efx:ooc_info />
+    <efx:ip_info />
     <efx:synthesis tool_name="efx_map">
-        <efx:param name="work_dir" value="work_syn" value_type="e_string"/>
-        <efx:param name="write_efx_verilog" value="on" value_type="e_bool"/>
-        <efx:param name="allow-const-ram-index" value="0" value_type="e_option"/>
-        <efx:param name="blackbox-error" value="1" value_type="e_option"/>
-        <efx:param name="blast_const_operand_adders" value="1" value_type="e_option"/>
-        <efx:param name="bram_output_regs_packing" value="1" value_type="e_option"/>
-        <efx:param name="bram-push-tco-outreg" value="0" value_type="e_option"/>
-        <efx:param name="create-onehot-fsms" value="0" value_type="e_option"/>
-        <efx:param name="fanout-limit" value="0" value_type="e_integer"/>
-        <efx:param name="hdl-compile-unit" value="1" value_type="e_option"/>
-        <efx:param name="hdl-loop-limit" value="20000" value_type="e_integer"/>
-        <efx:param name="infer-clk-enable" value="3" value_type="e_option"/>
-        <efx:param name="infer-sync-set-reset" value="1" value_type="e_option"/>
-        <efx:param name="max_ram" value="-1" value_type="e_integer"/>
-        <efx:param name="max_mult" value="-1" value_type="e_integer"/>
-        <efx:param name="min-sr-fanout" value="0" value_type="e_integer"/>
-        <efx:param name="min-ce-fanout" value="0" value_type="e_integer"/>
-        <efx:param name="mode" value="speed" value_type="e_option"/>
-        <efx:param name="mult-auto-pipeline" value="0" value_type="e_integer"/>
-        <efx:param name="mult-decomp-retime" value="0" value_type="e_option"/>
-        <efx:param name="operator-sharing" value="0" value_type="e_option"/>
-        <efx:param name="optimize-adder-tree" value="1" value_type="e_option"/>
-        <efx:param name="optimize-zero-init-rom" value="1" value_type="e_option"/>
-        <efx:param name="peri-syn-instantiation" value="1" value_type="e_option"/>
-        <efx:param name="peri-syn-inference" value="1" value_type="e_option"/>
-        <efx:param name="ram-decomp-mode" value="0" value_type="e_option"/>
-        <efx:param name="retiming" value="1" value_type="e_option"/>
-        <efx:param name="seq_opt" value="1" value_type="e_option"/>
-        <efx:param name="seq-opt-sync-only" value="0" value_type="e_option"/>
-        <efx:param name="use-logic-for-small-mem" value="64" value_type="e_integer"/>
-        <efx:param name="use-logic-for-small-rom" value="64" value_type="e_integer"/>
-        <efx:param name="max_threads" value="-1" value_type="e_integer"/>
-        <efx:param name="mult_input_regs_packing" value="1" value_type="e_option"/>
-        <efx:param name="mult_output_regs_packing" value="1" value_type="e_option"/>
-        <efx:param name="max-bit-blast-mem-size" value="10240" value_type="e_integer"/>
-        <efx:param name="enable-mark-debug" value="1" value_type="e_option"/>
-        <efx:param name="suppress_info_msgs" value="off" value_type="e_bool"/>
-        <efx:param name="suppress_warning_msgs" value="off" value_type="e_bool"/>
-        <efx:defmacro name="ATARIST_XML_HEX" value="atarist_t20_xml.hex"/>
-        <efx:defmacro name="TMDS_BY_LOGIC" value="1"/>
-        <efx:defmacro name="DISABLE_BLITTER" value="1"/>
-        <efx:defmacro name="DISABLE_ACSI" value="1"/>
+        <efx:param name="work_dir" value="work_syn" value_type="e_string" />
+        <efx:param name="write_efx_verilog" value="on" value_type="e_bool" />
+        <efx:param name="allow-const-ram-index" value="0" value_type="e_option" />
+        <efx:param name="blackbox-error" value="1" value_type="e_option" />
+        <efx:param name="blast_const_operand_adders" value="1" value_type="e_option" />
+        <efx:param name="bram_output_regs_packing" value="1" value_type="e_option" />
+        <efx:param name="bram-push-tco-outreg" value="0" value_type="e_option" />
+        <efx:param name="create-onehot-fsms" value="0" value_type="e_option" />
+        <efx:param name="fanout-limit" value="0" value_type="e_integer" />
+        <efx:param name="hdl-compile-unit" value="1" value_type="e_option" />
+        <efx:param name="hdl-loop-limit" value="20000" value_type="e_integer" />
+        <efx:param name="infer-clk-enable" value="3" value_type="e_option" />
+        <efx:param name="infer-sync-set-reset" value="1" value_type="e_option" />
+        <efx:param name="max_ram" value="-1" value_type="e_integer" />
+        <efx:param name="max_mult" value="-1" value_type="e_integer" />
+        <efx:param name="min-sr-fanout" value="0" value_type="e_integer" />
+        <efx:param name="min-ce-fanout" value="0" value_type="e_integer" />
+        <efx:param name="mode" value="speed" value_type="e_option" />
+        <efx:param name="mult-auto-pipeline" value="0" value_type="e_integer" />
+        <efx:param name="mult-decomp-retime" value="0" value_type="e_option" />
+        <efx:param name="operator-sharing" value="0" value_type="e_option" />
+        <efx:param name="optimize-adder-tree" value="1" value_type="e_option" />
+        <efx:param name="optimize-zero-init-rom" value="1" value_type="e_option" />
+        <efx:param name="peri-syn-instantiation" value="1" value_type="e_option" />
+        <efx:param name="peri-syn-inference" value="1" value_type="e_option" />
+        <efx:param name="ram-decomp-mode" value="0" value_type="e_option" />
+        <efx:param name="retiming" value="1" value_type="e_option" />
+        <efx:param name="seq_opt" value="1" value_type="e_option" />
+        <efx:param name="seq-opt-sync-only" value="0" value_type="e_option" />
+        <efx:param name="use-logic-for-small-mem" value="64" value_type="e_integer" />
+        <efx:param name="use-logic-for-small-rom" value="64" value_type="e_integer" />
+        <efx:param name="max_threads" value="-1" value_type="e_integer" />
+        <efx:param name="mult_input_regs_packing" value="1" value_type="e_option" />
+        <efx:param name="mult_output_regs_packing" value="1" value_type="e_option" />
+        <efx:param name="max-bit-blast-mem-size" value="10240" value_type="e_integer" />
+        <efx:param name="enable-mark-debug" value="1" value_type="e_option" />
+        <efx:param name="suppress_info_msgs" value="off" value_type="e_bool" />
+        <efx:param name="suppress_warning_msgs" value="off" value_type="e_bool" />
+        <efx:defmacro name="ATARIST_XML_HEX" value="atarist_t20_xml.hex" />
+        <efx:defmacro name="TMDS_BY_LOGIC" value="1" />
+        <efx:defmacro name="DISABLE_ACSI" value="1" />
     </efx:synthesis>
     <efx:place_and_route tool_name="efx_pnr">
-        <efx:param name="work_dir" value="work_pnr" value_type="e_string"/>
-        <efx:param name="verbose" value="off" value_type="e_bool"/>
-        <efx:param name="optimization_level" value="TIMING_3" value_type="e_option"/>
-        <efx:param name="seed" value="1" value_type="e_integer"/>
-        <efx:param name="placer_effort_level" value="2" value_type="e_option"/>
-        <efx:param name="max_threads" value="-1" value_type="e_integer"/>
-        <efx:param name="print_critical_path" value="10" value_type="e_integer"/>
-        <efx:param name="classic_flow" value="off" value_type="e_noarg"/>
-        <efx:param name="suppress_info_msgs" value="off" value_type="e_bool"/>
-        <efx:param name="suppress_warning_msgs" value="off" value_type="e_bool"/>
+        <efx:param name="work_dir" value="work_pnr" value_type="e_string" />
+        <efx:param name="verbose" value="off" value_type="e_bool" />
+        <efx:param name="optimization_level" value="TIMING_3" value_type="e_option" />
+        <efx:param name="seed" value="1" value_type="e_integer" />
+        <efx:param name="placer_effort_level" value="2" value_type="e_option" />
+        <efx:param name="max_threads" value="-1" value_type="e_integer" />
+        <efx:param name="print_critical_path" value="10" value_type="e_integer" />
+        <efx:param name="classic_flow" value="off" value_type="e_noarg" />
+        <efx:param name="suppress_info_msgs" value="off" value_type="e_bool" />
+        <efx:param name="suppress_warning_msgs" value="off" value_type="e_bool" />
     </efx:place_and_route>
     <efx:bitstream_generation tool_name="efx_pgm">
-        <efx:param name="mode" value="active" value_type="e_option"/>
-        <efx:param name="width" value="1" value_type="e_option"/>
-        <efx:param name="enable_roms" value="smart" value_type="e_option"/>
-        <efx:param name="spi_low_power_mode" value="on" value_type="e_bool"/>
-        <efx:param name="io_weak_pullup" value="on" value_type="e_bool"/>
-        <efx:param name="oscillator_clock_divider" value="DIV8" value_type="e_option"/>
-        <efx:param name="bitstream_compression" value="off" value_type="e_bool"/>
-        <efx:param name="enable_external_master_clock" value="off" value_type="e_bool"/>
-        <efx:param name="active_capture_clk_edge" value="posedge" value_type="e_option"/>
-        <efx:param name="jtag_usercode" value="0xFFFFFFFF" value_type="e_string"/>
-        <efx:param name="release_tri_then_reset" value="on" value_type="e_bool"/>
-        <efx:param name="cold_boot" value="off" value_type="e_bool"/>
-        <efx:param name="cascade" value="off" value_type="e_option"/>
-        <efx:param name="generate_bit" value="on" value_type="e_bool"/>
-        <efx:param name="generate_bitbin" value="off" value_type="e_bool"/>
-        <efx:param name="generate_hex" value="on" value_type="e_bool"/>
-        <efx:param name="generate_hexbin" value="off" value_type="e_bool"/>
-        <efx:param name="four_byte_addressing" value="off" value_type="e_bool"/>
+        <efx:param name="mode" value="active" value_type="e_option" />
+        <efx:param name="width" value="1" value_type="e_option" />
+        <efx:param name="enable_roms" value="smart" value_type="e_option" />
+        <efx:param name="spi_low_power_mode" value="on" value_type="e_bool" />
+        <efx:param name="io_weak_pullup" value="on" value_type="e_bool" />
+        <efx:param name="oscillator_clock_divider" value="DIV8" value_type="e_option" />
+        <efx:param name="bitstream_compression" value="off" value_type="e_bool" />
+        <efx:param name="enable_external_master_clock" value="off" value_type="e_bool" />
+        <efx:param name="active_capture_clk_edge" value="posedge" value_type="e_option" />
+        <efx:param name="jtag_usercode" value="0xFFFFFFFF" value_type="e_string" />
+        <efx:param name="release_tri_then_reset" value="on" value_type="e_bool" />
+        <efx:param name="cold_boot" value="off" value_type="e_bool" />
+        <efx:param name="cascade" value="off" value_type="e_option" />
+        <efx:param name="generate_bit" value="on" value_type="e_bool" />
+        <efx:param name="generate_bitbin" value="off" value_type="e_bool" />
+        <efx:param name="generate_hex" value="on" value_type="e_bool" />
+        <efx:param name="generate_hexbin" value="off" value_type="e_bool" />
+        <efx:param name="four_byte_addressing" value="off" value_type="e_bool" />
     </efx:bitstream_generation>
     <efx:debugger>
-        <efx:param name="work_dir" value="work_dbg" value_type="e_string"/>
-        <efx:param name="auto_instantiation" value="off" value_type="e_bool"/>
-        <efx:param name="profile" value="NONE" value_type="e_string"/>
+        <efx:param name="work_dir" value="work_dbg" value_type="e_string" />
+        <efx:param name="auto_instantiation" value="off" value_type="e_bool" />
+        <efx:param name="profile" value="NONE" value_type="e_string" />
     </efx:debugger>
 </efx:project>

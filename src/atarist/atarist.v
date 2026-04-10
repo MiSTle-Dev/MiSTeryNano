@@ -728,6 +728,9 @@ wire        blitter_dtack_n;
 wire [23:1] blitter_addr;
 wire        blitter_has_bus;
 
+`ifdef BLT_CLKS_STRUCT
+// Using the blt_clks struct to interface between files does not work in efinity.
+// It's thus disabled by default. This does not harm other plattforms
 blt_clks Clks;
 
 assign Clks.clk = clk_32;
@@ -740,12 +743,22 @@ assign Clks.enPhi2 = cpu_16mhz_enable?~clk16_en:mhz8_en2;
 assign Clks.anyPhi = Clks.enPhi2 | Clks.enPhi1;
 
 assign { Clks.extReset, Clks.phi1, Clks.phi2} = 3'b000;
+`endif
 
 wire mblit_selected;
 wire mblit_oBGACKn;
 
 stBlitter stBlitter(
+`ifdef BLT_CLKS_STRUCT
 	.Clks     ( Clks ),
+`else
+    .clk        (clk_32),
+    .aRESETn    (!peripheral_reset),
+    .pwrUp      (!porb),
+
+    .enPhi1     (cpu_16mhz_enable? clk16_en:mhz8_en1),
+    .enPhi2     (cpu_16mhz_enable?~clk16_en:mhz8_en2),
+`endif    
 	.ASn      ( as_n | ~blitter_en ),
 	.RWn      ( cpu_rw ),
 	.LDSn     ( lds_n ),

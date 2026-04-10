@@ -12,13 +12,19 @@ if [ "$EFINITY_HOME" == "" ]; then
     exit -1
 fi
 
+# apply clear patch if needed
+if [ "`grep SDRAM MiSTeryNano.peri.xml`" != "" ]; then
+    echo "Clearing Design"
+    patch -p0 < clear_design.patch
+fi
+
 for arg in "$@"; do
     if [ "$arg" == "build" ]; then
-	EFXPT_HOME=$EFINITY_HOME/pt EFXPGM_HOME=$EFINITY_HOME/pgm $EFINITY_HOME/bin/efx_run MiSTeryNano.xml -f compile
+	EFINITY_USER_DIR_INI=~/.efinity EFXPT_HOME=$EFINITY_HOME/pt EFXPGM_HOME=$EFINITY_HOME/pgm $EFINITY_HOME/bin/efx_run --un_flow MiSTeryNano.xml -f compile
     elif [ "$arg" == "load" ]; then
 	openFPGALoader -b trion_t20_bga256_jtag ./outflow/MiSTeryNano.bit
     elif [ "$arg" == "flash" ]; then
-	openFPGALoader -b trion_t20_bga256 -f ./outflow/MiSTeryNano.bit
+	openFPGALoader -b trion_t20_bga256 -f ./outflow/MiSTeryNano.hex
     elif [ "$arg" == "tos" ]; then
 	openFPGALoader -b trion_t20_bga256 --external-flash -o 0x100000 ../../../tos104de.img
 	openFPGALoader -b trion_t20_bga256 --external-flash -o 0x140000 ../../../tos162de.img
