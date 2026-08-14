@@ -29,14 +29,16 @@ module sysctrl (
   output reg	    jtagsel, // FPGA Companion requests activation of JTAG
 
   // IO port interface
-  input	[31:0]	    port_status,         // status bits to report additional info about the port
-  input	[7:0]	    port_out_available,  // number of bytes available for transmission to MCU
+  input [31:0]	    port_status, // status bits to report additional info about the port
+  input [7:0]	    port_out_available, // number of bytes available for transmission to MCU
   output reg	    port_out_strobe,
   input [7:0]	    port_out_data,
-  input	[7:0]	    port_in_available,   // number of unused bytes in the input buffer
+  input [7:0]	    port_in_available, // number of unused bytes in the input buffer
   output reg	    port_in_strobe,
   output reg [7:0]  port_in_data,
-		
+
+  output reg [11:0] rtc, // toggle bit, 3 bit index, 8 bit data
+	
   // values that can be configured by the user
   output reg [1:0]  system_chipset,
   output reg	    system_memory,
@@ -76,6 +78,8 @@ reg       port_out_availableD;
 reg [7:0] port_cmd;   
 reg [7:0] port_index;
 
+reg [7:0] rtc_cmd;   
+
 // include the menu rom derived from atarist.xml
 reg [11:0] menu_rom_addr;
 reg [7:0]  menu_rom_data;
@@ -107,6 +111,7 @@ always @(posedge clk) begin
       coldboot = 1'b1;      // reset is actually the power-on-reset
       sys_int = 1'b1;       // coldboot interrupt
       jtagsel <= 1'b0;      
+      rtc <= 12'h000;
 
       port_out_strobe <= 1'b0;
       port_in_strobe <= 1'b0;
@@ -302,6 +307,24 @@ always @(posedge clk) begin
             if(command == 8'd9) begin
                if(state == 4'd0) jtagsel <= data_in[0];
 	    end
+
+            // CMD 10: RTC
+            if(command == 8'd10) begin
+               if(state == 4'd0) begin
+                  // first byte is the subcommand
+                  rtc_cmd <= data_in;
+               end else begin
+                  // ... further bytes are subcommand specific
+                  // subcommand 0: set time
+                  if(rtc_cmd == 8'd0) begin
+                     // byte 1 is the flags field (data source, dst), currently unused
+                     if(state >= 4'd2) begin
+                        logic [2:0] rtc_index = state-3'd2;
+                        rtc <= { !rtc[11], rtc_index, data_in };
+                     end
+                  end
+               end
+            end	   	   
 	end
       end // if (data_in_strobe)
    end

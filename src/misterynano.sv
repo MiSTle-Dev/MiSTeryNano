@@ -418,6 +418,9 @@ wire [7:0] serial_rx_available;
 wire       serial_rx_strobe;
 wire [7:0] serial_rx_data;
 
+// time information for rtc received via NTP
+wire [11:0] rtc;   
+   
 sysctrl sysctrl (
         .clk(clk32),
         .reset(por),
@@ -436,6 +439,8 @@ sysctrl sysctrl (
 		.port_in_available(serial_rx_available),
         .port_in_strobe(serial_rx_strobe),
 		.port_in_data(serial_rx_data),	 
+
+		.rtc(rtc),	 
 				 
         // values controlled by the OSD
 `ifdef DISABLE_BLITTER
@@ -545,6 +550,9 @@ atarist atarist (
 	.serial_rx_strobe    ( serial_rx_strobe    ),
 	.serial_rx_data      ( serial_rx_data      ),
 
+    // real time 
+    .rtc(rtc),
+				 
 	// parallel port
     .parallel_strobe_oe  ( parallel_strobe_oe  ),
     .parallel_strobe_in  ( parallel_strobe_in_int ), 

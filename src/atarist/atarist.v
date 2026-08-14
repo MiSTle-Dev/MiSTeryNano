@@ -4,19 +4,19 @@
 
 module atarist (
 	// System clocks / reset / settings
-	input wire 		   clk_32,
-	input wire 		   porb,
-	input wire 		   resb,
+	input wire		   clk_32,
+	input wire		   porb,
+	input wire		   resb,
 
 	// Video output
-	input wire 		   mono_detect, // low for monochrome
+	input wire		   mono_detect, // low for monochrome
 	output wire [3:0]  r,
 	output wire [3:0]  g,
 	output wire [3:0]  b,
-	output wire 	   hsync_n,
-	output wire 	   vsync_n,
-	output wire 	   de,
-	output wire 	   blank_n,
+	output wire		   hsync_n,
+	output wire		   vsync_n,
+	output wire		   de,
+	output wire		   blank_n,
 
     // keyboard, mouse and joystick(s)
 	output wire [14:0] keyboard_matrix_out,
@@ -29,71 +29,74 @@ module atarist (
 	output wire [14:0] audio_mix_r,
 
     // floppy disk/sd card interface
-	output [31:0] 	   sd_lba,
-	output [1:0] 	   sd_rd,
-	output [1:0] 	   sd_wr,
-	input 			   sd_ack,
-	input [8:0] 	   sd_buff_addr,
-	input [7:0] 	   sd_dout,
-	output [7:0] 	   sd_din,
-	input 			   sd_dout_strobe,
+	output [31:0]	   sd_lba,
+	output [1:0]	   sd_rd,
+	output [1:0]	   sd_wr,
+	input			   sd_ack,
+	input [8:0]		   sd_buff_addr,
+	input [7:0]		   sd_dout,
+	output [7:0]	   sd_din,
+	input			   sd_dout_strobe,
 
 	// generic sd card services
-	input [3:0] 	   sd_img_mounted,
-	input [63:0] 	   sd_img_size,
+	input [3:0]		   sd_img_mounted,
+	input [63:0]	   sd_img_size,
 
     // ACSI disk/sd card interface
-	output [1:0] 	   acsi_rd_req,
-	output [1:0] 	   acsi_wr_req,
-	output [31:0] 	   acsi_sd_lba,
- 	input 			   acsi_sd_done,
- 	input 			   acsi_sd_busy,
-	input 			   acsi_sd_rd_byte_strobe,
-	input [7:0] 	   acsi_sd_rd_byte,
-	output [7:0] 	   acsi_sd_wr_byte,
-	input [8:0] 	   acsi_sd_byte_addr,
+	output [1:0]	   acsi_rd_req,
+	output [1:0]	   acsi_wr_req,
+	output [31:0]	   acsi_sd_lba,
+ 	input			   acsi_sd_done,
+ 	input			   acsi_sd_busy,
+	input			   acsi_sd_rd_byte_strobe,
+	input [7:0]		   acsi_sd_rd_byte,
+	output [7:0]	   acsi_sd_wr_byte,
+	input [8:0]		   acsi_sd_byte_addr,
+
+    // RTC real time data e.g. via NTP
+	input [11:0]	   rtc,
 					 
     // serial/rs232 to MCU
-	output [31:0]      serial_status,
-	output [7:0]       serial_tx_available,
-	input              serial_tx_strobe,
-	output [7:0]       serial_tx_data,
-	output [7:0]       serial_rx_available,
-	input              serial_rx_strobe,
-	input [7:0]        serial_rx_data,
+	output [31:0]	   serial_status,
+	output [7:0]	   serial_tx_available,
+	input			   serial_tx_strobe,
+	output [7:0]	   serial_tx_data,
+	output [7:0]	   serial_rx_available,
+	input			   serial_rx_strobe,
+	input [7:0]		   serial_rx_data,
 				
 	// MIDI UART
-	input wire 		   midi_rx,
-	output wire 	   midi_tx,
+	input wire		   midi_rx,
+	output wire		   midi_tx,
 
 	// printer signals
-	output 			   parallel_strobe_oe,
-	input 			   parallel_strobe_in, 
-	output 			   parallel_strobe_out, 
-	output 			   parallel_data_oe,
-	input [7:0] 	   parallel_data_in,
-	output [7:0] 	   parallel_data_out,
-	input 			   parallel_busy, 
+	output			   parallel_strobe_oe,
+	input			   parallel_strobe_in, 
+	output			   parallel_strobe_out, 
+	output			   parallel_data_oe,
+	input [7:0]		   parallel_data_in,
+	output [7:0]	   parallel_data_out,
+	input			   parallel_busy, 
 
     // enable STE and extra 8MB ram
-    input wire 		   ste,
-    input wire 		   enable_extra_ram,
-    input wire 		   blitter_en,
-    input [1:0] 	   floppy_protected, // floppy A/B write protect
-	input 			   cubase_en,
+    input wire		   ste,
+    input wire		   enable_extra_ram,
+    input wire		   blitter_en,
+    input [1:0]		   floppy_protected, // floppy A/B write protect
+	input			   cubase_en,
 				
 	// DRAM interface
-	output wire 	   ram_ras_n,
-	output wire 	   ram_cash_n,
-	output wire 	   ram_casl_n,
-	output wire 	   ram_we_n,
-	output wire 	   ram_ref,
+	output wire		   ram_ras_n,
+	output wire		   ram_cash_n,
+	output wire		   ram_casl_n,
+	output wire		   ram_we_n,
+	output wire		   ram_ref,
 	output wire [23:1] ram_addr,
 	output wire [15:0] ram_data_in,
 	input wire [15:0]  ram_data_out,
 
 	// TOS ROM interface
-	output wire 	   rom_n, 
+	output wire		   rom_n, 
 	output wire [23:1] rom_addr,
 	input wire [15:0]  rom_data_out,
 				
@@ -826,28 +829,46 @@ ste_joypad ste_joypad1 (
 /* ------------------------------------------------------------------------------ */
 
 // a dummy time to start with ...
-wire [51:0] rtc = { 4'h6, 8'h23,8'h09,8'h03, 8'h13,8'h33,8'h00 };
+
+// day of week, year, month, day, hour, minute, seconds                    
+//wire [51:0] rtc = { 4'h6, 8'h23,8'h09,8'h03, 8'h13,8'h33,8'h00 };
+
+reg rtc_present = 1'b0;   
    
 reg [3:0] rtc_data_out;
 reg       rtc_bank;
 reg [3:0] rtc_bank1[16];
 
+reg [3:0] rtc_reg_0;  // seconds ones
+reg [3:0] rtc_reg_1;  // seconds tens
+reg [3:0] rtc_reg_2;  // minutes ones
+reg [3:0] rtc_reg_3;  // minutes tens
+reg [3:0] rtc_reg_4;  // hours ones
+reg [3:0] rtc_reg_5;  // hours tens
+reg [3:0] rtc_reg_6;  // days ones
+reg [3:0] rtc_reg_7;  // days tens
+reg [3:0] rtc_reg_8;  // months ones
+reg [3:0] rtc_reg_9;  // months tens
+reg [3:0] rtc_reg_A;  // years ones
+reg [3:0] rtc_reg_B;  // years tens
+reg [3:0] rtc_reg_C;  // weekday
+
 // RP5C15
 always @(*) begin
 	casez ({rtc_bank, mbus_a[4:1]})
-		5'b0_0000: rtc_data_out = rtc[3:0]; // sec
-		5'b0_0001: rtc_data_out = rtc[7:4];
-		5'b0_0010: rtc_data_out = rtc[11:8]; // min
-		5'b0_0011: rtc_data_out = rtc[15:12];
-		5'b0_0100: rtc_data_out = rtc[19:16]; // hour
-		5'b0_0101: rtc_data_out = rtc[23:20];
-		5'b0_0110: rtc_data_out = rtc[51:48]; // day of week
-		5'b0_0111: rtc_data_out = rtc[27:24]; // day
-		5'b0_1000: rtc_data_out = rtc[31:28];
-		5'b0_1001: rtc_data_out = rtc[35:32]; // month
-		5'b0_1010: rtc_data_out = rtc[39:36];
-		5'b0_1011: rtc_data_out = rtc[43:40]; // year
-		5'b0_1100: rtc_data_out = rtc[47:44] + 4'd2; // GEMDOS fix: it assumes year 0 as 1980
+		5'b0_0000: rtc_data_out = rtc_reg_0; // sec
+		5'b0_0001: rtc_data_out = rtc_reg_1;
+		5'b0_0010: rtc_data_out = rtc_reg_2; // min
+		5'b0_0011: rtc_data_out = rtc_reg_3;
+		5'b0_0100: rtc_data_out = rtc_reg_4; // hour
+		5'b0_0101: rtc_data_out = rtc_reg_5;
+		5'b0_0110: rtc_data_out = rtc_reg_C; // day of week
+		5'b0_0111: rtc_data_out = rtc_reg_6; // day
+		5'b0_1000: rtc_data_out = rtc_reg_7;
+		5'b0_1001: rtc_data_out = rtc_reg_8; // month
+		5'b0_1010: rtc_data_out = rtc_reg_9;
+		5'b0_1011: rtc_data_out = rtc_reg_A; // year
+  	    5'b0_1100: rtc_data_out = rtc_reg_B;
 		5'b?_1101: rtc_data_out = {1'b1, 2'b00, rtc_bank };
 		5'b?_1110: rtc_data_out = 4'h0;
 		5'b?_1111: rtc_data_out = 4'hc;
@@ -855,9 +876,108 @@ always @(*) begin
 		default: rtc_data_out = 4'hf;
 	endcase
 	// make the RTC invisible if no valid RTC data arrives from the IO Controller
-	if (rtc == 0) rtc_data_out = 4'hf;
-end
+	if (!rtc_present) rtc_data_out = 4'hf;
+end // always @ (*)   
 
+// hours, minutes and seconds are just BCD encoded. But months and days need preprocessing
+// and the years ten digit can be > 9 which the bcd encoder already handles
+wire [7:0] b2c_in = 
+	   (rtc[10:8] == 3'd0)?(rtc[7:0]-80):     // years 1900+ to 1980+
+	   (rtc[10:8] == 3'd1)?(rtc[7:0]+1):      // months 0..11 -> 1..12
+	   (rtc[10:8] == 3'd2)?{3'd0,rtc[4:0]}:   // days excl. weekday bits
+	   rtc[7:0];                              // h/m/s
+
+reg [7:0] bcd;  // 2 BCD digits: {tens, ones}
+
+// 8 bit to 2*4 digit double dabble algorithm. The add-5 step
+// is omitted for the tens digit, allowing for the "digits" 10,11,...
+// which is needed for years > 99
+always @(*) begin
+   integer i;   
+   bcd = 8'h00;     // clear result      
+   for (i = 7; i >= 0; i = i - 1) begin
+      // "add 3" step: if any BCD digit >= 5, add 3 to it
+      if (bcd[3:0] >= 5) bcd[3:0] = bcd[3:0] + 4'd3;  // ones
+      // shift-left one bit, bringing in the next binary bit
+      bcd = {bcd[6:0], b2c_in[i]};
+   end
+end
+   
+always @(posedge clk_32) begin
+   reg old_flg = 1'b0;
+   reg [31:0] cnt;
+
+   // check if new value is being provided externally
+   old_flg <= rtc[11];
+   if(old_flg ^ rtc[11]) begin
+	  rtc_present <= 1'b1;	  
+      if(rtc[10:8] == 3'd0) { rtc_reg_B, rtc_reg_A } <= bcd;  // years
+      if(rtc[10:8] == 3'd1) { rtc_reg_9, rtc_reg_8 } <= bcd;  // months
+      if(rtc[10:8] == 3'd2) { rtc_reg_7, rtc_reg_6 } <= bcd;  // days
+      if(rtc[10:8] == 3'd3) { rtc_reg_5, rtc_reg_4 } <= bcd;  // hours
+      if(rtc[10:8] == 3'd4) { rtc_reg_3, rtc_reg_2 } <= bcd;  // minutes
+      if(rtc[10:8] == 3'd5) { rtc_reg_1, rtc_reg_0 } <= bcd;  // seconds
+
+      // weekday is encoded in 3 msb of day
+      if(rtc[10:8] == 3'd2) rtc_reg_C <= { 1'b0, rtc[7:5] };  // weekday
+   end
+   else if(cnt < 32'd32_000_000) cnt <= cnt + 32'd1;
+   else begin
+      cnt <= 32'd0;
+	  
+      // the following chain increases the bcd encoded time and
+      // date registers by one second
+      
+      // advance the ones of seconds
+      if(rtc_reg_0 < 9) 
+		rtc_reg_0 <= rtc_reg_0 + 4'd1;
+      else begin
+		 // seconds ones rollover
+		 rtc_reg_0 <= 4'h0;	 
+		 // advance the tens of seconds		   
+		 if(rtc_reg_1 < 5) 
+		   rtc_reg_1 <= rtc_reg_1 + 4'd1;
+		 else begin
+			// seconds rollover
+			rtc_reg_1 <= 4'h0;
+			// advance the ones of minutes
+			if(rtc_reg_2 < 9) 
+			  rtc_reg_2 <= rtc_reg_2 + 4'd1;
+			else begin
+			   // minutes ones rollover
+			   rtc_reg_2 <= 4'h0;	 
+			   // advance the tens of minutes
+			   if(rtc_reg_2 < 5) 
+				 rtc_reg_2 <= rtc_reg_2 + 4'd1;
+			   else begin
+				  // minutes rollover
+				  rtc_reg_2 <= 4'h0;
+				  // advance the ones of hours
+				  if(rtc_reg_3 < 9) 
+					rtc_reg_3 <= rtc_reg_3 + 4'd1;
+				  else begin
+					 // hours ones rollover
+					 rtc_reg_3 <= 4'h0;	 
+					 // advance the tens of hours
+					 if(rtc_reg_4 < 5) 
+					   rtc_reg_4 <= rtc_reg_4 + 4'd1;
+					 else begin
+						// hours rollover
+						rtc_reg_4 <= 4'h0;
+						
+						// TODO: Expand this to days, months and years ...
+						// But with NTP as the signal source this is less important
+						// as the periodic updates from NTP will update all
+						// registers.			
+					 end
+				  end
+			   end
+			end
+		 end
+      end
+   end
+end // always @ (posedge clk)
+   
 always @(posedge clk_32) begin
 	if (peripheral_reset) begin
 		rtc_bank <= 0;
