@@ -40,6 +40,19 @@ reg [7:0] device;   // used for joystick
 reg [7:0] mouse_x_cnt;
 reg [7:0] mouse_y_cnt;
 
+// add a new movement delta to a pending counter and saturate at +-127
+// instead of letting the 8 bit signed value wrap around, which would
+// reverse the direction of the pending movement
+function [7:0] mouse_sat(input [7:0] cnt, input [7:0] delta);
+   reg signed [9:0] sum;
+   begin
+      sum = $signed({{2{cnt[7]}}, cnt}) + $signed({{2{delta[7]}}, delta});
+      if(sum > 10'sd127)       mouse_sat = 8'd127;
+      else if(sum < -10'sd127) mouse_sat = 8'h81;
+      else                     mouse_sat = sum[7:0];
+   end
+endfunction
+
 reg irq_enable;
 reg [5:0] db9_portD;
 reg [5:0] db9_portD2;
@@ -114,8 +127,8 @@ always @(posedge clk) begin
             // CMD 2: mouse data
             if(command == 8'd2) begin
                 if(state == 4'd0) mouse_btns <= data_in[1:0];
-                if(state == 4'd1) mouse_x_cnt <= mouse_x_cnt + data_in;
-                if(state == 4'd2) mouse_y_cnt <= mouse_y_cnt + data_in;
+                if(state == 4'd1) mouse_x_cnt <= mouse_sat(mouse_x_cnt, data_in);
+                if(state == 4'd2) mouse_y_cnt <= mouse_sat(mouse_y_cnt, data_in);
             end
 
             // CMD 3: receive digital joystick data
